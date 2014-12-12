@@ -1,0 +1,6 @@
+{block content}
+	<h1 n:block=title>Delete organism: {$data->latin_name}</h1>
+	<p>Are you sure about deleting organism {$data->latin_name} with <strong>all its data with cascading</strong>?</p>
+	{control deleteForm}
+
+{/block}

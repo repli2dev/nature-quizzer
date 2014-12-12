@@ -1,0 +1,56 @@
+#
+# SECURITY WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+#
+# If you don't protect this directory from direct web access, anybody will be able to see your passwords.
+# http://nette.org/security-warning
+#
+parameters:
+	facebook:
+		appId:
+		appSecret:
+
+
+php:
+	date.timezone: Europe/Prague
+	# zlib.output_compression: yes
+
+
+nette:
+	application:
+		errorPresenter: Error
+		mapping:
+			*: NatureQuizzer\*Module\Presenters\*Presenter
+	session:
+		expiration: 14 days
+	latte:
+		macros:
+			- Nextras\Latte\Macros\RedefineMacro::install
+
+services:
+	- NatureQuizzer\Database\Model\Admin
+	- NatureQuizzer\Database\Model\Answer
+	- NatureQuizzer\Database\Model\Authorizator
+	- NatureQuizzer\Database\Model\Concept
+	- NatureQuizzer\Database\Model\Group
+	- NatureQuizzer\Database\Model\Organism
+	- NatureQuizzer\Database\Model\Language
+	- NatureQuizzer\Database\Model\Round
+	- NatureQuizzer\Database\Model\User
+	- NatureQuizzer\Database\Model\OrganismDifficulty
+	- NatureQuizzer\Database\Model\PriorKnowledge
+	- NatureQuizzer\Database\Model\CurrentKnowledge
+	- NatureQuizzer\RouterFactory
+	- NatureQuizzer\Runtime\CurrentLanguage
+	- NatureQuizzer\Runtime\CurrentUser
+	- NatureQuizzer\Runtime\CurrentClient
+	- NatureQuizzer\Runtime\CurrentRound
+	- NatureQuizzer\Processors\AnswerProcessor
+	- NatureQuizzer\Processors\ConceptsProcessor
+	- NatureQuizzer\Processors\QuestionsProcessor
+	- NatureQuizzer\Processors\UserProcessor
+	- NatureQuizzer\Model\Utils\UserAnswerFactory
+	- NatureQuizzer\Model\Utils\PostAnswerUpdate
+	- NatureQuizzer\Model\QuestionSelection
+	user: NatureQuizzer\Utils\User
+
+	router: @NatureQuizzer\RouterFactory::createRouter

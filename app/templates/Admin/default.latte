@@ -1,0 +1,4 @@
+{block content}
+	<h1 n:block=title>Administration</h1>
+	<p>You are logged as {$user->getIdentity()->username}. <a href="{plink Admin:logout}">Logout</a></p>
+{/block}

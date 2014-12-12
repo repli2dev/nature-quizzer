@@ -1,0 +1,12 @@
+parameters:
+
+nette:
+	debugger:
+		bar: [JanDrabek\MailPanel\MailPanel]
+
+services:
+	nette.mailer:
+		class: JanDrabek\MailPanel\SessionMailer
+
+extensions:
+	debugger.session: Kdyby\SessionPanel\DI\SessionPanelExtension

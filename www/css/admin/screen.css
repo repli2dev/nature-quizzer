@@ -1,0 +1,154 @@
+/* Color scheme: http://www.colorcombos.com/color-schemes/4015/ColorCombo4015.html */
+body {
+	font-size: 15px;
+	line-height: 1.6;
+	color: #333;
+	background: #F6F7F8;
+	font-family: Helvetica, Arial, sans-serif;
+	text-align: center;
+}
+
+h1 {
+	color: #F4733D;
+}
+
+div.flash {
+	color: black;
+	background: #FEFAD4;
+	border: 1px solid #E2C822;
+	padding: 10px;
+	margin: 10px 0;
+}
+a {
+	color: #38595E;
+}
+a:hover {
+	color: #2CC0B3;
+}
+a[href^="#error:"] {
+	background: #F4733D;
+	color: white;
+}
+
+form th, form td {
+	vertical-align: top;
+	font-weight: normal;
+}
+
+form th {
+	text-align: right;
+}
+
+form .required label {
+	font-weight: bold;
+}
+
+form .error {
+	color: #F4733D;
+	font-weight: bold;
+}
+
+html.js .jshidden {
+	display: none;
+}
+form .text {
+	padding: 5px;
+	font-size: 100%;
+}
+
+form .button {
+	padding: 5px;
+	font-size: 100%;
+}
+
+fieldset {
+	border: 1px solid #E3E4E5;
+	padding: 20px;
+}
+legend {
+	font-weight: bold;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+#center {
+	width: 1000px;
+	margin: auto;
+	text-align: left;
+	background: white;
+	margin-top: 30px;
+}
+#admin-menu {
+	background: #E3E4E5;
+	display: block;
+	padding: 8px;
+}
+#admin-menu ul {
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+#admin-menu ul li {
+	float: left;
+}
+#admin-menu ul li a {
+	padding: 10px;
+}
+#admin-menu ul li a:hover {
+	background: #dfdfdf;
+}
+#admin-menu ul li.selected {
+	font-weight: bold;
+}
+#envelope {
+	padding: 20px;
+}
+div.cleaner {
+	clear:both;
+	height:1px;
+	margin: -1px 0 0 0; padding:0;
+	border:none;
+	visibility: hidden;
+}
+
+/********************* Grid ********************/
+.grid {
+	width: 100%;
+}
+.grid td,
+.grid th {
+	border-color: #CACACA;
+}
+.grid .grid-col-actions,
+.grid th.grid-col-actions{
+	text-align: center !important;
+}
+.grid .btn {
+	margin-right: 3px;
+}
+.grid thead .grid-columns th {
+	text-align: left;
+}
+.grid thead .grid-columns,
+.grid thead .grid-filters {
+	background: #EEE;
+}
+.grid thead .grid-columns th,
+.grid thead .grid-filters th {
+	border-bottom-width: 1px;
+}
+.grid thead tr:last-child th {
+	border-bottom-width: 2px;
+}
+.grid tbody > tr > td {
+	vertical-align: middle;
+}
+.grid tfoot {
+	background: #EEE;
+}
+.grid tfoot th {
+	text-align: center;
+}
+.grid tfoot .pagination {
+	margin: 5px;
+}

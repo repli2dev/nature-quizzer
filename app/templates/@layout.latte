@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html n:syntax="off">
+<head>
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+ 	<meta charset="utf-8">
+	<title>Příroda</title>
+	<link rel="stylesheet" href="/css/normalize.css">
+	<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+	<script type="text/x-handlebars" data-template-name='userinfo'>
+		<div id="user">
+			{{#if logged}}
+				{{name}}
+				{{#link-to 'user.logout'}}Odhlásit{{/link-to}}
+			{{/if}}
+			{{#if notLogged}}
+				{{#link-to 'user.login'}}Přihlásit{{/link-to}}
+				{{#link-to 'user.register'}}Registrovat{{/link-to}}
+			{{/if}}
+		</div>
+	</script>
+	<script type="text/x-handlebars">
+		<div id="top-bar">
+			<div id="top-bar-center">
+				<div id="menu-toogle" onclick="javascript:toogleMenu()">&#9776;</div>
+				<h1>Příroda</h1>
+				{{render "userinfo" userinfo}}
+				<div id="menu">
+					<ul>
+						<li>{{#link-to 'index'}}Témata{{/link-to}}</li>
+						<li>{{#link-to 'play' 'mix'}}Náhodný mix{{/link-to}}</li>
+						<li>{{#link-to 'about'}}Jak to funguje{{/link-to}}</li>
+					</ul>
+					<div class="cleaner"></div>
+				</div>
+			</div>
+			<div class="cleaner"></div>
+		</div>
+		<div id="content">
+			<div id="content-center">
+				{{outlet}}
+			</div>
+		</div>
+		<div id="footer">
+			<div id="footer-center">
+				<p>Pokud máte nějaký dotaz či nápad neváhejte nás <a href="mailto:jan.drabek@mail.muni.cz">kontaktovat</a>.<br /> Projekt vznikl pod <a href="http://fi.muni.cz">Fakultou informatiky</a> Masarykovy univerzity.</p>
+			</div>
+		</div>
+	</script>
+
+	<script type="text/x-handlebars" data-template-name="components/register-form">
+		<form {{action "submit" on="submit"}}>
+			<div class="pair">
+				{{input value=name placeholder='Vaše jméno'}}
+			</div>
+			<div class="pair">
+				{{input value=email placeholder='Váš e-mail'}}
+			</div>
+			<div class="pair">
+				{{input type='password' value=password placeholder='Vaše heslo'}}
+			</div>
+			<div class="pair">
+				{{input type='password' value=password2 placeholder='Vaše heslo pro kontrolu'}}
+			</div>
+			<div class="pair">
+				<input type="submit" {{bind-attr value=submitTitle}}>
+			</div>
+		</form>
+	</script>
+
+	<script type="text/x-handlebars" id="user/register">
+		<h2>Registrace uživatele</h2>
+		{{#if notLogged}}
+			{{#if hasErrors}}
+				<div class="flash error">
+					Registrace se nezdařila:<br />
+					{{#each errors}}
+						{{this}}<br />
+					{{/each}}
+				</div>
+			{{/if}}
+			{{register-form submit="register" submitTitle='register'}}
+		{{/if}}
+		{{#if logged}}
+			<p>
+				Jste zaregistrováni a přihlášeni.
+			</p>
+		{{/if}}
+	</script>
+
+	<script type="text/x-handlebars" data-template-name="components/login-form">
+		<form {{action "submit" on="submit"}}>
+			<div class="pair">
+				{{input value=email placeholder='Váš e-mail'}}
+			</div>
+			<div class="pair">
+				{{input type='password' value=password placeholder='Vaše heslo'}}
+			</div>
+			<div class="pair">
+				<input type="submit" {{bind-attr value=submitTitle}}>
+			</div>
+		</form>
+	</script>
+
+	<script type="text/x-handlebars" id="user/login">
+		<h2>Přihlášení uživatele</h2>
+		{{#if notLogged}}
+			{{#if hasErrors}}
+				<div class="flash error">
+					Přihlášení se nezdařilo:<br />
+					{{#each errors}}
+						{{this}}<br />
+					{{/each}}
+				</div>
+			{{/if}}
+			{{login-form submit="login" submitTitle='Login'}}
+		{{/if}}
+		{{#if logged}}
+			<p>
+				Jste přihlášeni<br />
+				{{#link-to 'user.logout'}}Odhlásit{{/link-to}}
+			</p>
+		{{/if}}
+	</script>
+
+	<script type="text/x-handlebars" id="result">
+		<h2>Hotovo!</h2>
+		<p>A zase umíte o kousek více,&hellip; vyberte si čím chcete pokračovat.</p>
+
+		{{#if mix}}
+			{{#link-to 'play' 'mix'}}Pokračovat{{/link-to}}<br />
+		{{/if}}
+		{{#if id_concept}}
+			{{#link-to 'play' id_concept}}Pokračovat{{/link-to}}<br />
+		{{/if}}
+		{{#link-to 'index'}}Vybrat si nové téma{{/link-to}}
+	</script>
+
+	<script type="text/x-handlebars" id="index">
+		<h2>Témata</h2>
+		<p>Vyberte si jaké téma, respektive oblast přírody se chcete začít učit a stiskněte <strong>Řešit</strong>.</p>
+		{{#each model}}
+			<div class="group">
+				{{#if others}}
+					<h2>Ostatní</h2>
+				{{/if}}
+				<h2>{{name}}</h2>
+				{{#each concepts}}
+					<div class="concept">
+						{{#link-to 'play' id_concept classNames="start-button"}}Řešit{{/link-to}}
+
+						<span class="concept-name">{{name}}</span>
+						<span class="concept-description">{{description}}</span>
+						<div class="cleaner"></div>
+					</div>
+				{{/each}}
+			</div>
+		{{/each}}
+	</script>
+
+	<script type="text/x-handlebars" id="loading">
+		<h2>Probíhá načítání, vyčkejte prosím</h2>
+		<div class="loading">&nbsp;</div>
+	</script>
+
+	<script type="text/x-handlebars" id="about">
+		<h2>Procvičovátko přírody</h2>
+		<p>Toto je jednoduché procvičovátko sloužící k adaptabilnímu učení se přírodních organismů: rostlin, živočichů, hub&hellip;</p>
+	</script>
+
+	<script type="text/x-handlebars" id="play">
+		<div id="window">
+			<div id="window-header">
+				<div class="window-title">
+					{{#if all}}
+						Náhodný mix
+					{{/if}}
+					{{concept.name}}
+				</div>
+				<div class="window-info">Otázka: {{questionCurrent}} z {{questionMaxCount}} otázek.</div>
+				<div class="cleaner"></div>
+			</div>
+
+			{{#with "questions.0"}}
+				{{#isChooseRepresentationQuestion}}
+					<div class="question question-choose-representation">
+						<div class="question-text">Který je: {{questionText}}</div>
+						<div class="question-image-options">
+							{{#each options}}
+								<a class="question-image-option" {{bind-attr id="id_representation"}} {{action 'answer' id_representation}}>{{{image}}}</a>
+								<span class="dummy-cleaner"></span>
+							{{/each}}
+						</div>
+						<div class="cleaner"></div>
+					</div>
+				{{/isChooseRepresentationQuestion}}
+
+				{{#isChooseNameQuestion}}
+					<div class="question">
+						<div class="question-image">{{{questionImage}}}</div>
+						<div class="question-text-options">
+							{{#each options}}
+								<a class="question-text-option" {{bind-attr id="id_organism"}} {{action 'answer' id_organism}}>{{text}}</a>
+							{{/each}}
+						</div>
+						<div class="cleaner"></div>
+					</div>
+				{{/isChooseNameQuestion}}
+			{{/with}}
+		</div>
+	</script>
+
+	<script type="text/x-handlebars" id="play.loading">
+		<div id="window">
+			<div id="window-header">
+				<div class="window-title">
+					{{#if all}}
+						Náhodný mix
+					{{/if}}
+					{{concept.name}}
+				</div>
+				<div class="window-info">Otázka: {{questionCurrent}} z {{questionMaxCount}} otázek.</div>
+				<div class="cleaner"></div>
+				<h2>Probíhá načítání, vyčkejte prosím</h2>
+				<div class="loading">&nbsp;</div>
+			</div>
+		</div>
+    </script>
+
+
+	<script src="/js/libs/jquery-1.11.1.js"></script>
+	<script src="/js/libs/handlebars-v1.3.0.js"></script>
+	<script src="/js/libs/ember-1.6.1.js"></script>
+
+	<script src="/js/app.js"></script>
+</body>
+</html>

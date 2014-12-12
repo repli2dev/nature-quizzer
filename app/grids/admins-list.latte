@@ -1,0 +1,12 @@
+{redefine table-open-tag}
+	<table class="grid">
+{/redefine}
+
+{define global-actions}
+	<a class="grid-add" href="{plink Admin:add}">Add</a>
+{/define}
+
+{define row-actions}
+	<a class="grid-edit" href="{plink Admin:edit, $primary}">Edit</a>
+	<a class="grid-delete" href="{plink Admin:delete, $primary}">Delete</a>
+{/define}

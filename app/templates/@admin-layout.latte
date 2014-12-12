@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="">
+
+	<title>{block title|striptags}Nature Quizzer{/block}</title>
+
+	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/admin/screen.css">
+	{block head}{/block}
+</head>
+
+<body>
+	<div id="center">
+		{if $user->isLoggedIn()}
+			{include admin-menu.latte}
+		{/if}
+		<div id="envelope">
+			{include content}
+		</div>
+	</div>
+
+	{block scripts}
+		<script src="{$basePath}/js/netteForms.js"></script>
+	{/block}
+</body>
+</html>

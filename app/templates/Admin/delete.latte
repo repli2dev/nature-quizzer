@@ -1,0 +1,6 @@
+{block content}
+	<h1 n:block=title>Delete user: {$data->username}</h1>
+	<p>Are you sure about deleting user {$data->username}?</p>
+	{control deleteForm}
+
+{/block}

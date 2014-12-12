@@ -1,0 +1,6 @@
+{block content}
+	<h1 n:block=title>Delete concept: {$data->code_name}</h1>
+	<p>Are you sure about deleting concept {$data->code_name} with <strong>all its data with cascading</strong>?</p>
+	{control deleteForm}
+
+{/block}

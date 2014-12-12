@@ -1,0 +1,192 @@
+<?php
+
+namespace NatureQuizzer\Presenters;
+
+use NatureQuizzer\Database\Model\Language;
+use NatureQuizzer\Database\Model\Organism;
+use Nette\Application\BadRequestException;
+use Nette\Application\UI\Form;
+use Nette\DateTime;
+use Nextras\Datagrid\Datagrid;
+use PDOException;
+
+
+class OrganismPresenter extends BasePresenter
+{
+	protected $resource = 'content';
+
+	/** @var Organism */
+	private $organismModel;
+	/** @var Language */
+	private $languageModel;
+
+	public function injectBase(Organism $organismModel, Language $languageModel)
+	{
+		$this->organismModel = $organismModel;
+		$this->languageModel = $languageModel;
+	}
+
+	public function startup()
+	{
+		$this->perm();
+		parent::startup();
+	}
+
+	public function actionEdit($id)
+	{
+		$data = $this->organismModel->get($id);
+		if ($data === FALSE) {
+			throw new BadRequestException();
+		}
+		$values = $data->toArray();
+		$values['infos'] = $this->organismModel->getInfos($id);
+		$this->getComponent('editForm')->setDefaults($values);
+		$this->template->data = $data;
+
+		$representations = $this->organismModel->getRepresentations($id);
+		$this->template->representations = $representations;
+	}
+
+	public function actionDelete($id)
+	{
+		$data = $this->organismModel->get($id);
+		if ($data === FALSE) {
+			throw new BadRequestException();
+		}
+		$this->template->data = $data;
+	}
+
+	protected function createComponentAddForm()
+	{
+		$form = $this->prepareForm();
+		$form->addSubmit('send', 'Add organism');
+		$form->onSuccess[] = $this->addFormSucceeded;
+		return $form;
+	}
+
+	public function addFormSucceeded(Form $form, $values)
+	{
+		$infos = $values['infos'];
+		unset($values['infos']);
+		try {
+			$this->organismModel->insert($values, $infos);
+		} catch (PDOException $ex) {
+			throw $ex;
+			return;
+		}
+		$this->flashMessage('Organism has been successfully added.', 'success');
+		$this->redirect('default');
+	}
+
+	protected function createComponentEditForm()
+	{
+		$form = $this->prepareForm();
+		$form->addSubmit('send', 'Update organism');
+		$form->onSuccess[] = $this->editFormSucceeded;
+		return $form;
+	}
+
+	public function editFormSucceeded(Form $form, $values)
+	{
+		$infos = $values['infos'];
+		unset($values['infos']);
+		try {
+			$this->organismModel->update($this->getParameter('id'), $values, $infos);
+		} catch (PDOException $ex) {
+			throw $ex;
+			return;
+		}
+		$this->flashMessage('Organism has been successfully updated.', 'success');
+		$this->redirect('default');
+	}
+
+	protected function createComponentDeleteForm()
+	{
+		$form = new Form();
+		$form->addSubmit('yes', 'Yes');
+		$form->addSubmit('no', 'No');
+		$form->onSuccess[] = $this->deleteFormSucceeded;
+		return $form;
+	}
+
+	public function deleteFormSucceeded($form, $values)
+	{
+		if ($form['yes']->isSubmittedBy()) {
+			$this->organismModel->delete($this->getParameter('id'));
+			$this->flashMessage('Organism has been successfully deleted.', 'success');
+		}
+		$this->redirect('default');
+	}
+
+	private function prepareForm()
+	{
+		$form = new Form();
+		$form->addGroup('General');
+		$form->addText('latin_name', 'Latin name:')
+			->setRequired('Please enter latin name of organism.');
+
+		$languagePairs = $this->languageModel->getLanguagePairs();
+		$infos = $form->addContainer('infos');
+		foreach ($languagePairs as $langId => $langName) {
+			$inner = $infos->addContainer($langId);
+			$group = $form->addGroup($langName);
+			$inner->setCurrentGroup($group);
+			$inner->addText('name', 'Name');
+		}
+
+		$form->setCurrentGroup(null);
+		return $form;
+	}
+
+	public function createComponentAddRepresentationForm()
+	{
+		$form = new Form();
+		$form->addGroup('New representation');
+		$form->addUpload('file', 'Image')
+			->setRequired('Please choose file.')
+			->addRule($form::IMAGE, 'File has to be an image.');
+		$form->addText('source', 'Source');
+		$form->setCurrentGroup(null);
+		$form->addSubmit('send', 'Add');
+		$form->onSuccess[] = $this->addRepresentationFormSucceeded;
+		return $form;
+	}
+
+	public function addRepresentationFormSucceeded($form, $values)
+	{
+		$file = $values['file'];
+		unset($values['file']);
+		if ($file->isOk()) {
+			$representation = $this->organismModel->addRepresentation($this->getParameter('id'), $values);
+			$file->move(__DIR__ . '/../../www/images/organisms/' . $representation->id_representation);
+		}
+		$this->flashMessage('Representation has been successfully added.');
+		$this->redirect('this');
+	}
+	public function handledeleteRepresentation($key)
+	{
+		$fileName = __DIR__ . '/../../www/images/organisms/' . $key;
+		if (file_exists($fileName)) {
+			unlink($fileName);
+		}
+		$this->organismModel->deleteRepresentation($key);
+		$this->flashMessage('Representation has been successfully deleted.');
+		$this->redirect('this');
+	}
+
+	public function createComponentOrganismList()
+	{
+		$grid = new Datagrid();
+		$grid->setRowPrimaryKey('id_organism');
+		$grid->setDatasourceCallback(function ($filter, $order) {
+			return $this->organismModel->getAll();
+		});
+
+		$grid->addCellsTemplate(__DIR__ . '/../grids/organism-list.latte');
+		$grid->addColumn('id_organism', 'ID');
+		$grid->addColumn('latin_name', 'Latin name');
+
+		return $grid;
+	}
+
+}

@@ -1,0 +1,6 @@
+{block content}
+	<h1 n:block=title>Delete group: {$data->code_name}</h1>
+	<p>Are you sure about deleting group {$data->code_name} (there is no cascading, it just sets concept group association to NULL)?</p>
+	{control deleteForm}
+
+{/block}
