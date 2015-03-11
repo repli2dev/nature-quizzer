@@ -94,9 +94,17 @@ div.cleaner {
 
 #user {
 	float: right;
-	line-height: 50px;
 	vertical-align: middle;
 	color: white;
+	text-align: center;
+}
+#user span.username {
+	margin-top: 10px;
+}
+#user span.links {
+	clear: both;
+	margin-top: 5px;
+	display: block;
 }
 
 #content {
@@ -149,7 +157,67 @@ div.cleaner {
 	float: right;
 	line-height: 30px;
 }
+.window-info progress[value] {
+	vertical-align: middle;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
 
+	border: none;
+
+	width: 250px;
+	height: 20px;
+
+	color: #59CA4D;
+	background-color: white;
+	border-radius: 5px;
+	transition: width 0.6s ease;
+}
+.window-info progress[value]::-webkit-progress-value {
+	background-color: #59CA4D;
+	border-radius: 5px;
+	transition: width 0.6s ease;
+}
+.window-info progress[value]::-webkit-progress-bar {
+	background-color: white;
+	border-radius: 5px;
+}
+.window-info progress[value]::-moz-progress-bar {
+	background-color: #59CA4D;
+	border-radius: 5px;
+	transition: width 0.6s ease;
+}
+
+.window-close {
+	font-weight: bold;
+	float: right;
+	line-height: 30px;
+	font-size: 150%;
+	margin-left: 20px;
+}
+.window-close a {
+	padding-left: 10px;
+	padding-right: 10px;
+	color: black;
+}
+.window-close a:hover {
+	background: white;
+	color: black;
+}
+#window-content {
+	position: relative;
+}
+#question-loading {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background: rgba(251,235,165,0.75);
+	z-index: 1000;
+	text-align: center;
+	padding-top: 50px;
+}
 
 div.concept {
 	background: #FBEBA5;
@@ -176,12 +244,21 @@ a.start-button {
 	font-weight: bold;
 	color: white;
 	border-radius: 5px;
-	background: #59CA4D;
 	background: #A1891F;
-
+}
+a.button {
+	display: inline-block;
+	padding: 7px 30px;
+	margin-top: 0px;
+	font-weight: bold;
+	color: white;
+	border-radius: 5px;
+	background: #A1891F;
+	margin-right: 10px;
 }
 
-a.start-button:hover {
+a.start-button:hover,
+a.button:hover {
 	background: #F7DB5E;
 	transition: background-color .35s;
 	-webkit-transition: background-color .35s;
@@ -214,9 +291,10 @@ div.question-choose-representation {
 div.question-image-options {
 
 }
-a.question-text-option,
-a.question-image-option {
+span.question-text-option,
+span.question-image-option {
 	display: block;
+	position: relative;
 	margin-bottom: 15px;
 	background: white;
 	padding: 20px;
@@ -225,52 +303,136 @@ a.question-image-option {
 	cursor: pointer;
 	color: gray;
 }
-a.question-text-option:hover,
-a.question-image-option:hover {
+span.question-text-option:hover,
+span.question-image-option:hover {
 	border: 5px solid black;
 	color: black;
 }
 
-a.question-text-option {
+span.question-text-option {
 }
 
-a.question-image-option {
+span.question-image-option {
 	vertical-align: middle;
 	display: inline-block;
 	margin-right: 20px;
 	padding: 0px;
 }
 
-a.question-image-option img {
+span.question-image-option img {
 	border-radius: 0px;
 	vertical-align: top;
 }
 
-span.dummy-cleaner:nth-of-type(2) {
+span.dummy-cleaner:nth-of-type(1) {
 	clear: both;
 	display: block;
 }
-a.correct,
-a.correct:hover {
+span.correct,
+span.correct:hover {
 	color: black;
 	border: 5px solid #238319;
 	box-shadow: 0px 0px 10px #238319;
 	background: #9EE597;
+	transition: background-color 150ms;
+	transition: border-color 150ms;
 }
-a.wrong,
-a.wrong:hover {
+span.wrong,
+span.wrong:hover {
 	color: black;
 	border: 5px solid #F35C64;
 	box-shadow: 0px 0px 10px #F35C64;
 	background: #F9A4A8;
+	transition: background-color 150ms;
+	transition: border-color 150ms;
+}
+span.dead-end,
+span.continue {
+	display: inline-block;
+	visibility: hidden;
+	opacity: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	width: 40px;
+	font-weight: bold;
+	text-align: center;
+}
+span.wrong span.dead-end {
+	visibility: visible;
+	opacity: 1;
+	background: rgb(243, 92, 100);
+	transition: opacity 0.3s;
+}
+span.correct span.continue {
+	width: 60px;
+}
+span.correct:hover span.continue {
+	width: 90px;
+	transition: width 300ms;
+}
+span.correct span.continue {
+	visibility: visible;
+	opacity: 1;
+	background: #238319;
+	transition: opacity 0.3s;
+}
+
+.question-image-option span.dead-end span,
+.question-image-option span.continue span {
+	position: absolute;
+	top: 44%;
+	right: 10px;
+}
+
+.question-text-option span.dead-end span,
+.question-text-option span.continue span {
+	position: absolute;
+	top: 25%;
+	right: 10px;
 }
 
 form div.pair {
-	margin-bottom: 10px;
+	margin-bottom: 15px;
 }
 form .button {
 
 }
+
+input[type=text],
+input[type=password] {
+	border-radius: 5px;
+	padding: 5px;
+	border: 2px solid #238319;
+	outline: none;
+}
+input[type=text]:focus,
+input[type=password]:focus {
+	box-shadow: 0px 0px 10px #59CA4D;
+}
+
+input[type=submit] {
+	border: 0px;
+	padding: 7px 30px;
+	margin-top: 0px;
+	font-weight: bold;
+	color: white;
+	border-radius: 5px;
+	background: #59CA4D;
+	background: #A1891F;
+
+}
+input[type=submit]:hover {
+	background: #F7DB5E;
+	transition: background-color .35s;
+	-webkit-transition: background-color .35s;
+	outline: none;
+}
+input[type=submit]:active {
+	outline: none;
+}
+
 div.loading {
 	width: 220px;
 	height: 19px;

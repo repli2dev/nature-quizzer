@@ -31,6 +31,10 @@ class CurrentUser extends Object
 		return $this->user->getId();
 	}
 
+	public function isInitialized() {
+		return $this->user->getIdentity() !== NULL;
+	}
+
 	public function isAnonymous()
 	{
 		$identity = $this->user->getIdentity();

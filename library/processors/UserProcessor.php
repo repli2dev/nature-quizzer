@@ -3,6 +3,7 @@ namespace NatureQuizzer\Processors;
 
 use Exception;
 use NatureQuizzer\Database\Model\User as UserModel;
+use NatureQuizzer\Runtime\CurrentUser;
 use Nette\Forms\Form;
 use Nette\Object;
 use Nette\Security\AuthenticationException;
@@ -19,15 +20,22 @@ class UserProcessor extends Object
 	/** @var UserModel */
 	private $userModel;
 
-	public function __construct(User $user, UserModel $userModel)
+	/** @var CurrentUser */
+	private $currentUser;
+
+	public function __construct(User $user, UserModel $userModel, CurrentUser $currentUser)
 	{
 		$this->user = $user;
 		$this->userModel = $userModel;
+		$this->currentUser = $currentUser;
 	}
 
 	public function profile()
 	{
 		$output = [];
+		// Get current user (will try to initialize if not any)
+		$this->currentUser->get();
+		// If there is still no user, then something went wrong
 		if (!$this->user->isLoggedIn()) {
 			$output['status'] = 'fail';
 		} else {
@@ -42,16 +50,17 @@ class UserProcessor extends Object
 	public function login($data)
 	{
 		$output = [];
-
 		$form = $this->getLoginForm();
 		$form->setValues($data);
 		if (!$form->isSuccess()) {
 			$output['errors'] = $form->getErrors();
 			$output['status'] = 'fail';
 		} else {
+			$oldIdentity = $this->user->getIdentity();
 			try {
 				$this->user->login($data['email'], $data['password']);
 				$output['status'] = 'success';
+				// TODO: reown stuff
 			} catch (AuthenticationException $ex) {
 				$output['status'] = 'fail';
 				if ($ex->getCode() == IAuthenticator::IDENTITY_NOT_FOUND) {
@@ -63,6 +72,8 @@ class UserProcessor extends Object
 				} elseif ($ex->getCode() == IAuthenticator::NOT_APPROVED) {
 					$output['result'] = 'Not approved';
 				}
+				// Restore previous identity
+				$this->user->login($oldIdentity);
 			}
 		}
 		return $output;
@@ -71,7 +82,6 @@ class UserProcessor extends Object
 	public function register($data)
 	{
 		$output = [];
-
 		$form = $this->getRegisterForm();
 		$form->setValues($data);
 		if (!$form->isSuccess()) {
@@ -87,9 +97,11 @@ class UserProcessor extends Object
 			]);
 			try {
 				$this->user->login($data['email'], $data['password']);
+				// reown stuff
 			} catch (Exception $ex) {
 				$output['status'] = 'fail';
 				return $output;
+				// Restore previous identity
 			}
 			$output['status'] = 'success';
 		}
@@ -101,7 +113,11 @@ class UserProcessor extends Object
 		$output = [
 			'status' => 'not-logged',
 		];
-		if ($this->user->isLoggedIn()) {
+		if (!$this->currentUser->isInitialized() || $this->currentUser->isAnonymous()) {
+			// If the user is not yet initialized or when anonymous the logout takes no effect
+			// This is preventing to creating yet another anonymous user in DB
+			$output['logout'] = 'success';
+		} elseif ($this->user->isLoggedIn()) {
 			$this->user->logout(TRUE);
 			$output['logout'] = 'success';
 		} else {

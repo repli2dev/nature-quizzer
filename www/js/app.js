@@ -1,23 +1,116 @@
-App = Ember.Application.create({});
+var UserData = Ember.Object.extend({
+	status: '',
+	anonymous: null,
+	id: null,
+	name: ''
+});
 
-App.NatureQuizzer = {};
-App.NatureQuizzer.User = {};
-App.NatureQuizzer.User.LOGIN_URL = '/api/user-login';
-App.NatureQuizzer.User.LOGOUT_URL = '/api/user-logout';
-App.NatureQuizzer.User.PROFILE_URL = '/api/user-profile';
-App.NatureQuizzer.User.REGISTER_URL = '/api/user-register';
-App.NatureQuizzer.Concept = {};
-App.NatureQuizzer.Concept.ALL_URL = '/api/concepts';
-App.NatureQuizzer.Concept.URL = '/api/concept?conceptId=__CONCEPT__';
+var AuthManager = Ember.Object.extend({
 
-App.NatureQuizzer.Concept.getAll = function() {
-	return $.getJSON(App.NatureQuizzer.Concept.ALL_URL).then(function (data) {
+	init: function() {
+		this.flushData();
+		this.refreshProfile();
+	},
+
+	flushData: function () {
+		this.set('data', null);
+	},
+
+	refreshProfile: function () {
+		var self = this;
+		var request = $.ajax({
+			type: "POST",
+			url: App.User.PROFILE_URL
+		});
+		request.then(function (response) {
+			var data = UserData.create();
+			data.setProperties(response);
+			self.set('data', data);
+		});
+
+	},
+
+	login: function (data, callback) {
+		var self = this;
+		// Login on backend
+		var request = Ember.$.ajax({
+			type: "POST",
+			url: App.User.LOGIN_URL,
+			data: data
+		});
+		request.then(function (response) {
+			self.flushData();
+			self.refreshProfile();
+			if (typeof callback !== 'undefined') {
+				callback(response);
+			}
+		});
+	},
+
+	register: function(data, callback) {
+		var self = this;
+		var request = $.ajax({
+			type: "POST",
+			url: App.User.REGISTER_URL,
+			data: data
+		});
+		request.then(function (response) {
+			self.flushData();
+			self.refreshProfile();
+			if (typeof callback !== 'undefined') {
+				callback(response);
+			}
+		});
+	},
+
+	logout: function() {
+		var self = this;
+		// Logout on backend
+		var request = $.ajax({
+			type: "POST",
+			url: App.User.LOGOUT_URL
+		});
+		request.then(function (response) {
+			// Reset stored data
+			self.flushData();
+			self.refreshProfile();
+		});
+
+	},
+	isLogged: function () { // Returns bool whether user is logged on the backend
+		var data = this.get('data');
+		return data !== null && data.status == 'success';
+	},
+	isAnonymous: function () { // Returns bool whether user is in anonymous role
+		var data = this.get('data');
+		if (data !== null && data.status == 'success' && data.anonymous == true) {
+			return true;
+		}
+		return false;
+	}
+});
+
+App = Ember.Application.create({
+	LOG_TRANSITIONS: true
+});
+
+App.User = {};
+App.User.LOGIN_URL = '/api/user-login';
+App.User.LOGOUT_URL = '/api/user-logout';
+App.User.PROFILE_URL = '/api/user-profile';
+App.User.REGISTER_URL = '/api/user-register';
+App.Concept = {};
+App.Concept.ALL_URL = '/api/concepts';
+App.Concept.URL = '/api/concept?conceptId=__CONCEPT__';
+
+App.Concept.getAll = function() {
+	return $.getJSON(App.Concept.ALL_URL).then(function (data) {
 		return data.groups;
 	});
 };
 
-App.NatureQuizzer.Concept.get = function(conceptId) {
-	var url = App.NatureQuizzer.Concept.URL;
+App.Concept.get = function(conceptId) {
+	var url = App.Concept.URL;
 	url = url.replace('__CONCEPT__', conceptId);
 	return $.getJSON(url).then(function (data) {
 		return data;
@@ -25,25 +118,25 @@ App.NatureQuizzer.Concept.get = function(conceptId) {
 };
 
 
-App.NatureQuizzer.Play = {};
-App.NatureQuizzer.Play.DEFAULT_COUNT = 10;
-App.NatureQuizzer.Play.URL = '/api/questions/?conceptId=__CONCEPT__&count=__COUNT__';
-App.NatureQuizzer.Play.ANSWER_URL = '/api/answer/';
+App.Play = {};
+App.Play.DEFAULT_COUNT = 10;
+App.Play.URL = '/api/questions/?conceptId=__CONCEPT__&count=__COUNT__';
+App.Play.ANSWER_URL = '/api/answer/';
 
-App.NatureQuizzer.Play.getQuestions = function(conceptId, count) {
+App.Play.getQuestions = function(conceptId, count) {
 	if (typeof count === 'undefined') {
-		count = App.NatureQuizzer.Play.DEFAULT_COUNT;
+		count = App.Play.DEFAULT_COUNT;
 	}
-	var url = App.NatureQuizzer.Play.URL;
+	var url = App.Play.URL;
 	url = url.replace('__CONCEPT__', conceptId).replace('__COUNT__', count);
 	return $.getJSON(url).then(function (data) {
 		return data;
 	});
 };
-App.NatureQuizzer.Play.answerQuestion = function(data) {
+App.Play.answerQuestion = function(data) {
 	$.ajax({
 		type: "POST",
-		url: App.NatureQuizzer.Play.ANSWER_URL,
+		url: App.Play.ANSWER_URL,
 		data: data
 	});
 };
@@ -61,22 +154,30 @@ App.Router.map(function () {
 
 });
 
+App.ApplicationRoute = Ember.Route.extend({
+	init: function() {
+		this._super();
+		// Instantiate authentication manager to handle user login/logout management
+		App.AuthManager = AuthManager.create();
+	}
+});
+
 App.IndexRoute = Ember.Route.extend({
-	model: App.NatureQuizzer.Concept.getAll
+	model: App.Concept.getAll
 });
 
 App.ResultRoute = Ember.Route.extend({
 	model: function(params) {
-		return App.NatureQuizzer.Concept.get(params.id_concept);
+		return App.Concept.get(params.id_concept);
 	}
 });
 
 App.PlayRoute = Ember.Route.extend({
 	model: function (params) {
-		return App.NatureQuizzer.Play.getQuestions(params.id_concept);
+		return App.Play.getQuestions(params.id_concept);
 	},
 	setupController: function (controller, model) {
-		controller.set('roundIdentification', App.NatureQuizzer.Utils.getRoundIdentification());
+		controller.set('roundIdentification', App.Utils.getRoundIdentification());
 		controller.set('model', model);
 		controller.set('questionCurrent', 1);
 		controller.set('questionMaxCount', model.count);
@@ -88,60 +189,57 @@ App.PlayRoute = Ember.Route.extend({
 	}
 });
 
-// TODO: refactor out
-var currentUserData = null;
-function refreshCurrentUserData () {
-	if (currentUserData !== null) {
-		return;
-	}
-	var responseData;
-	var request = $.ajax({
-		type: "POST",
-		async: false,
-		url: App.NatureQuizzer.User.PROFILE_URL
-	});
-	request.then(function (response) {
-		responseData = (response);
-	});
-	currentUserData = responseData;
-}
+App.ApplicationController = Ember.Controller.extend({
+	currentUser: function() {
+		return App.AuthManager.get('data');
+	}.property('App.AuthManager.data'),
 
-App.UserinfoController = Ember.ObjectController.extend({
-	logged: function () {
-		refreshCurrentUserData();
-		return currentUserData !== null && currentUserData.status == 'success' && currentUserData.anonymous == false;
-	}.property(),
-	notLogged: function () {
-		refreshCurrentUserData();
-		console.log(currentUserData);
-		return currentUserData === null || currentUserData.status == 'fail' || currentUserData.anonymous == true;
-	}.property(),
-	name: function () {
-		refreshCurrentUserData();
-		if (currentUserData !== null) {
-			return currentUserData.name;
+	isAnonymous: function() {
+		return App.AuthManager.isAnonymous();
+	}.property('App.AuthManager.data'),
+
+	isLogged: function () {
+		return App.AuthManager.isLogged();
+	}.property('App.AuthManager.data')
+});
+
+App.UserLoginRoute = Ember.Route.extend({
+	setupController: function (controller, model) {
+		// Check if the user is already logged in
+		if (!App.AuthManager.isAnonymous()) {
+			controller.transitionToRoute('index');
+		} else {
+			controller.setProperties({
+				logged: false,
+				errors: [],
+				result: null
+			});
 		}
-		return null;
-	}.property(),
+	}
+});
 
-	refresh: function() {
-		alert('aaa');
+App.UserRegisterRoute = Ember.Route.extend({
+	setupController: function (controller, model) {
+		// Check if the user is already logged in
+		if (!App.AuthManager.isAnonymous()) {
+			controller.transitionToRoute('index');
+		} else {
+			controller.setProperties({
+				logged: false,
+				errors: []
+			});
+		}
 	}
 });
 
 App.UserLogoutRoute = Ember.Route.extend({
 	setupController: function (controller, model) {
-		var responseData;
-		var request = $.ajax({
-			type: "POST",
-			async: false,
-			url: App.NatureQuizzer.User.LOGOUT_URL
-		});
-		request.then(function (response) {
-			responseData = (response);
-		});
-		currentUserData = null;
-		this.transitionTo('index');
+		// Check if the user is already logged in
+		if (!App.AuthManager.isAnonymous()) {
+			App.AuthManager.logout();
+		} else {
+			controller.transitionToRoute('index');
+		}
 	}
 });
 
@@ -170,112 +268,120 @@ App.LoginFormComponent = Ember.Component.extend({
 });
 
 App.UserLoginController = Ember.ObjectController.extend({
-	needs: ['userinfo'],
-	errors: [],
-	hasErrors: false,
-	notLogged: true,
+	isProcessing: false,
 	logged: false,
+	errors: [],
+	result: null,
 	actions: {
 		login: function (formData) {
-			data = {};
+			this.set('isProcessing', true);
+			var data = {};
 			data.email = formData.email;
 			data.password = formData.password;
-			var responseData;
-			var request = $.ajax({
-				type: "POST",
-				async: false,
-				url: App.NatureQuizzer.User.LOGIN_URL,
-				data: data
+
+			var self = this;
+			App.AuthManager.login(data, function (response) {
+				self.set('isProcessing', false);
+				var output;
+				if (response.status == 'fail') {
+					output = {
+						logged: false,
+						errors: response.errors,
+						result: null
+					};
+					if (response.hasOwnProperty('result')) {
+						output.result = response.result;
+					}
+				} else {
+					output = {
+						logged: true,
+						errors: [],
+						result: null
+					};
+				}
+				self.setProperties(output);
 			});
-			request.then(function (response) {
-					responseData = (response);
-			});
-			if (responseData.status == 'fail') {
-				this.set('hasErrors', true);
-				this.set('errors', responseData.errors);
-				this.set('notLogged', true);
-				this.set('logged', false);
-			} else {
-				this.set('logged', true);
-				this.set('notLogged', false);
-				this.set('errors', []);
-				this.set('hasErrors', false);
-			}
-			currentUserData = null;
 		}
 	}
 });
 
 App.UserRegisterController = Ember.ObjectController.extend({
+	isProcessing: false,
 	errors: [],
-	hasErrors: false,
-	notLogged: true,
 	logged: false,
 	actions: {
 		register: function (formData) {
-			data = {};
+			this.set('isProcessing', true);
+			var data = {};
 			data.name = formData.name;
 			data.email = formData.email;
 			data.password = formData.password;
 			data.password2 = formData.password2;
-			var responseData;
-			var request = $.ajax({
-				type: "POST",
-				async: false,
-				url: App.NatureQuizzer.User.REGISTER_URL,
-				data: data
+
+			var self = this;
+			App.AuthManager.register(data, function(response) {
+				self.set('isProcessing', false);
+				var output;
+				if (response.status == 'fail') {
+					output = {
+						logged: false,
+						errors: response.errors
+					};
+				} else {
+					output = {
+						logged: true,
+						errors: []
+					};
+				}
+				self.setProperties(output);
 			});
-			request.then(function (response) {
-				responseData = (response);
-			});
-			if (responseData.status == 'fail') {
-				this.set('hasErrors', true);
-				this.set('errors', responseData.errors);
-				this.set('notLogged', true);
-				this.set('logged', false);
-			} else {
-				this.set('logged', true);
-				this.set('notLogged', false);
-				this.set('errors', []);
-				this.set('hasErrors', false);
-			}
-			currentUserData = null;
 		}
 	}
 });
 
 App.PlayView = Ember.View.extend({
 	afterRenderEvent: function() {
-		App.NatureQuizzer.Timetracking.start('question');
+		App.Timetracking.start('question');
 	}
 });
 
 App.PlayController = Ember.ObjectController.extend({
 	id_concept: null,
-	questionCurrent: 1,
-	questionMaxCount: 10,
-	answeredAnswers: [],
-	answeringCompleted: false,
 	roundIdentification: null,
+
+	questionMaxCount: 10,	// Total number of quiz questions
+	questionCurrent: 1, // Starting from 1
+
+	progressValue: function() { return this.questionCurrent - 1;}.property('this.questionCurrent'),
+	progressMax: function() { return this.questionMaxCount;}.property('this.questionMaxCount'),
+
+	answered: false,	// True means that answering of current question was finished (correct was selected)
+	markedAnswers: [],	// Answers marked (selected) by the user
+
+	isProcessing: false,
+
 	loadNextQuestion: function() {
+		this.set('isProcessing', true);
 		var self = this;
-		var request = App.NatureQuizzer.Play.getQuestions(this.id_concept, this.questionMaxCount - this.questionCurrent);
+		var request = App.Play.getQuestions(this.id_concept, this.questionMaxCount - this.questionCurrent);
 		request.then(function(data) {
+			self.set('isProcessing', false);
 			self.set('model', data);
-			App.NatureQuizzer.Timetracking.start('question');
+			App.Timetracking.start('question');
 		});
 	},
 	isLastQuestion: function () {
 		return (this.questionCurrent == this.questionMaxCount);
 	},
-	isAnsweringQuestionFinished: function() {
-		return (this.answeringCompleted);
+	isAnswered: function() {
+		return (this.answered);
 	},
-	finishAnsweringQuestion: function() {
-		this.answeringCompleted = true;
+	markAnswered: function() {
+		this.set('answered', true);
 	},
-	resetAnsweringFinishedFlag: function() {
-		this.answeringCompleted = false;
+	reset: function() {
+		this.set('answered', false);
+		this.set('markedAnswers', []);
 	},
 	evaluateAnswerCorrectness: function(selectedValue) {
 		var self = this;
@@ -292,11 +398,12 @@ App.PlayController = Ember.ObjectController.extend({
 		}
 		return state;
 	},
-	markAnswer: function(selectedValue, answerCorrect) {
+	highlightAnswer: function(selectedValue, answerCorrect) {
 		var oldClasses = $('#' + selectedValue).attr('class');
 		var toAppend = (answerCorrect) ? 'correct' : 'wrong';
 		$('#' + selectedValue).attr('class', oldClasses + ' ' + toAppend);
 	},
+
 	sendQuestionInfo: function(questionTime) {
 		var self = this;
 		var model = self.get('model');
@@ -309,58 +416,69 @@ App.PlayController = Ember.ObjectController.extend({
 				answers[i] = {
 					id_representation: option.id_representation,
 					correct: option.correct,
-					answered: (typeof this.answeredAnswers[option.id_representation] !== 'undefined')
+					answered: (typeof this.markedAnswers[option.id_representation] !== 'undefined')
 				};
 			} else if (type == 2) {
 				answers[i] = {
 					id_organism: option.id_organism,
 					correct: option.correct,
-					answered: (typeof this.answeredAnswers[option.id_organism] !== 'undefined')
+					answered: (typeof this.markedAnswers[option.id_organism] !== 'undefined')
 				};
 			}
 		}
 		var output = {};
-		$.extend(output, App.NatureQuizzer.Utils.getClientInfo());
+		$.extend(output, App.Utils.getClientInfo());
 		output.round = this.roundIdentification;
 		output.questionType = type;
 		output.answers = answers;
 		output.time = questionTime;
 		output.seqNum = this.questionCurrent;
 
-		App.NatureQuizzer.Play.answerQuestion(output);
+		App.Play.answerQuestion(output);
 	},
 
 	actions: {
 		answer: function (selectedValue) {
-			// Check if answering of this question was finished
-			// YES -> reload to get new question / show finish page
+			// Check if the answering of this question was already finished
+			// YES -> delegate to 'next' action
 			// NO -> let user choose different answer
-			if (this.isAnsweringQuestionFinished()) {
-				if (this.isLastQuestion()) {
-					this.transitionToRoute('result', this.get('id_concept'));
-					return;
-				}
-				this.resetAnsweringFinishedFlag();
-				this.set('questionCurrent', this.get('questionCurrent') + 1);
-				this.loadNextQuestion();
+			if (this.isAnswered()) {
+				this.send('next', selectedValue);
 				return;
 			}
 			// Check if this answer was already answered (and do nothing if so)
-			if (typeof this.answeredAnswers[selectedValue] != 'undefined') {
+			if (typeof this.markedAnswers[selectedValue] !== 'undefined') {
 				return;
 			}
 			// Mark answer as answered and evaluate its correctness
-			this.answeredAnswers[selectedValue] = true;
+			this.markedAnswers[selectedValue] = true;
 
 			// Obtain correctness and mark it
 			var answerCorrect = this.evaluateAnswerCorrectness(selectedValue);
-			this.markAnswer(selectedValue, answerCorrect);
+			this.highlightAnswer(selectedValue, answerCorrect);
 
 			if (answerCorrect) {
-				var questionTime = App.NatureQuizzer.Timetracking.end('question');
+				var questionTime = App.Timetracking.end('question');
 				this.sendQuestionInfo(questionTime);
-				this.finishAnsweringQuestion();
+				this.markAnswered();
 			}
+		},
+		next: function (selectedValue) {
+			// If this was last question we proceed to 'result' screen
+			if (this.isLastQuestion()) {
+				this.transitionToRoute('result', this.get('id_concept'));
+				return;
+			}
+			// If user clicked on wrong answer do nothing
+			var answerCorrect = this.evaluateAnswerCorrectness(selectedValue);
+			if (!answerCorrect) {
+				return;
+			}
+			// Otherwise load and prepare for the next question
+			this.reset();
+			this.set('questionCurrent', this.get('questionCurrent') + 1);
+			this.loadNextQuestion();
+			return;
 		}
 	}
 });
@@ -377,6 +495,7 @@ Handlebars.registerHelper('isChooseNameQuestion', function(options) {
 	}
 });
 
+// TODO: check if used
 Ember.View.reopen({
 	didInsertElement : function(){
 		this._super();
@@ -387,6 +506,7 @@ Ember.View.reopen({
 	}
 });
 
+// TODO: check if used
 function toogleMenu() {
 	var el = $("#top-bar");
 	if (el.hasClass('top-bar-opened')) {
@@ -396,23 +516,27 @@ function toogleMenu() {
 	}
 }
 
-App.NatureQuizzer.Utils = {};
-App.NatureQuizzer.Timetracking = {};
-App.NatureQuizzer.Timetracking.timers = {};
-App.NatureQuizzer.Timetracking.start = function(timer) {
+/*** Timetracking support ***/
+
+App.Timetracking = {};
+App.Timetracking.timers = {};
+App.Timetracking.start = function(timer) {
 	if (typeof performance !== 'undefined' && typeof performance.now !== 'undefined') {
 		this.timers[timer] = performance.now();
 	}
 	return null;
 };
-App.NatureQuizzer.Timetracking.end = function(timer) {
+App.Timetracking.end = function(timer) {
 	if (typeof performance !== 'undefined' && typeof performance.now !== 'undefined') {
 		return performance.now() - this.timers[timer];
 	}
 	return null;
 };
 
-App.NatureQuizzer.Utils.getClientInfo = function getClientInfo()  {
+/*** Utility functions ***/
+
+App.Utils = {};
+App.Utils.getClientInfo = function getClientInfo()  {
 	return {
 		screenWidth: screen.width,
 		screenHeight: screen.height,
@@ -421,6 +545,6 @@ App.NatureQuizzer.Utils.getClientInfo = function getClientInfo()  {
 	};
 };
 
-App.NatureQuizzer.Utils.getRoundIdentification = function getRoundIdentification() {
+App.Utils.getRoundIdentification = function getRoundIdentification() {
 	return navigator.userAgent + ' ' + (new Date()).getTime() + ' ' + Math.random();
 };

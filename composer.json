@@ -8,10 +8,6 @@
 		{
 			"name": "Jan Drábek",
 			"homepage": "http://www.jandrabek.cz"
-		},
-		{
-			"name": "Nette Community",
-			"homepage": "http://nette.org/contributors"
 		}
 	],
 	"require": {
