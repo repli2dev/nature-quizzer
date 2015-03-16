@@ -1,0 +1,18 @@
+<h2>Registrace uživatele</h2>
+{{partial "processing"}}
+{{#unless logged}}
+	{{#if errors.length}}
+		<div class="flash error">
+			Registrace se nezdařila:<br />
+			<ul>
+				{{#each errors}}
+					<li>{{this}}</li>
+				{{/each}}
+			</ul>
+		</div>
+	{{/if}}
+	{{register-form submit="register" submitTitle='Registrovat a přihlásit'}}
+{{/unless}}
+{{#if logged}}
+	{{partial "welcome-screen"}}
+{{/if}}

@@ -1,0 +1,29 @@
+<div id="window">
+	<div id="window-header">
+		<div class="window-title">
+			{{#if all}}
+				Náhodný mix
+			{{/if}}
+			{{concept.name}}
+		</div>
+		<div class="window-close">{{#link-to "index"}}&#x2715;{{/link-to}}</div>
+		<div class="window-info">
+			<progress {{bind-attr value="progressValue"}} {{bind-attr max="progressMax"}}></progress>
+			&nbsp;{{questionCurrent}}/{{questionMaxCount}}
+		</div>
+		<div class="cleaner"></div>
+	</div>
+	<div id="window-content">
+		{{#if isProcessing}}
+			<div id="question-loading">
+				<img src="../images/spinner.gif" alt="Načítání" />
+			</div>
+		{{/if}}
+			{{#if isChooseRepresentationQuestion}}
+				{{partial "question-representation"}}
+			{{/if}}
+			{{#if isChooseNameQuestion}}
+				{{partial "question-name"}}
+			{{/if}}
+	</div>
+</div>

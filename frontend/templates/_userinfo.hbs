@@ -1,0 +1,15 @@
+<div id="user">
+	{{#unless isAnonymous}}
+		<span class="username">{{currentUser.name}}</span>
+		<span class="links">
+			{{#link-to 'user.logout'}}Odhlásit{{/link-to}}
+		</span>
+	{{/unless}}
+	{{#if isAnonymous}}
+		<span class="username">Anonymní uživatel</span>
+		<span class="links">
+			{{#link-to 'user.login'}}Přihlásit{{/link-to}}
+			{{#link-to 'user.register'}}Registrovat{{/link-to}}
+		</span>
+	{{/if}}
+</div>

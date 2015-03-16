@@ -1,0 +1,23 @@
+<h2>Přihlášení uživatele</h2>
+{{partial "processing"}}
+{{#unless logged}}
+	{{#if errors.length}}
+		<div class="flash error">
+			Přihlášení se nezdařilo:<br />
+			<ul>
+				{{#each errors}}
+					<li>{{this}}</li>
+				{{/each}}
+			</ul>
+		</div>
+	{{/if}}
+	{{#if result}}
+		<div class="flash error">
+			{{result}}
+		</div>
+	{{/if}}
+	{{login-form submit="login" submitTitle='Přihlásit'}}
+{{/unless}}
+{{#if logged}}
+	{{partial "welcome-screen"}}
+{{/if}}

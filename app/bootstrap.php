@@ -55,7 +55,7 @@ $configurator->addConfig(__DIR__ . '/config/config.local.neon');
 $container = $configurator->createContainer();
 
 // Set search_path in database
-$container->getByType('nette\database\connection')->onConnect[] = function($conn) {
+$container->getByType('Nette\Database\Connection')->onConnect[] = function($conn) {
 	$conn->query('SET search_path TO "web_nature_quizzer"');
 };
 

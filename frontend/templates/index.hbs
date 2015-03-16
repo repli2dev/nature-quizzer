@@ -1,0 +1,19 @@
+<h2>Témata</h2>
+<p>Vyberte si jaké téma, respektive oblast přírody se chcete začít učit a stiskněte <strong>Řešit</strong>.</p>
+{{#each category in model}}
+	<div class="group">
+		{{#if others}}
+			<h2>Ostatní</h2>
+		{{/if}}
+		<h2>{{category.name}}</h2>
+		{{#each concept in category.concepts}}
+			<div class="concept">
+				{{#link-to 'play' concept.id_concept classNames="start-button"}}Řešit{{/link-to}}
+
+				<span class="concept-name">{{concept.name}}</span>
+				<span class="concept-description">{{concept.description}}</span>
+				<div class="cleaner"></div>
+			</div>
+		{{/each}}
+	</div>
+{{/each}}

@@ -2,6 +2,7 @@
 
 namespace NatureQuizzer\Database\Model;
 
+use InvalidArgumentException;
 use Nette\Database\Table\ActiveRow;
 use Nette\NotImplementedException;
 use Nette\Security\AuthenticationException;
@@ -20,6 +21,9 @@ class User extends Table implements IAuthenticator
 
 	const GUEST_ROLE = 'guest';
 	const USER_ROLE = 'user';
+
+	const EXTERNAL_FACEBOOK = 'facebook';
+	const EXTERNAL_GOOGLE = 'google';
 
 	public function authenticate(array $credentials)
 	{
@@ -58,5 +62,24 @@ class User extends Table implements IAuthenticator
 	public function findAnonymousById($id)
 	{
 		return $this->getTable()->where(self::COLUMN_ID, $id)->where(self::COLUMN_ANONYMOUS, TRUE)->fetch();
+	}
+
+	public function findByFacebookId($facebookId)
+	{
+		return $this->getTable()->where(':user_external.token = ?', self::EXTERNAL_FACEBOOK . ':' . $facebookId)->fetch();
+	}
+
+	public function addExternalToken($userId, $type, $token)
+	{
+		if ($type !== self::EXTERNAL_FACEBOOK && $type != self::EXTERNAL_GOOGLE) {
+			throw new InvalidArgumentException('[Type] of external token is not valid.');
+		}
+
+		$this->context->table('user_external')->insert(
+			[
+				'id_user' => $userId,
+				'token' => $type . ':' . $token
+			]
+		);
 	}
 }

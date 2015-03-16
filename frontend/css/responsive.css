@@ -1,0 +1,45 @@
+@media only screen and (max-width: 1240px) {
+	#top-bar h1 {
+		margin-left: 20px;
+	}
+	#footer {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+	#user {
+		margin-right: 20px;
+	}
+}
+
+@media only screen and (max-width: 900px) {
+	#menu-toogle {
+		display: block;
+	}
+	#menu {
+		display: none;
+		width: 300px;
+		float: left;
+		clear: left;
+		margin-left: 10px;
+	}
+	#menu ul {
+		float: none;
+	}
+	#menu ul li {
+		float: none;
+		clear: left;
+		margin-bottom: 30px;
+	}
+}
+
+@media only screen and (max-width: 800px) {
+	div.question-text-options {
+		margin: 0px;
+		clear: left;
+	}
+	div.question-image {
+		margin: auto;
+		margin-bottom: 30px;
+		float: none;
+	}
+}

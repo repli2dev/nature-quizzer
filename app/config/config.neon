@@ -52,5 +52,6 @@ services:
 	- NatureQuizzer\Model\Utils\PostAnswerUpdate
 	- NatureQuizzer\Model\QuestionSelection
 	user: NatureQuizzer\Utils\User
+	- NatureQuizzer\Utils\Facebook
 
 	router: @NatureQuizzer\RouterFactory::createRouter

@@ -126,6 +126,34 @@ class UserProcessor extends Object
 		return $output;
 	}
 
+	/**
+	 * Warning: This method is not supposed to be publicly available!
+	 */
+	public function loginViaFacebook($userInfo)
+	{
+		// Try to find the associated user
+		$user = $this->userModel->findByFacebookId($userInfo['id']);
+		// Register if no user is found
+		if (!$user) {
+			// Pottentialy error of duplicate e-mail
+			$userId = $this->userModel->insert([
+				'name' => $userInfo['name'],
+				'email' => $userInfo['email'],
+				'inserted' => new DateTime(),
+				'anonymous' => FALSE
+			]);
+			if (!$userId) {
+				// Error 1
+			}
+			$this->userModel->addExternalToken($userId, UserModel::EXTERNAL_FACEBOOK, $userInfo['id']);
+			$user = $this->userModel->findByFacebookId($userInfo['id']);
+			if (!$user) {
+				// Error 2
+			}
+		}
+		// And now... Login!
+	}
+
 	private function getLoginForm()
 	{
 		$form = new Form();

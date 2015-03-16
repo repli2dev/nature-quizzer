@@ -1,0 +1,32 @@
+<div id="top-bar">
+	<div id="top-bar-center">
+		<div id="menu-toogle" onclick="javascript:toogleMenu()">&#9776;</div>
+		<h1>Příroda</h1>
+		{{#if isLogged}}
+			{{partial "userinfo"}}
+		{{/if}}
+		{{#unless isLogged}}
+			{{partial "userinfoerror"}}
+		{{/unless}}
+
+		<div id="menu">
+			<ul>
+				<li>{{#link-to 'index'}}Témata{{/link-to}}</li>
+				<li>{{#link-to 'play' 'mix'}}Náhodný mix{{/link-to}}</li>
+				<li>{{#link-to 'about'}}Jak to funguje{{/link-to}}</li>
+			</ul>
+			<div class="cleaner"></div>
+		</div>
+	</div>
+	<div class="cleaner"></div>
+</div>
+<div id="content">
+	<div id="content-center">
+		{{outlet}}
+	</div>
+</div>
+<div id="footer">
+	<div id="footer-center">
+		<p>Pokud máte nějaký dotaz či nápad neváhejte nás <a href="mailto:jan.drabek@mail.muni.cz">kontaktovat</a>.<br /> Projekt vznikl pod <a href="http://fi.muni.cz">Fakultou informatiky</a> Masarykovy univerzity.</p>
+	</div>
+</div>

@@ -1,0 +1,10 @@
+<h2>Hotovo!</h2>
+<p>A zase umíte o kousek více,&hellip; vyberte si čím chcete pokračovat.</p>
+
+{{#if mix}}
+	{{#link-to 'play' 'mix'}}Pokračovat{{/link-to}}<br />
+{{/if}}
+{{#if id_concept}}
+	{{#link-to 'play' id_concept}}Pokračovat{{/link-to}}<br />
+{{/if}}
+{{#link-to 'index'}}Vybrat si nové téma{{/link-to}}
