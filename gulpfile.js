@@ -1,7 +1,5 @@
 var gulp = require('gulp');
 var htmlbars = require('gulp-htmlbars-compiler');
-var wrap = require('gulp-wrap');
-var declare = require('gulp-declare');
 var concat = require('gulp-concat');
 var clean = require('gulp-clean');
 // Hardcoded way to the ember-template-compilator as the versions needs to match
@@ -65,32 +63,6 @@ gulp.task('scripts', function() {
 });
 
 // ====== Handlebars templates =======
-gulp.task('templates', function(){
-	gulp.src(paths.templates)
-		.pipe(handlebars())
-		.pipe(wrap('Handlebars.template(<%= contents %>)'))
-		.pipe(declare({
-			namespace: 'App.templates',
-			noRedeclare: true
-		}))
-		.pipe(concat('templates.js'))
-		.pipe(gulp.dest(destination));
-});
-
-/*gulp.task('templates', function(){
-	gulp.src(paths.templates)
-		.pipe(handlebars({
-			handlebars: require('ember-handlebars')
-		}))
-		.pipe(wrap('Ember.Handlebars.template(<%= contents %>)'))
-		.pipe(declare({
-			namespace: 'Ember.TEMPLATES',
-			amd: false,
-			noRedeclare: true
-		}))
-		.pipe(concat('templates.js'))
-		.pipe(gulp.dest(destination));
-});*/
 gulp.task('templates', function() {
 	return gulp.src(paths.templates)
 		.pipe(htmlbars({
@@ -110,3 +82,5 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', ['styles', 'scripts', 'templates']);
+
+gulp.task('development', ['default', 'watch']);

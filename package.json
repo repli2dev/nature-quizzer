@@ -1,0 +1,19 @@
+{
+  "name": "nature-quizzer",
+  "version": "1.0.0",
+  "description": "Project for adaptive quizzer of nature concepts (e.g. plants, trees, animals...)",
+  "dependencies": {},
+  "devDependencies": {
+    "ember-handlebars": "^1.2.0",
+    "gulp": "^3.8.11",
+    "gulp-clean": "^0.3.1",
+    "gulp-concat": "^2.5.2",
+    "gulp-ember-template-compiler": "^0.1.4",
+    "gulp-htmlbars": "^0.3.0",
+    "gulp-htmlbars-compiler": "^0.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/repli2dev/nature-quizzer.git"
+  }
+}
