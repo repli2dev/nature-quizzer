@@ -234,7 +234,15 @@ App.PlayController = Ember.ObjectController.extend({
 App.FacebookLoginProblemController = Ember.ObjectController.extend({
 	queryParams: ['type'],
 	type: null,
-	isFacebookFailure: function() { return this.type == 1; }.property("this.type"),
+	isTheirFailure: function() { return this.type == 1; }.property("this.type"),
+	isUnknownFailure: function() { return this.type == 2; }.property("this.type"),
+	isRegistrationFailure: function() { return this.type == 3; }.property("this.type")
+});
+
+App.GoogleLoginProblemController = Ember.ObjectController.extend({
+	queryParams: ['type'],
+	type: null,
+	isTheirFailure: function() { return this.type == 1; }.property("this.type"),
 	isUnknownFailure: function() { return this.type == 2; }.property("this.type"),
 	isRegistrationFailure: function() { return this.type == 3; }.property("this.type")
 });

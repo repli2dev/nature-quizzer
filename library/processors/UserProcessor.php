@@ -129,8 +129,8 @@ class UserProcessor extends Object
 
 	/**
 	 * Warning: This method is not supposed to be publicly available!
-	 * @param $userInfo
-	 * @throws Exception
+	 * @param $userInfo array Necessary information about the user
+	 * @throws Exception if anything goes wrong
 	 */
 	public function loginViaFacebook($userInfo)
 	{
@@ -156,6 +156,49 @@ class UserProcessor extends Object
 			// Add token
 			$this->userModel->addExternalToken($userId, UserModel::EXTERNAL_FACEBOOK, $userInfo['id']);
 			$user = $this->userModel->findByFacebookId($userInfo['id']);
+			if (!$user) {
+				throw new Exception('User DB entry expected for external login, no found.');
+			}
+		}
+		// Login (expectation having an user now)
+		try {
+			$identity = $this->userModel->prepareIdentity($user, UserModel::USER_ROLE);
+			$this->user->login($identity);
+			// Reown stuff
+		} catch (Exception $ex) {
+			throw new Exception('Login by identity should not fail.');
+		}
+	}
+
+	/**
+	 * Warning: This method is not supposed to be publicly available!
+	 * @param $userInfo array Necessary information about the user
+	 * @throws Exception if anything goes wrong
+	 */
+	public function loginViaGoogle($userInfo)
+	{
+		// Try to find the associated user
+		$user = $this->userModel->findByGoogleId($userInfo['id']);
+		// Register if no user is found
+		if (!$user) {
+			// Check if there is an account with the same e-mail
+			$userId = $this->userModel->findByEmail(Strings::lower($userInfo['email']));
+			// Register new user if not found
+			if (!$userId) {
+				$userId = $this->userModel->insert([
+					'name' => $userInfo['name'],
+					'email' => Strings::lower($userInfo['email']),
+					'inserted' => new DateTime(),
+					'anonymous' => FALSE
+				]);
+			}
+			// Expectation: having and user by now
+			if (!$userId) {
+				throw new Exception('User DB entry expected, no found.');
+			}
+			// Add token
+			$this->userModel->addExternalToken($userId, UserModel::EXTERNAL_GOOGLE, $userInfo['id']);
+			$user = $this->userModel->findByGoogleId($userInfo['id']);
 			if (!$user) {
 				throw new Exception('User DB entry expected for external login, no found.');
 			}

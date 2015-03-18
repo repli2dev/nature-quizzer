@@ -8,6 +8,9 @@ parameters:
 	facebook:
 		appId:
 		appSecret:
+	google:
+		clientId: 693696919576-qegtac1juielkp8r20o02mmtsnoflisd.apps.googleusercontent.com
+		clientSecret: KLOha8ZnJ4n4VitOA5m8u70S
 
 
 php:
@@ -53,5 +56,6 @@ services:
 	- NatureQuizzer\Model\QuestionSelection
 	user: NatureQuizzer\Utils\User
 	- NatureQuizzer\Utils\Facebook
+	- NatureQuizzer\Utils\Google
 
 	router: @NatureQuizzer\RouterFactory::createRouter

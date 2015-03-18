@@ -1,6 +1,7 @@
 App.Router.map(function () {
 	this.resource('about');
 	this.resource('facebook-login-problem');
+	this.resource('google-login-problem');
 	this.resource('play', { path: '/play/:id_concept' });
 	this.resource('result', { path: '/result/:id_concept' });
 	this.resource('concepts');
