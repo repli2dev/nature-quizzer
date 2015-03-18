@@ -47,7 +47,7 @@ class User extends Table implements IAuthenticator
 		throw new NotImplementedException('Other methods of authentication are not implemented yet.');
 	}
 
-	private function prepareIdentity(ActiveRow $row, $userRole)
+	public function prepareIdentity(ActiveRow $row, $userRole)
 	{
 		$arr = $row->toArray();
 		unset($arr['password']);

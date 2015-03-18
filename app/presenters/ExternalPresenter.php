@@ -5,6 +5,9 @@ namespace NatureQuizzer\Presenters;
 use Exception;
 use NatureQuizzer\Processors\UserProcessor;
 use NatureQuizzer\Utils\Facebook;
+use Nette\Application\AbortException;
+use Tracy\Debugger;
+use Tracy\ILogger;
 
 class ExternalPresenter extends BasePresenter
 {
@@ -23,18 +26,32 @@ class ExternalPresenter extends BasePresenter
 
 	public function actionFb()
 	{
+		Debugger::enable(Debugger::PRODUCTION); // Suppress Tracy bar as it is causing problems with redirect
 		$result = NULL;
 		try {
 			$result = $this->facebook->authenticate($this->link('//this'));
 		} catch (Exception $ex) {
-			$this->redirect('Homepage:default#/facebook-login-problem');
+			if ($ex instanceof AbortException) {
+				throw $ex;
+			}
+			Debugger::log($ex, ILogger::EXCEPTION);
+			$this->redirect('Homepage:default#/facebook-login-problem?type=1');
 			$this->terminate();
 		}
 		if ($result == NULL) {
-			$this->redirect('Homepage:default#/facebook-login-problem');
+			Debugger::log('Obtaining of Facebook session failed for unknown reason.', ILogger::EXCEPTION);
+			$this->redirect('Homepage:default#/facebook-login-problem?type=2');
 			$this->terminate();
 		}
-		$this->userProcessor->loginViaFacebook($result);
+		try {
+			$this->userProcessor->loginViaFacebook($result);
+		} catch (Exception $ex) {
+			Debugger::log($ex, ILogger::EXCEPTION);
+			$this->redirect('Homepage:default#/facebook-login-problem?type=3');
+			$this->terminate();
+		}
+		$this->redirect('Homepage:default#/');
+		$this->terminate();
 	}
 
 }

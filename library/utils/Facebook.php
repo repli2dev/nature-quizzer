@@ -59,9 +59,9 @@ class Facebook
 		try {
 			$session = $helper->getSessionFromRedirect();
 		} catch(FacebookRequestException $ex) {
-			throw new Exception('Something on Facebook failed.', self::FACEBOOK_ERROR);
+			throw new Exception('Something on Facebook failed.', self::FACEBOOK_ERROR, $ex);
 		} catch(Exception $ex) {
-			throw new Exception('Something else failed', self::UNKNOWN_ERROR);
+			throw new Exception('Something else failed', self::UNKNOWN_ERROR, $ex);
 		}
 		if ($session) {
 			// Logged in
@@ -76,7 +76,7 @@ class Facebook
 					'email' => $userProfile->getProperty('email')
 				];
 			} catch(FacebookRequestException $e) {
-				throw new Exception('Something after login failed.', self::AFTER_LOGIN_ERROR);
+				throw new Exception('Something after login failed.', self::AFTER_LOGIN_ERROR, $e);
 			}
 		} else {
 			// Not logged in

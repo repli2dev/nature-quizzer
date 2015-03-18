@@ -13,6 +13,9 @@ App.ApplicationController = Ember.Controller.extend({
 });
 
 App.UserLoginController = Ember.ObjectController.extend({
+	facebookLoginLink: App.External.FACEBOOK_LOGIN_URL,
+	googleLoginLink: App.External.GOOGLE_LOGIN_URL,
+
 	isProcessing: false,
 	logged: false,
 	errors: [],
@@ -51,6 +54,9 @@ App.UserLoginController = Ember.ObjectController.extend({
 });
 
 App.UserRegisterController = Ember.ObjectController.extend({
+	facebookLoginLink: App.External.FACEBOOK_LOGIN_URL,
+	googleLoginLink: App.External.GOOGLE_LOGIN_URL,
+
 	isProcessing: false,
 	errors: [],
 	logged: false,
@@ -223,4 +229,12 @@ App.PlayController = Ember.ObjectController.extend({
 			return;
 		}
 	}
+});
+
+App.FacebookLoginProblemController = Ember.ObjectController.extend({
+	queryParams: ['type'],
+	type: null,
+	isFacebookFailure: function() { return this.type == 1; }.property("this.type"),
+	isUnknownFailure: function() { return this.type == 2; }.property("this.type"),
+	isRegistrationFailure: function() { return this.type == 3; }.property("this.type")
 });

@@ -1,6 +1,11 @@
 <h2>Přihlášení uživatele</h2>
 {{partial "processing"}}
 {{#unless logged}}
+
+	<h3>Přes externí služby</h3>
+	{{partial "external-logins"}}
+
+	<h3>Pomocí e-mailu</h3>
 	{{#if errors.length}}
 		<div class="flash error">
 			Přihlášení se nezdařilo:<br />

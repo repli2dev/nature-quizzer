@@ -407,3 +407,19 @@ div.flash {
 	margin-top: 10px;
 	margin-bottom: 20px;
 }
+
+#external-logins {
+	margin-bottom: 30px;
+}
+.button.facebook {
+	clear: both;
+	color: #fff;
+	background-color: #428bca;
+	border-color: #357ebd;
+}
+.button.google {
+	clear: both;
+	color: #fff;
+	background-color: #d9534f;
+	border-color: #d43f3a;
+}

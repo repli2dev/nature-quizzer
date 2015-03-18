@@ -2,6 +2,10 @@ App = Ember.Application.create({
 	LOG_TRANSITIONS: true
 });
 
+App.External = {};
+App.External.FACEBOOK_LOGIN_URL = '/external/fb';
+App.External.GOOGLE_LOGIN_URL = '/external/google';
+
 App.User = {};
 App.User.LOGIN_URL = '/api/user-login';
 App.User.LOGOUT_URL = '/api/user-logout';

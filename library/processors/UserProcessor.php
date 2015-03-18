@@ -11,6 +11,7 @@ use Nette\Security\IAuthenticator;
 use Nette\Security\Passwords;
 use Nette\Security\User;
 use Nette\Utils\DateTime;
+use Nette\Utils\Strings;
 
 class UserProcessor extends Object
 {
@@ -58,7 +59,7 @@ class UserProcessor extends Object
 		} else {
 			$oldIdentity = $this->user->getIdentity();
 			try {
-				$this->user->login($data['email'], $data['password']);
+				$this->user->login(Strings::lower($data['email']), $data['password']);
 				$output['status'] = 'success';
 				// TODO: reown stuff
 			} catch (AuthenticationException $ex) {
@@ -90,13 +91,13 @@ class UserProcessor extends Object
 		} else {
 			$this->userModel->insert([
 				'name' => $data['name'],
-				'email' => $data['email'],
+				'email' => Strings::lower($data['email']),
 				'password' => Passwords::hash($data['password']),
 				'inserted' => new DateTime(),
 				'anonymous' => TRUE
 			]);
 			try {
-				$this->user->login($data['email'], $data['password']);
+				$this->user->login(Strings::lower($data['email']), $data['password']);
 				// reown stuff
 			} catch (Exception $ex) {
 				$output['status'] = 'fail';
@@ -128,6 +129,8 @@ class UserProcessor extends Object
 
 	/**
 	 * Warning: This method is not supposed to be publicly available!
+	 * @param $userInfo
+	 * @throws Exception
 	 */
 	public function loginViaFacebook($userInfo)
 	{
@@ -135,23 +138,36 @@ class UserProcessor extends Object
 		$user = $this->userModel->findByFacebookId($userInfo['id']);
 		// Register if no user is found
 		if (!$user) {
-			// Pottentialy error of duplicate e-mail
-			$userId = $this->userModel->insert([
-				'name' => $userInfo['name'],
-				'email' => $userInfo['email'],
-				'inserted' => new DateTime(),
-				'anonymous' => FALSE
-			]);
+			// Check if there is an account with the same e-mail
+			$userId = $this->userModel->findByEmail(Strings::lower($userInfo['email']));
+			// Register new user if not found
 			if (!$userId) {
-				// Error 1
+				$userId = $this->userModel->insert([
+					'name' => $userInfo['name'],
+					'email' => Strings::lower($userInfo['email']),
+					'inserted' => new DateTime(),
+					'anonymous' => FALSE
+				]);
 			}
+			// Expectation: having and user by now
+			if (!$userId) {
+				throw new Exception('User DB entry expected, no found.');
+			}
+			// Add token
 			$this->userModel->addExternalToken($userId, UserModel::EXTERNAL_FACEBOOK, $userInfo['id']);
 			$user = $this->userModel->findByFacebookId($userInfo['id']);
 			if (!$user) {
-				// Error 2
+				throw new Exception('User DB entry expected for external login, no found.');
 			}
 		}
-		// And now... Login!
+		// Login (expectation having an user now)
+		try {
+			$identity = $this->userModel->prepareIdentity($user, UserModel::USER_ROLE);
+			$this->user->login($identity);
+			// Reown stuff
+		} catch (Exception $ex) {
+			throw new Exception('Login by identity should not fail.');
+		}
 	}
 
 	private function getLoginForm()

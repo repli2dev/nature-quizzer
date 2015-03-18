@@ -1,2 +1,16 @@
 <h2>Problém při přihlášení pomocí Facebooku</h2>
-<p>Nastal problém při vašem přihlášení na FB. Opakujte to prosím později a pokud problém přetrvá, kontaktujte nás.</p>
+<p>Nastal problém při vašem přihlášení na FB. </p>
+
+<b>
+	{{#if isFacebookFailure}}
+		<p>Došlo k selhání na straně Facebooku, je možné, že jste aplikaci odmítili autorizovat. Zkuste akci opakovat a pokud problém přetrvá, kontaktujte nás.</p>
+	{{/if}}
+
+	{{#if isUnknownFailure}}
+		<p>Došlo k neznámému selhání. Prosím, kontaktujte nás.</p>
+	{{/if}}
+
+	{{#if isRegistrationFailure}}
+		<p>Došlo k problémům s vytvářením vašeho účtu u nás. Prosím, kontaktujte nás.</p>
+	{{/if}}
+</b>
