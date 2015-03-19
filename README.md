@@ -3,12 +3,25 @@ Nature Quizzer
 
 Simple web-based adaptive learning system for teaching users biological concepts such as plants, animals,...
 
+Dependencies
+============
+
+General:
+
+ - PHP >= 5.5
+ - PostgreSQL >= 9.3
+ - Node.js and its dependencies captured in `package.json`
+ - Composer ant its dependencies captured in `composer.json`
+
 Installing
 ==========
+
+0. Update to proper selected GIT branch/tag.
 
 1. Install development dependencies via `node`:
 
 ```
+$ cd <project path>
 $ node update
 
 ```
@@ -16,23 +29,34 @@ $ node update
 2. Install runtime (aka PHP) dependencies via `composer`:
  
 ```
+$ cd <project path>
 $ composer update
 ```
 
 3. Run `gulp` to build css, templates and javascript files:
 
 ```
+$ cd <project path>
 $ gulp
 ```
 
-4. To install basic database schema run prepared migrations:
+4. Create local configuration (database credentials, FB and Google+ API keys etc)
 
 ```
-# cd <project path>
+$ cd <project path>
+$ vim app/config.local.neon
+```
+
+5. To install basic database schema run prepared migrations:
+
+```
+$ cd <project path>
 $ php utils/updatedb.php
 ```
 
-5. Import desired data into the system.
+6. Import desired data (DB entries as well as the underlying images) into the system.
+
+For convenience there is a `deploy.php` script which does this step in order to make things easy.
 
 Running
 =======

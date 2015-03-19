@@ -42,7 +42,7 @@ if ($configurator->isDebugMode()) {
 			$fileLogger->log($output);
 		}
 	}
-	fdump(sprintf("\n\n\n=== %s === %s =========================\n", $_SERVER['REQUEST_URI'], date('Y-m-d H:i:s')));
+	fdump(sprintf("\n\n\n=== %s === %s =========================\n", ((!isset($_SERVER['REQUEST_URI'])) ? 'CLI' : $_SERVER['REQUEST_URI']), date('Y-m-d H:i:s')));
 } else {
 	// Create extra dummy dumping function to prevent fatal errors when forgotten
 	function fdump()
