@@ -52,7 +52,7 @@ if ($state !== 0) {
 	die("Error: Database migrations failed.\n");
 }
 // Fix the permissions
-system('chown -rf apache:apache temp/*');
+system('chown -R apache:apache temp/*');
 
 if (file_exists('.deployment-in-progress')) {
 	unlink('.deployment-in-progress');
