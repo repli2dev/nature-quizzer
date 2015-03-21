@@ -90,6 +90,41 @@ App.UserRegisterController = Ember.ObjectController.extend({
 	}
 });
 
+App.ContactController = Ember.ObjectController.extend({
+	isProcessing: false,
+	errors: [],
+	result: null,
+	actions: {
+		send: function (formData, callback) {
+			this.set('isProcessing', true);
+			var data = {};
+			data.email = formData.email;
+			data.text = formData.text;
+
+			var self = this;
+			App.Feedback.send(data, function (response) {
+				self.set('isProcessing', false);
+				var output;
+				if (response.status == 'fail') {
+					output = {
+						errors: response.errors,
+						result: null
+					};
+				} else {
+					output = {
+						errors: [],
+						result: response.result
+					};
+					if (typeof callback !== 'undefined') {
+						callback();
+					}
+				}
+				self.setProperties(output);
+			});
+		}
+	}
+});
+
 App.PlayController = Ember.ObjectController.extend({
 	id_concept: null,
 	roundIdentification: null,

@@ -5,6 +5,22 @@ var UserData = Ember.Object.extend({
 	name: ''
 });
 
+var Feedback = Ember.Object.extend({
+	send: function (data, callback) {
+		var self = this;
+		var request = Ember.$.ajax({
+			type: "POST",
+			url: App.Contact.FEEDBACK_URL,
+			data: data
+		});
+		request.then(function (response) {
+			if (typeof callback !== 'undefined') {
+				callback(response);
+			}
+		});
+	}
+});
+
 var AuthManager = Ember.Object.extend({
 
 	init: function() {

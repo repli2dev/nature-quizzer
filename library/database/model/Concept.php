@@ -71,6 +71,15 @@ class Concept extends Table
 			->fetchAll();
 	}
 
+	public function getQuickWithInfo($idLanguage)
+	{
+		return $this->getTable()
+			->select('concept.*, :concept_info.*')
+			->where('id_language', $idLanguage)
+			->where('quick', TRUE)
+			->fetchAll();
+	}
+
 	private function getInfoTable()
 	{
 		return $this->context->table('concept_info');

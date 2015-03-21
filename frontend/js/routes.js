@@ -1,5 +1,6 @@
 App.Router.map(function () {
 	this.resource('about');
+	this.resource('contact');
 	this.resource('facebook-login-problem');
 	this.resource('google-login-problem');
 	this.resource('play', { path: '/play/:id_concept' });
@@ -18,10 +19,18 @@ App.ApplicationRoute = Ember.Route.extend({
 		this._super();
 		// Instantiate authentication manager to handle user login/logout management
 		App.AuthManager = AuthManager.create();
+		App.Feedback = Feedback.create();
 	}
 });
-
 App.IndexRoute = Ember.Route.extend({
+	model: App.Concept.getQuick
+});
+
+App.ContactRoute = Ember.Route.extend({
+});
+
+
+App.ConceptsRoute = Ember.Route.extend({
 	model: App.Concept.getAll
 });
 

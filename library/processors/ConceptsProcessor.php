@@ -81,4 +81,24 @@ class ConceptsProcessor extends Object
 		$output['groups'] = array_values($output['groups']);
 		return $output;
 	}
+
+	public function getQuick()
+	{
+		$concepts = $this->concept->getQuickWithInfo($this->currentLanguage->get());
+		if ($concepts === NULL) {
+			new RequestProcessorException('No concepts found.', 2000);
+		}
+
+		$output = ['concepts' => []];
+
+		foreach ($concepts as $concept) {
+			$output['concepts'][] = [
+				'id_concept' => $concept->id_concept,
+				'code_name' => $concept->code_name,
+				'name' => $concept->name,
+				'description' => $concept->description
+			];
+		}
+		return $output;
+	}
 }

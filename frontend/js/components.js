@@ -21,3 +21,18 @@ App.LoginFormComponent = Ember.Component.extend({
 		}
 	}
 });
+
+App.ContactFormComponent = Ember.Component.extend({
+	actions: {
+		submit: function() {
+			var self = this;
+			this.sendAction('submit', {
+				text: this.get('text'),
+				email: this.get('email')
+			}, function () {
+				self.set('text', '');
+				self.set('email', '');
+			});
+		}
+	}
+});

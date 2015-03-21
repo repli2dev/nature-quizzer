@@ -1,0 +1,20 @@
+<h2>Napište nám</h2>
+
+<p>Máte nějaký nápad na vylepšení této aplikace? Narazili jste na chybu? Máte jiný komentář, nápad či postřeh? Napište nám. Děkujeme :-)</p>
+
+{{#if errors.length}}
+	<div class="flash error">
+		Odeslání zprávy se nezdařilo:<br />
+		<ul>
+			{{#each errors}}
+				<li>{{this}}</li>
+			{{/each}}
+		</ul>
+	</div>
+{{/if}}
+{{#if result}}
+	<div class="flash success">
+		{{result}}
+	</div>
+{{/if}}
+{{contact-form submit="send" submitTitle='Odeslat'}}

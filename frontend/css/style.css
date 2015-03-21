@@ -113,7 +113,7 @@ div.cleaner {
 	min-height: 500px;
 }
 #content-center {
-	max-width: 1200px;
+	max-width: 1000px;
 	text-align: left;
 	margin: auto;
 	padding: 20px;
@@ -124,9 +124,43 @@ div.cleaner {
 	text-align: center;
 }
 #footer-center {
-	max-width: 1200px;
+	max-width: 780px;
 	text-align: left;
 	margin: auto;
+}
+.more-about {
+	float: left;
+	width: 150px;
+	margin-top: 15px;
+	margin-right: 50px;
+}
+.more-about ul {
+	list-style: none;
+	margin-top: 0px;
+	padding-left: 0px;
+}
+.other-projects {
+	float: left;
+	margin-right: 50px;
+	margin-top: 15px;
+}
+.other-projects ul {
+	list-style: none;
+	margin-top: 5px;
+	padding-left: 0px;
+}
+.more-about ul li,
+.other-projects ul li {
+	margin-bottom: 5px;
+}
+.institutions {
+	margin-top: 20px;
+}
+.institutions a {
+	margin-right: 20px;
+}
+.institutions a:hover {
+	background: inherit;
 }
 
 #window {
@@ -422,4 +456,9 @@ div.flash {
 	color: #fff;
 	background-color: #d9534f;
 	border-color: #d43f3a;
+}
+
+.quick-choice {
+	background: #F7DB5E;
+	padding: 20px;
 }

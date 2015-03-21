@@ -155,6 +155,7 @@ class ConceptPresenter extends BasePresenter
 			->setRequired('Please enter concept code name.');
 		$form->addSelect('id_group', 'Group', $this->groupModel->getPairs())
 			->setPrompt('No group');
+		$form->addCheckbox('quick', 'Favourite');
 
 		$form->setCurrentGroup(null);
 
@@ -183,6 +184,7 @@ class ConceptPresenter extends BasePresenter
 		$grid->addCellsTemplate(__DIR__ . '/../grids/concepts-list.latte');
 		$grid->addColumn('id_concept', 'ID');
 		$grid->addColumn('code_name', 'Code name');
+		$grid->addColumn('quick', 'Favourite');
 
 		return $grid;
 	}

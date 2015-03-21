@@ -1,19 +1,23 @@
-<h2>Témata</h2>
-<p>Vyberte si jaké téma, respektive oblast přírody se chcete začít učit a stiskněte <strong>Řešit</strong>.</p>
-{{#each category in model}}
-	<div class="group">
-		{{#if others}}
-			<h2>Ostatní</h2>
-		{{/if}}
-		<h2>{{category.name}}</h2>
-		{{#each concept in category.concepts}}
-			<div class="concept">
-				{{#link-to 'play' concept.id_concept classNames="start-button"}}Řešit{{/link-to}}
+<div class="quick-choice">
+	<h2>Procvičovátko přírody</h2>
+	{{#each concept in concepts}}
+		<div class="concept">
+			{{#link-to 'play' concept.id_concept classNames="start-button"}}Řešit{{/link-to}}
 
-				<span class="concept-name">{{concept.name}}</span>
-				<span class="concept-description">{{concept.description}}</span>
-				<div class="cleaner"></div>
-			</div>
-		{{/each}}
-	</div>
-{{/each}}
+			<span class="concept-name">{{concept.name}}</span>
+			<span class="concept-description">{{concept.description}}</span>
+			<div class="cleaner"></div>
+		</div>
+	{{/each}}
+</div>
+
+<h2>Jak to funguje?</h2>
+
+<b>Adaptabilní procvičování</b>
+<p>Naše aplikace nabízí adaptabilní procvičování, tedy aplikace se přizpůsobí tomu jaké již máte vědomosti a podle toho volí otázky a frekvenci opakování. Zároveň se aplikace snaží vybrat státy jejich procvičení je nejužitečnější a zároveň, tak aby vás to nepřestalo bavit.</p>
+
+<b>Specializovaný systém</b>
+<p>Obecných vyukových systémů na faktografické znalosti je na internetu spousta... naše aplikace se ale soustředí (a je tedy optimalizovaná) speciálně  na konkrétní oblast biologie užitečné pro laiky.</p>
+
+<b>Učení z dat</b>
+<p>Aplikace se snaží využít získaná data od uživatelů ke svému vlastnímu rozvoji. Aplikace se tak učí a není tedy potřeba žádného experta, aby zjistil, jak je která rostlina či zvíře těžké na naučení.</p>

@@ -11,13 +11,22 @@ App.User.LOGIN_URL = '/api/user-login';
 App.User.LOGOUT_URL = '/api/user-logout';
 App.User.PROFILE_URL = '/api/user-profile';
 App.User.REGISTER_URL = '/api/user-register';
+App.Contact = {};
+App.Contact.FEEDBACK_URL = '/api/feedback';
 App.Concept = {};
 App.Concept.ALL_URL = '/api/concepts';
+App.Concept.QUICK_URL = '/api/quick';
 App.Concept.URL = '/api/concept?conceptId=__CONCEPT__';
 
 App.Concept.getAll = function() {
 	return $.getJSON(App.Concept.ALL_URL).then(function (data) {
 		return data.groups;
+	});
+};
+
+App.Concept.getQuick = function() {
+	return $.getJSON(App.Concept.QUICK_URL).then(function (data) {
+		return data;
 	});
 };
 

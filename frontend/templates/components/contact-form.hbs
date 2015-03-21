@@ -1,0 +1,11 @@
+<form {{action "submit" on="submit"}}>
+	<div class="pair">
+		{{textarea value=text cols="80" rows="6"}}
+	</div>
+	<div class="pair">
+		{{input value=email placeholder='E-mail'}}
+	</div>
+	<div class="pair">
+		<input type="submit" {{bind-attr value=submitTitle}}>
+	</div>
+</form>

@@ -6,6 +6,7 @@ namespace NatureQuizzer\Presenters;
 use Exception;
 use NatureQuizzer\Processors\AnswerProcessor;
 use NatureQuizzer\Processors\ConceptsProcessor;
+use NatureQuizzer\Processors\FeedbackProcessor;
 use NatureQuizzer\Processors\QuestionsProcessor;
 use NatureQuizzer\Processors\UserProcessor;
 use NatureQuizzer\RequestProcessorException;
@@ -23,14 +24,18 @@ class ApiPresenter extends BasePresenter
 	private $questionsProcessor;
 	/** @var UserProcessor */
 	private $userProcessor;
+	/** @var FeedbackProcessor */
+	private $feedbackProcessor;
 
 	public function injectBase(AnswerProcessor $answerProcessor, ConceptsProcessor $conceptsProcessor,
-							   QuestionsProcessor $questionsProcessor, UserProcessor $userProcessor)
+							   QuestionsProcessor $questionsProcessor, UserProcessor $userProcessor,
+							   FeedbackProcessor $feedbackProcessor)
 	{
 		$this->answerProcessor = $answerProcessor;
 		$this->conceptsProcessor = $conceptsProcessor;
 		$this->questionsProcessor = $questionsProcessor;
 		$this->userProcessor = $userProcessor;
+		$this->feedbackProcessor = $feedbackProcessor;
 	}
 
 	public function actionConcept($conceptId)
@@ -52,6 +57,20 @@ class ApiPresenter extends BasePresenter
 	{
 		try {
 			$output = $this->conceptsProcessor->getAll();
+			$this->sendJson($output);
+		} catch (RequestProcessorException $ex) {
+			$this->sendErrorJSON($ex->getCode(), $ex->getMessage());
+		} catch (AbortException $ex) {
+			throw $ex;
+		} catch (Exception $ex) {
+			Debugger::log($ex, Debugger::EXCEPTION);
+			$this->sendErrorJSON(0, 'Unknown error');
+		}
+	}
+	public function actionQuick()
+	{
+		try {
+			$output = $this->conceptsProcessor->getQuick();
 			$this->sendJson($output);
 		} catch (RequestProcessorException $ex) {
 			$this->sendErrorJSON($ex->getCode(), $ex->getMessage());
@@ -85,10 +104,11 @@ class ApiPresenter extends BasePresenter
 		$this->terminate();
 	}
 
-	public function actionReset()
+	public function actionFeedback()
 	{
-		$this->user->logout(true);
-		$this->session->clean();
+		$data = $this->request->getPost();
+		$output = $this->feedbackProcessor->send($data);
+		$this->sendJson($output);
 		$this->terminate();
 	}
 

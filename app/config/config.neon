@@ -11,6 +11,8 @@ parameters:
 	google:
 		clientId:
 		clientSecret:
+	mails:
+		feedback: jan.drabek@mail.muni.cz
 
 
 php:
@@ -49,6 +51,7 @@ services:
 	- NatureQuizzer\Runtime\CurrentRound
 	- NatureQuizzer\Processors\AnswerProcessor
 	- NatureQuizzer\Processors\ConceptsProcessor
+	- NatureQuizzer\Processors\FeedbackProcessor
 	- NatureQuizzer\Processors\QuestionsProcessor
 	- NatureQuizzer\Processors\UserProcessor
 	- NatureQuizzer\Model\Utils\UserAnswerFactory
