@@ -236,7 +236,8 @@ App.FacebookLoginProblemController = Ember.ObjectController.extend({
 	type: null,
 	isTheirFailure: function() { return this.type == 1; }.property("this.type"),
 	isUnknownFailure: function() { return this.type == 2; }.property("this.type"),
-	isRegistrationFailure: function() { return this.type == 3; }.property("this.type")
+	isRegistrationFailure: function() { return this.type == 3; }.property("this.type"),
+	isUnavailability: function() { return this.type == 4; }.property("this.type")
 });
 
 App.GoogleLoginProblemController = Ember.ObjectController.extend({
@@ -244,5 +245,6 @@ App.GoogleLoginProblemController = Ember.ObjectController.extend({
 	type: null,
 	isTheirFailure: function() { return this.type == 1; }.property("this.type"),
 	isUnknownFailure: function() { return this.type == 2; }.property("this.type"),
-	isRegistrationFailure: function() { return this.type == 3; }.property("this.type")
+	isRegistrationFailure: function() { return this.type == 3; }.property("this.type"),
+	isUnavailability: function() { return this.type == 4; }.property("this.type")
 });

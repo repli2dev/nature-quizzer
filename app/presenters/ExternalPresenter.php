@@ -39,7 +39,11 @@ class ExternalPresenter extends BasePresenter
 				throw $ex;
 			}
 			Debugger::log($ex, ILogger::EXCEPTION);
-			$this->redirect('Homepage:default#/facebook-login-problem?type=1');
+			if ($ex->getCode() === Facebook::NOT_AVAILABLE) {
+				$this->redirect('Homepage:default#/facebook-login-problem?type=4');
+			} else {
+				$this->redirect('Homepage:default#/facebook-login-problem?type=1');
+			}
 			$this->terminate();
 		}
 		if ($result == NULL) {
@@ -68,7 +72,11 @@ class ExternalPresenter extends BasePresenter
 				throw $ex;
 			}
 			Debugger::log($ex, ILogger::EXCEPTION);
-			$this->redirect('Homepage:default#/google-login-problem?type=1');
+			if ($ex->getCode() === Google::NOT_AVAILABLE) {
+				$this->redirect('Homepage:default#/google-login-problem?type=4');
+			} else {
+				$this->redirect('Homepage:default#/google-login-problem?type=1');
+			}
 			$this->terminate();
 		}
 		if ($result == NULL) {

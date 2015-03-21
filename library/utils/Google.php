@@ -20,8 +20,12 @@ use Nette\Http\Session;
  */
 class Google
 {
+	const NOT_AVAILABLE = 1;
+
 	private $clientId;
 	private $clientSecret;
+
+	private $initialized = FALSE;
 
 	/** @var Response */
 	private $response;
@@ -39,15 +43,26 @@ class Google
 		$this->session = $session;
 
 		$params = $container->getParameters();
-		if (!isset($params['google']['clientId']) || !isset($params['google']['clientSecret'])) {
-			throw new Exception('Invalid Google configuration. Please check that [clientId] and [clientSecret] are set properly.');
+		if (isset($params['google']['clientId'])) {
+			$this->clientId = $params['google']['clientId'];
 		}
-		$this->clientId = $params['google']['clientId'];
-		$this->clientSecret = $params['google']['clientSecret'];
+		if (isset($params['google']['clientSecret'])) {
+			$this->clientSecret = $params['google']['clientSecret'];
+		}
 
 		$this->client = new Google_Client();
-		$this->client->setClientId($params['google']['clientId']);
-		$this->client->setClientSecret($params['google']['clientSecret']);
+		if ($this->clientId && $this->clientSecret) {
+			$this->client->setClientId($params['google']['clientId']);
+			$this->client->setClientSecret($params['google']['clientSecret']);
+			$this->initialized = TRUE;
+		}
+	}
+
+	private function ensureInitialized()
+	{
+		if (!$this->initialized) {
+			throw new Exception('Facebook authentication is not available at the moment.', self::NOT_AVAILABLE);
+		}
 	}
 
 	/**
@@ -59,6 +74,7 @@ class Google
 	 */
 	public function authenticate($redirectUrl)
 	{
+		$this->ensureInitialized();
 
 		$securityToken = $this->getSecurityToken();
 
@@ -107,7 +123,7 @@ class Google
 			}
 
 		} else {
-			$this->response->redirect($client->createAuthUrl() /*$this->getLoginUrl($redirectUrl) */);
+			$this->response->redirect($client->createAuthUrl());
 			throw new AbortException();
 		}
 	}

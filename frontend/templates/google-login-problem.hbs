@@ -1,16 +1,18 @@
-<h2>Problém při přihlášení pomocí Google Plus</h2>
-<p>Nastal problém při vašem přihlášení za použití služby Google Plus. </p>
+<h2>Problém při přihlášení přes Google Plus</h2>
+<p>Během přihlašování pomocí služby Google Plus nastal problém:</p>
 
-<b>
-	{{#if isTheirFailure}}
-		<p>Došlo k selhání na straně Google, je možné, že jste aplikaci odmítili autorizovat. Zkuste akci opakovat a pokud problém přetrvá, kontaktujte nás.</p>
-	{{/if}}
+{{#if isTheirFailure}}
+	<div class="flash error">Došlo k selhání na straně Google, je možné, že jste aplikaci odmítili autorizovat. Zkuste akci opakovat a pokud problém přetrvá, kontaktujte nás.</div>
+{{/if}}
 
-	{{#if isUnknownFailure}}
-		<p>Došlo k neznámému selhání. Prosím, kontaktujte nás.</p>
-	{{/if}}
+{{#if isUnknownFailure}}
+	<div class="flash error">Došlo k neznámému selhání. Prosím, kontaktujte nás.</div>
+{{/if}}
 
-	{{#if isRegistrationFailure}}
-		<p>Došlo k problémům s vytvářením vašeho účtu u nás. Prosím, kontaktujte nás.</p>
-	{{/if}}
-</b>
+{{#if isRegistrationFailure}}
+	<div class="flash error">Došlo k problémům s vytvářením vašeho účtu u nás. Prosím, kontaktujte nás.</div>
+{{/if}}
+
+{{#if isUnavailability}}
+	<div class="flash error">Přihlašování přes Google Plus je momentálně nedostupné. Prosím, kontaktujte nás.</div>
+{{/if}}

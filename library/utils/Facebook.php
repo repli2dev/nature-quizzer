@@ -24,6 +24,9 @@ class Facebook
 	const FACEBOOK_ERROR = 1;
 	const UNKNOWN_ERROR = 2;
 	const AFTER_LOGIN_ERROR = 3;
+	const NOT_AVAILABLE = 4;
+
+	private $initialized = FALSE;
 
 	private $appId;
 	private $appSecret;
@@ -36,13 +39,24 @@ class Facebook
 		$this->response = $response;
 
 		$params = $container->getParameters();
-		if (!isset($params['facebook']['appId']) || !isset($params['facebook']['appSecret'])) {
-			throw new Exception('Invalid Facebook configuration. Please check that [appId] and [appSecret] are set properly.');
+		if (isset($params['facebook']['appId'])) {
+			$this->appId = $params['facebook']['appId'];
 		}
-		$this->appId = $params['facebook']['appId'];
-		$this->appSecret = $params['facebook']['appSecret'];
+		if (isset($params['facebook']['appSecret'])) {
+			$this->appSecret = $params['facebook']['appSecret'];
+		}
 
-		FacebookSession::setDefaultApplication($this->appId, $this->appSecret);
+		if ($this->appId && $this->appSecret) {
+			FacebookSession::setDefaultApplication($this->appId, $this->appSecret);
+			$this->initialized = TRUE;
+		}
+	}
+
+	private function ensureInitialized()
+	{
+		if (!$this->initialized) {
+			throw new Exception('Facebook authentication is not available at the moment.', self::NOT_AVAILABLE);
+		}
 	}
 
 	/**
@@ -54,6 +68,8 @@ class Facebook
 	 */
 	public function authenticate($redirectUrl)
 	{
+		$this->ensureInitialized();
+
 		$helper = new FacebookRedirectLoginHelper($redirectUrl);
 		$session = NULL;
 		try {

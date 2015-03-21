@@ -1,16 +1,18 @@
-<h2>Problém při přihlášení pomocí Facebooku</h2>
-<p>Nastal problém při vašem přihlášení při přihlášení skrze Facebook. </p>
+<h2>Problém při přihlášení přes Facebooku</h2>
+<p>Během přihlašování pomocí služby Facebook nastal problém:</p>
 
-<b>
-	{{#if isTheirFailure}}
-		<p>Došlo k selhání na straně Facebooku, je možné, že jste aplikaci odmítili autorizovat. Zkuste akci opakovat a pokud problém přetrvá, kontaktujte nás.</p>
-	{{/if}}
+{{#if isTheirFailure}}
+	<div class="flash error">Došlo k selhání na straně Facebooku, je možné, že jste aplikaci odmítili autorizovat. Zkuste akci opakovat později a pokud problém přetrvá, kontaktujte nás.</div>
+{{/if}}
 
-	{{#if isUnknownFailure}}
-		<p>Došlo k neznámému selhání. Prosím, kontaktujte nás.</p>
-	{{/if}}
+{{#if isUnknownFailure}}
+	<div class="flash error">Došlo k neznámému selhání. Prosím, kontaktujte nás.</div>
+{{/if}}
 
-	{{#if isRegistrationFailure}}
-		<p>Došlo k problémům s vytvářením vašeho účtu u nás. Prosím, kontaktujte nás.</p>
-	{{/if}}
-</b>
+{{#if isRegistrationFailure}}
+	<div class="flash error">Došlo k problémům při vytvářením vašeho účtu u nás. Prosím, kontaktujte nás.</div>
+{{/if}}
+
+{{#if isUnavailability}}
+	<div class="flash error">Přihlašování přes Facebook je momentálně nedostupné. Prosím, kontaktujte nás.</div>
+{{/if}}
