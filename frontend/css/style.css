@@ -326,32 +326,32 @@ div.question-choose-representation {
 div.question-image-options {
 
 }
+
 span.question-text-option,
 span.question-image-option {
 	display: block;
 	position: relative;
 	margin-bottom: 15px;
-	background: white;
+	background: #f6f4f1;
 	padding: 20px;
 	border-radius: 5px;
-	border: 5px solid #e0dedb;
 	cursor: pointer;
 	color: gray;
 }
-span.question-text-option:hover,
-span.question-image-option:hover {
-	border: 5px solid black;
+
+span.question-text-option:hover {
+	background: #e0dedb;
 	color: black;
 }
-
-span.question-text-option {
+span.question-image-option:hover {
+	background: #9e9c99;
 }
 
 span.question-image-option {
 	vertical-align: middle;
 	display: inline-block;
 	margin-right: 20px;
-	padding: 0px;
+	padding: 8px;
 }
 
 span.question-image-option img {
@@ -365,22 +365,31 @@ span.dummy-cleaner:nth-of-type(1) {
 }
 span.correct,
 span.correct:hover {
-	color: black;
-	border: 5px solid #238319;
-	box-shadow: 0px 0px 10px #238319;
-	background: #9EE597;
+	color: white;
+	background: #59CA4D;
 	transition: background-color 150ms;
 	transition: border-color 150ms;
 }
 span.wrong,
 span.wrong:hover {
-	color: black;
-	border: 5px solid #F35C64;
-	box-shadow: 0px 0px 10px #F35C64;
-	background: #F9A4A8;
+	color: white;
+	background: #F9858B;
 	transition: background-color 150ms;
 	transition: border-color 150ms;
 }
+span.wrong {
+	-webkit-animation: wrong-nod 600ms linear;
+	-moz-animation: wrong-nod 600ms linear;
+	-o-animation: wrong-nod 600ms linear;
+	animation: wrong-nod 600ms linear;
+}
+span.correct {
+	-webkit-animation: correct-shine 600ms linear;
+	-moz-animation: correct-shine 600ms linear;
+	-o-animation: correct-shine 600ms linear;
+	animation: correct-shine 600ms linear;
+}
+
 span.dead-end,
 span.continue {
 	display: inline-block;
@@ -393,25 +402,25 @@ span.continue {
 	width: 40px;
 	font-weight: bold;
 	text-align: center;
+	border-bottom-right-radius: 5px;
+	border-top-right-radius: 5px;
 }
 span.wrong span.dead-end {
 	visibility: visible;
 	opacity: 1;
-	background: rgb(243, 92, 100);
+	background: #F9858B;
 	transition: opacity 0.3s;
-}
-span.correct span.continue {
-	width: 60px;
 }
 span.correct:hover span.continue {
 	width: 90px;
 	transition: width 300ms;
+
 }
 span.correct span.continue {
 	visibility: visible;
 	opacity: 1;
-	background: #238319;
-	transition: opacity 0.3s;
+	background: #52ac47;
+	transition: opacity 0.3s, width 300ms;
 }
 
 .question-image-option span.dead-end span,
@@ -424,7 +433,7 @@ span.correct span.continue {
 .question-text-option span.dead-end span,
 .question-text-option span.continue span {
 	position: absolute;
-	top: 25%;
+	top: 27%;
 	right: 10px;
 }
 
@@ -461,4 +470,27 @@ div.flash {
 .quick-choice {
 	background: #F7DB5E;
 	padding: 20px;
+	margin-top: -20px;
+}
+.narrow-column {
+	width: 780px;
+	margin: auto;
+	padding: 20px;
+}
+.adaptive {
+	margin-bottom: 30px;
+	background: url('../images/adaptive.png') no-repeat;
+	padding-left: 85px;
+}
+
+.specialized-system {
+	background: url('../images/specialized-system.png') no-repeat;
+	padding-left: 85px;
+	margin-bottom: 30px;
+}
+
+.data-learning {
+	background: url('../images/data-learning.png') no-repeat;
+	padding-left: 85px;
+	margin-bottom: 30px;
 }

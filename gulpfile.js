@@ -20,6 +20,7 @@ var paths = {
 		'frontend/js/netteForms.js'
 	],
 	stylesFrontend: [
+		'frontend/css/animations.css',
 		'frontend/css/style.css',
 		'frontend/css/forms.css',
 		'frontend/css/responsive.css'

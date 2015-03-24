@@ -1,23 +1,25 @@
-<h2>Registrace uživatele</h2>
-{{partial "processing"}}
-{{#unless logged}}
-	<h3>Přes externí služby</h3>
-	{{partial "external-logins"}}
+<div class="narrow-column">
+	<h2>Registrace uživatele</h2>
+	{{partial "processing"}}
+	{{#unless logged}}
+		<h3>Přes externí služby</h3>
+		{{partial "external-logins"}}
 
-	<h3>Pomocí e-mailu</h3>
+		<h3>Pomocí e-mailu</h3>
 
-	{{#if errors.length}}
-		<div class="flash error">
-			Registrace se nezdařila:<br />
-			<ul>
-				{{#each errors}}
-					<li>{{this}}</li>
-				{{/each}}
-			</ul>
-		</div>
+		{{#if errors.length}}
+			<div class="flash error">
+				Registrace se nezdařila:<br />
+				<ul>
+					{{#each errors}}
+						<li>{{this}}</li>
+					{{/each}}
+				</ul>
+			</div>
+		{{/if}}
+		{{register-form submit="register" submitTitle='Registrovat a přihlásit'}}
+	{{/unless}}
+	{{#if logged}}
+		{{partial "welcome-screen"}}
 	{{/if}}
-	{{register-form submit="register" submitTitle='Registrovat a přihlásit'}}
-{{/unless}}
-{{#if logged}}
-	{{partial "welcome-screen"}}
-{{/if}}
+</div>

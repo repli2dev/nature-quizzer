@@ -1,12 +1,14 @@
-<h2>Hotovo!</h2>
-<p>A zase umíte o kousek více,&hellip; vyberte si čím chcete pokračovat.</p>
+<div class="narrow-column">
+	<h2>Hotovo!</h2>
+	<p>A zase umíte o kousek více,&hellip; vyberte si čím chcete pokračovat.</p>
 
-<div>
-	{{#if mix}}
-		{{#link-to 'play' 'mix' classNames='button'}}Pokračovat{{/link-to}}
-	{{/if}}
-	{{#if id_concept}}
-		{{#link-to 'play' id_concept classNames='button'}}Pokračovat{{/link-to}}
-	{{/if}}
-	{{#link-to 'index' classNames='button'}}Vybrat si nové téma{{/link-to}}
+	<div>
+		{{#if mix}}
+			{{#link-to 'play' 'mix' classNames='button'}}Pokračovat{{/link-to}}
+		{{/if}}
+		{{#if id_concept}}
+			{{#link-to 'play' id_concept classNames='button'}}Pokračovat{{/link-to}}
+		{{/if}}
+		{{#link-to 'index' classNames='button'}}Vybrat si nové téma{{/link-to}}
+	</div>
 </div>
