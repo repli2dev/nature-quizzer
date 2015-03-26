@@ -3,7 +3,7 @@
 	<p>Vyberte si okruh procvičování:</p>
 	<div id="quick-buttons">
 		{{#each concept in concepts}}
-			{{#link-to 'play' concept.id_concept classNames="button"}}{{concept.name}}{{/link-to}}
+			{{#link-to 'play' concept.id_concept classNames="quick-button"}}{{concept.name}}{{/link-to}}
 		{{/each}}
 		<div class="cleaner" />
 	</div>
