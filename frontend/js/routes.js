@@ -31,7 +31,13 @@ App.ContactRoute = Ember.Route.extend({
 
 
 App.ConceptsRoute = Ember.Route.extend({
-	model: App.Concept.getAll
+	model: App.Concept.getAll,
+	resetController: function (controller, isExiting, transition) {
+		if (isExiting) {
+			controller.set('invalid', null);
+			controller.set('interruption', null);
+		}
+	}
 });
 
 App.ResultRoute = Ember.Route.extend({
@@ -45,6 +51,11 @@ App.PlayRoute = Ember.Route.extend({
 		return App.Play.getQuestions(params.id_concept);
 	},
 	setupController: function (controller, model) {
+		// Check that on initial route there are any data
+		if (model.questions.length == 0) {
+			controller.transitionToRoute('concepts', {queryParams: {invalid: true, interruption: null}});
+			return;
+		}
 		controller.set('roundIdentification', App.Utils.getRoundIdentification());
 		controller.set('model', model);
 		controller.set('questionCurrent', 1);

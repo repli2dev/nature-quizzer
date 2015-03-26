@@ -6,7 +6,7 @@
 			{{/if}}
 			{{concept.name}}
 		</div>
-		<div class="window-close">{{#link-to "index"}}&#x2715;{{/link-to}}</div>
+		<div class="window-close">{{#link-to "concepts" (query-params interruption=1 invalid="null")}}&#x2715;{{/link-to}}</div>
 		<div class="window-info">
 			<progress {{bind-attr value="progressValue"}} {{bind-attr max="progressMax"}}></progress>
 			&nbsp;{{questionCurrent}}/{{questionMaxCount}}

@@ -12,6 +12,12 @@ App.ApplicationController = Ember.Controller.extend({
 	}.property('App.AuthManager.data')
 });
 
+App.ConceptsController = Ember.ObjectController.extend({
+	queryParams: ['invalid', 'interruption'],
+	invalid: null,
+	interruption: null
+});
+
 App.UserLoginController = Ember.ObjectController.extend({
 	facebookLoginLink: App.External.FACEBOOK_LOGIN_URL,
 	googleLoginLink: App.External.GOOGLE_LOGIN_URL,
@@ -135,8 +141,20 @@ App.PlayController = Ember.ObjectController.extend({
 	progressValue: function() { return this.questionCurrent - 1;}.property('this.questionCurrent'),
 	progressMax: function() { return this.questionMaxCount;}.property('this.questionMaxCount'),
 	question: function() { return this.get('model').questions[0]; }.property('this.model'), // Workaround for some weird #with macro problems
-	isChooseRepresentationQuestion: function () { return this.get('model').questions[0].type == 1; }.property('this.model'),
-	isChooseNameQuestion: function () { return this.get('model').questions[0].type == 2;}.property('this.model'),
+	isChooseRepresentationQuestion: function () {
+		var model = this.get('model');
+		if (model != null && model.hasOwnProperty('questions')) {
+			return model.questions[0].type == 1;
+		}
+		return false;
+	}.property('this.model'),
+	isChooseNameQuestion: function () {
+		var model = this.get('model');
+		if (model != null && model.hasOwnProperty('questions')) {
+			return model.questions[0].type == 2;
+		}
+		return false;
+	}.property('this.model'),
 
 	answered: false,	// True means that answering of current question was finished (correct was selected)
 	markedAnswers: [],	// Answers marked (selected) by the user

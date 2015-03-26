@@ -1,5 +1,14 @@
 <h2>Témata</h2>
 <p>Vyberte si jaké téma, respektive oblast přírody se chcete začít učit a stiskněte <strong>Řešit</strong>.</p>
+
+{{#if invalid}}
+	<div class="flash error">Omlouváme se, ale toto téma je momentálně neprovozuschopné. Zkuste to, prosím, později.</div>
+{{/if}}
+
+{{#if interruption}}
+	<div class="flash info">Zkuste si vybrat jiné téma :-)</div>
+{{/if}}
+
 {{#each category in model}}
 	<div class="group">
 		{{#if others}}
