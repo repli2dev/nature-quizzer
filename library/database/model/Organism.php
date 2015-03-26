@@ -146,12 +146,12 @@ class Organism extends Table
 				(SELECT value FROM prior_knowledge WHERE id_user = ?) AS prior_knowledge,
 				current_knowledge.value AS current_knowledge
 			FROM organism
-			LEFT JOIN answer USING (id_organism)
-			LEFT JOIN round USING(id_round)
-			LEFT JOIN prior_knowledge USING (id_user)
-			LEFT JOIN current_knowledge USING (id_user, id_organism)
-			WHERE (id_user = ? OR id_user IS NULL) AND (? IS NULL OR organism.id_organism IN (SELECT id_organism FROM organism_concept WHERE id_concept = ?))
-			GROUP BY organism.id_organism, id_user, prior_knowledge.value, current_knowledge.value
+			LEFT JOIN answer ON answer.id_organism = organism.id_organism
+			LEFT JOIN round on round.id_round = answer.id_round AND round.id_user = ?
+			LEFT JOIN prior_knowledge ON prior_knowledge.id_user = round.id_user
+			LEFT JOIN current_knowledge ON current_knowledge.id_user = round.id_user AND current_knowledge.id_organism = organism.id_organism
+			WHERE (? IS NULL OR organism.id_organism IN (SELECT id_organism FROM organism_concept WHERE id_concept = ?))
+			GROUP BY organism.id_organism, round.id_user, prior_knowledge.value, current_knowledge.value
 		', $userId, $userId, $conceptId, $conceptId);
 	}
 }

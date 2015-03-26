@@ -2,12 +2,14 @@
 namespace NatureQuizzer\Processors;
 
 use Exception;
+use NatureQuizzer\Database\Model\Round;
 use NatureQuizzer\Database\Model\User as UserModel;
 use NatureQuizzer\Runtime\CurrentUser;
 use Nette\Forms\Form;
 use Nette\Object;
 use Nette\Security\AuthenticationException;
 use Nette\Security\IAuthenticator;
+use Nette\Security\Identity;
 use Nette\Security\Passwords;
 use Nette\Security\User;
 use Nette\Utils\DateTime;
@@ -23,12 +25,15 @@ class UserProcessor extends Object
 
 	/** @var CurrentUser */
 	private $currentUser;
+	/** @var Round */
+	private $round;
 
-	public function __construct(User $user, UserModel $userModel, CurrentUser $currentUser)
+	public function __construct(User $user, UserModel $userModel, Round $round, CurrentUser $currentUser)
 	{
 		$this->user = $user;
 		$this->userModel = $userModel;
 		$this->currentUser = $currentUser;
+		$this->round = $round;
 	}
 
 	public function profile()
@@ -61,7 +66,7 @@ class UserProcessor extends Object
 			try {
 				$this->user->login(Strings::lower($data['email']), $data['password']);
 				$output['status'] = 'success';
-				// TODO: reown stuff
+				$this->reownStuff($oldIdentity, $this->user->getIdentity());
 			} catch (AuthenticationException $ex) {
 				$output['status'] = 'fail';
 				if ($ex->getCode() == IAuthenticator::IDENTITY_NOT_FOUND) {
@@ -96,9 +101,10 @@ class UserProcessor extends Object
 				'inserted' => new DateTime(),
 				'anonymous' => TRUE
 			]);
+			$oldIdentity = $this->user->getIdentity();
 			try {
 				$this->user->login(Strings::lower($data['email']), $data['password']);
-				// reown stuff
+				$this->reownStuff($oldIdentity, $this->user->getIdentity());
 			} catch (Exception $ex) {
 				$output['status'] = 'fail';
 				return $output;
@@ -161,10 +167,11 @@ class UserProcessor extends Object
 			}
 		}
 		// Login (expectation having an user now)
+		$oldIdentity = $this->user->getIdentity();
 		try {
 			$identity = $this->userModel->prepareIdentity($user, UserModel::USER_ROLE);
 			$this->user->login($identity);
-			// Reown stuff
+			$this->reownStuff($oldIdentity, $this->user->getIdentity());
 		} catch (Exception $ex) {
 			throw new Exception('Login by identity should not fail.');
 		}
@@ -204,13 +211,19 @@ class UserProcessor extends Object
 			}
 		}
 		// Login (expectation having an user now)
+		$oldIdentity = $this->user->getIdentity();
 		try {
 			$identity = $this->userModel->prepareIdentity($user, UserModel::USER_ROLE);
 			$this->user->login($identity);
-			// Reown stuff
+			$this->reownStuff($oldIdentity, $this->user->getIdentity());
 		} catch (Exception $ex) {
 			throw new Exception('Login by identity should not fail.');
 		}
+	}
+
+	private function reownStuff(Identity $oldIdentity, Identity $newIdentity)
+	{
+		$this->round->reownRounds($oldIdentity->getId(), $newIdentity->getId());
 	}
 
 	private function getLoginForm()

@@ -26,7 +26,7 @@ nette:
 		mapping:
 			*: NatureQuizzer\*Module\Presenters\*Presenter
 	session:
-		expiration: 14 days
+		expiration: 0
 	latte:
 		macros:
 			- Nextras\Latte\Macros\RedefineMacro::install
