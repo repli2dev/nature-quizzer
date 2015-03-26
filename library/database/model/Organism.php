@@ -118,6 +118,15 @@ class Organism extends Table
 		return $query->fetchAll();
 	}
 
+	public function getRepresentationsWithInfoByOrganisms($languageId, $organismIds)
+	{
+		$query = $this->getTable()
+			->select(':organism_representation.*, :organism_name.*')
+			->where('id_language', $languageId)
+			->where('organism.id_organism', $organismIds);
+		return $query->fetchAll();
+	}
+
 	private function getInfoTable()
 	{
 		return $this->context->table('organism_name');
@@ -127,7 +136,7 @@ class Organism extends Table
 		return $this->context->table('organism_representation');
 	}
 
-	public function getSelectionAttributes($userId)
+	public function getSelectionAttributes($userId, $conceptId = NULL)
 	{
 		return $this->context->query('
 			SELECT
@@ -141,8 +150,8 @@ class Organism extends Table
 			LEFT JOIN round USING(id_round)
 			LEFT JOIN prior_knowledge USING (id_user)
 			LEFT JOIN current_knowledge USING (id_user, id_organism)
-			WHERE id_user = ? OR id_user IS NULL
+			WHERE (id_user = ? OR id_user IS NULL) AND (? IS NULL OR organism.id_organism IN (SELECT id_organism FROM organism_concept WHERE id_concept = ?))
 			GROUP BY organism.id_organism, id_user, prior_knowledge.value, current_knowledge.value
-		', $userId, $userId);
+		', $userId, $userId, $conceptId, $conceptId);
 	}
 }

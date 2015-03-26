@@ -129,7 +129,7 @@ App.PlayController = Ember.ObjectController.extend({
 	id_concept: null,
 	roundIdentification: null,
 
-	questionMaxCount: 10,	// Total number of quiz questions
+	questionMaxCount: App.Play.DEFAULT_COUNT,	// Total number of quiz questions
 	questionCurrent: 1, // Starting from 1
 
 	progressValue: function() { return this.questionCurrent - 1;}.property('this.questionCurrent'),
@@ -146,7 +146,7 @@ App.PlayController = Ember.ObjectController.extend({
 	loadNextQuestion: function() {
 		this.set('isProcessing', true);
 		var self = this;
-		var request = App.Play.getQuestions(this.id_concept, this.questionMaxCount - this.questionCurrent);
+		var request = App.Play.getQuestions(this.id_concept, this.questionMaxCount - this.questionCurrent + 1); // +1 as the questionCurrent is already incremented
 		request.then(function(data) {
 			self.set('isProcessing', false);
 			self.set('model', data);
@@ -236,9 +236,12 @@ App.PlayController = Ember.ObjectController.extend({
 			// Mark answer as answered and evaluate its correctness
 			this.markedAnswers[selectedValue] = true;
 
+			console.log('0');
 			// Obtain correctness and mark it
 			var answerCorrect = this.evaluateAnswerCorrectness(selectedValue);
+			console.log('A');
 			this.highlightAnswer(selectedValue, answerCorrect);
+			console.log('B');
 
 			if (answerCorrect) {
 				var questionTime = App.Timetracking.end('question');

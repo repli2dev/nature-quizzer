@@ -82,7 +82,7 @@ class ApiPresenter extends BasePresenter
 		}
 	}
 
-	public function actionQuestions($conceptId, $count = 12)
+	public function actionQuestions($conceptId, $count = 10)
 	{
 		try {
 			$output = $this->questionsProcessor->get($conceptId, $count);

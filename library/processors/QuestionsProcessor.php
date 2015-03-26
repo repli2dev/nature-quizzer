@@ -30,23 +30,24 @@ class QuestionsProcessor extends Object
 		list ($this->currentUser, $this->currentLanguage, $this->concept, $this->organism, $this->questionSelection) = func_get_args();
 	}
 
-	public function get($conceptId, $count)
+	private function fetchConceptInfo($conceptId)
 	{
-		$count = min($count, 10);
 		if (Validators::isNumericInt($conceptId)) {
-			$concept = $conceptId;
 			$concept = $this->concept->getWithInfo($conceptId, $this->currentLanguage->get());
 			if ($concept === FALSE) {
 				throw new RequestProcessorException('No such concept.', 3000);
 			}
+			return $concept;
 		} else {
-			$concept = QuestionSelection::ALL_CONCEPTS;
+			return QuestionSelection::ALL_CONCEPTS;
 		}
-		$this->questionSelection->fetch($this->currentUser->get(), $concept);
+	}
+
+	private function prepareOutput($concept, $questions)
+	{
 		$output = [];
-		$output['count'] = null;
-		$output['questions'] = [];
-		if (Validators::isNumericInt($conceptId)) {
+		$output['count'] = count($questions);
+		if ($concept !== QuestionSelection::ALL_CONCEPTS) {
 			$output['concept'] = [
 				'id_concept' => $concept->id_concept,
 				'code_name' => $concept->code_name,
@@ -54,71 +55,17 @@ class QuestionsProcessor extends Object
 				'description' => $concept->description
 			];
 		} else {
-			$output['all'] = true;
+			$output['all'] = TRUE;
 		}
-		if (Validators::isNumericInt($conceptId)) {
-			$organisms = $this->organism->getRepresentationsWithInfo($this->currentLanguage->get(), $conceptId);
-		} else {
-			$organisms = $this->organism->getRepresentationsWithInfo($this->currentLanguage->get());
-		}
-		$temp = [];
-		foreach ($organisms as $row) {
-			$temp[$row->id_organism][] = $row;
-		}
-		shuffle($temp);
-		$output['count'] = $count;
-		$output['questions'] = [];
-		foreach ($temp as $organism) {
-			if (count($output['questions']) > $count) continue;
-			$questionType = (rand(0, 1) == 1) ? QuestionType::CHOOSE_NAME : QuestionType::CHOOSE_REPRESENTATION;
-			if ($questionType === QuestionType::CHOOSE_NAME) {
-				$question = [
-					'type' => $questionType,
-					'questionImage' => $this->getRepresentationImage($organism[0]->id_representation)
-				];
-				$options = [];
-				$options[] = ['id_organism' => $organism[0]->id_organism, 'text' => $organism[0]->name, 'correct' => true];
-				for ($i = 0; $i < 10; $i++) {
-					$item = array_rand($temp);
-					$item = $temp[$item];
-					if ($item == $organism) continue;
-					if (count($options) == 4) break;
-					$options[] = ['id_organism' => $item[0]->id_organism, 'text' => $item[0]->name, 'correct' => false];
-				}
-				shuffle($options);
-				$question['options'] = $options;
-			} elseif ($questionType === QuestionType::CHOOSE_REPRESENTATION) {
-				$question = [
-					'type' => $questionType,
-					'questionText' => $organism[0]->name
-				];
-				$options = [];
-				$options[] = [
-					'id_representation' => $organism[0]->id_representation,
-					'image' => $this->getRepresentationImage($organism[0]->id_representation),
-					'correct' => true
-				];
-				for ($i = 0; $i < 10; $i++) {
-					$item = array_rand($temp);
-					$item = $temp[$item];
-					if ($item == $organism) continue;
-					if (count($options) == 4) break;
-					$options[] = [
-						'id_representation' => $item[0]->id_representation,
-						'image' => $this->getRepresentationImage($item[0]->id_representation),
-						'correct' => false
-					];
-				}
-				shuffle($options);
-				$question['options'] = $options;
-			}
-			$output['questions'][] = $question;
-		}
+		$output['questions'] = $questions;
 		return $output;
 	}
 
-	private function getRepresentationImage($representationId)
+	public function get($conceptId, $count)
 	{
-		return Html::el('img')->src('/images/organisms/' . $representationId)->render();
+		$count = min($count, 10);
+		$concept = $this->fetchConceptInfo($conceptId);
+		$questions = $this->questionSelection->fetch($this->currentUser->get(), $concept, $count);
+		return $this->prepareOutput($concept, $questions);
 	}
 }
