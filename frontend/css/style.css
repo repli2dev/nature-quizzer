@@ -45,7 +45,7 @@ div.cleaner {
 	display: block;
 }
 #top-bar-center {
-	max-width: 1200px;
+	max-width: 1000px;
 	text-align: left;
 	margin: auto;
 	padding-top: 5px;
@@ -55,8 +55,14 @@ div.cleaner {
 	margin: 0px;
 	color: white;
 	text-shadow: 1px 1px 1px #088724;
-	width: 180px;
+	width: 150px;
 	float: left;
+}
+#logo {
+	padding-left: 60px;
+	height: 60px;
+	line-height: 60px;
+	background: url(../images/logo.png) no-repeat;
 }
 #menu-toogle {
 	display: none;
@@ -98,6 +104,7 @@ div.cleaner {
 	vertical-align: middle;
 	color: white;
 	text-align: center;
+	margin-top: 10px;
 }
 #user span.username {
 	margin-top: 10px;
@@ -471,6 +478,8 @@ div.flash {
 	background: #F7DB5E;
 	padding: 20px;
 	margin-top: -20px;
+	text-align: center;
+	font-size: 150%;
 }
 .narrow-column {
 	width: 780px;
