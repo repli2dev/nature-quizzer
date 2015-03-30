@@ -109,22 +109,36 @@ class Organism extends Table
 
 	public function getRepresentationsWithInfo($languageId, $conceptId = NULL)
 	{
-		$query = $this->getTable()
-			->select(':organism_representation.*, :organism_name.*, :organism_concept.id_concept')
-			->where('id_language', $languageId);
-		if ($conceptId !== NULL) {
-			$query = $query->where('id_concept', $conceptId);
-		}
-		return $query->fetchAll();
+		return $this->context->query('
+			SELECT
+				organism_representation.*,
+				organism_name.name,
+				organism_concept.id_concept
+			FROM organism_representation
+			LEFT JOIN organism_name USING (id_organism)
+			LEFT JOIN organism_concept USING (id_organism)
+			WHERE id_language = ? AND (? IS NULL OR id_concept = ?)
+		',
+			$languageId,
+			$conceptId,
+			$conceptId
+		)->fetchAssoc('id_organism[]');
 	}
 
 	public function getRepresentationsWithInfoByOrganisms($languageId, $organismIds)
 	{
-		$query = $this->getTable()
-			->select(':organism_representation.*, :organism_name.*')
-			->where('id_language', $languageId)
-			->where('organism.id_organism', $organismIds);
-		return $query->fetchAll();
+		return $this->context->query('
+			SELECT
+				organism_representation.*,
+				organism_name.name
+			FROM organism_representation
+			LEFT JOIN organism_name USING (id_organism)
+			LEFT JOIN organism_concept USING (id_organism)
+			WHERE id_language = ? AND id_organism IN (?)
+		',
+			$languageId,
+			$organismIds
+		)->fetchAssoc('id_organism[]');
 	}
 
 	private function getInfoTable()

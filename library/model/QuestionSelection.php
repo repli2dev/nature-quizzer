@@ -5,6 +5,7 @@ use NatureQuizzer\Database\Model\Organism;
 use NatureQuizzer\Database\Model\QuestionType;
 use NatureQuizzer\Runtime\CurrentLanguage;
 use Nette\Object;
+use Nette\Utils\ArrayHash;
 use Nette\Utils\Html;
 
 class QuestionSelection extends Object
@@ -35,7 +36,8 @@ class QuestionSelection extends Object
 		$otherOptions = $this->organism->getRepresentationsWithInfo($this->currentLanguage->get());
 
 		$questions = [];
-		foreach ($organisms as $organism) {
+		foreach ($organisms as $organismId => $organismRepresentations) {
+			$organism = ArrayHash::from($organismRepresentations[rand(0, count($organismRepresentations) - 1)]);
 			$questionType = (rand(0, 1) == 1) ? QuestionType::CHOOSE_NAME : QuestionType::CHOOSE_REPRESENTATION;
 			if ($questionType === QuestionType::CHOOSE_NAME) {
 				$questions[] = $this->prepareChooseNameQuestion($organism, $otherOptions);
@@ -55,8 +57,11 @@ class QuestionSelection extends Object
 		$options = [];
 		$options[] = ['id_organism' => $organism->id_organism, 'text' => $organism->name, 'correct' => TRUE];
 		for ($i = 0; $i < 10; $i++) {
-			$item = array_rand($otherOptions);
-			$item = $otherOptions[$item];
+			// Select other (confusing) organisms
+			$otherOrganism = array_rand($otherOptions);
+			$otherOrganism = $otherOptions[$otherOrganism];
+			// We are interested only in the name, so we can ignore other representation and take the first one.
+			$item = ArrayHash::from($otherOrganism[0]);
 			if ($item->id_organism == $organism->id_organism) continue;
 			if (count($options) == 4) break;
 			$options[] = ['id_organism' => $item->id_organism, 'text' => $item->name, 'correct' => FALSE];
@@ -79,8 +84,12 @@ class QuestionSelection extends Object
 			'correct' => TRUE
 		];
 		for ($i = 0; $i < 10; $i++) {
-			$item = array_rand($otherOptions);
-			$item = $otherOptions[$item];
+			// Select other (confusing) organisms
+			$otherOrganism = array_rand($otherOptions);
+			$otherOrganism = $otherOptions[$otherOrganism];
+			// Select random representation
+			$item = rand(0, count($otherOrganism) - 1);
+			$item = ArrayHash::from($otherOrganism[$item]);
 			if ($item->id_organism == $organism->id_organism) continue;
 			if (count($options) == 4) break;
 			$options[] = [
@@ -116,7 +125,6 @@ class QuestionSelection extends Object
 		}
 		arsort($scores);
 		$organisms = array_keys(array_slice($scores, 0, $count, true));
-		fdump($organisms);
 		return $organisms;
 	}
 

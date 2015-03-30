@@ -254,12 +254,9 @@ App.PlayController = Ember.ObjectController.extend({
 			// Mark answer as answered and evaluate its correctness
 			this.markedAnswers[selectedValue] = true;
 
-			console.log('0');
 			// Obtain correctness and mark it
 			var answerCorrect = this.evaluateAnswerCorrectness(selectedValue);
-			console.log('A');
 			this.highlightAnswer(selectedValue, answerCorrect);
-			console.log('B');
 
 			if (answerCorrect) {
 				var questionTime = App.Timetracking.end('question');
