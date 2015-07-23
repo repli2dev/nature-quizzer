@@ -8,7 +8,7 @@ Dependencies
 
 General:
 
- - PHP >= 5.5
+ - PHP >= 5.6
  - PostgreSQL >= 9.3
  - Node.js and its dependencies captured in `package.json`
  - Composer ant its dependencies captured in `composer.json`
