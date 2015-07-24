@@ -144,7 +144,7 @@ COMMENT ON TABLE answer IS 'Stores all answers from persons (note: contains answ
 COMMENT ON COLUMN answer.correct IS 'Says whether the answer was considered correct.';
 COMMENT ON COLUMN answer.main IS 'Says whether this was the organism used in question.';
 COMMENT ON COLUMN answer.question_seq_num IS 'Serial number of question in the round.';
-COMMENT ON COLUMN answer.option_seq_num IS 'Serial number of option in the question.'
+COMMENT ON COLUMN answer.option_seq_num IS 'Serial number of option in the question.';
 
 
 -- Tables for models

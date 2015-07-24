@@ -39,6 +39,7 @@ class WebProcessor
 		$curl = curl_init();
 		curl_setopt_array($curl, [
 			CURLOPT_URL => $this->url,
+			CURLOPT_FOLLOWLOCATION => true,
 			CURLOPT_RETURNTRANSFER => true
 		]);
 		$result = curl_exec($curl);

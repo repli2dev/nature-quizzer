@@ -7,6 +7,11 @@ body {
 	padding: 0px;
 	margin: 0px;
 }
+body.loading {
+	background-image: url('../images/spinner.gif');
+	background-position: center 20px;
+	background-repeat: no-repeat;
+}
 
 a {
 	text-decoration: none;
@@ -57,11 +62,12 @@ div.cleaner {
 	text-shadow: 1px 1px 1px #088724;
 	width: 150px;
 	float: left;
+	font-size: 1.5em;
 }
 #logo {
 	padding-left: 60px;
 	height: 60px;
-	line-height: 60px;
+	line-height: 25px;
 	background: url(../images/logo.png) no-repeat;
 }
 #menu-toogle {

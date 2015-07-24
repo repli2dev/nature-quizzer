@@ -11,7 +11,7 @@ General:
  - PHP >= 5.6
  - PostgreSQL >= 9.3
  - Node.js and its dependencies captured in `package.json`
- - Composer ant its dependencies captured in `composer.json`
+ - Composer and its dependencies captured in `composer.json`
 
 Installing
 ==========
@@ -22,7 +22,7 @@ Installing
 
 ```
 $ cd <project path>
-$ node update
+$ npm update
 
 ```
 
@@ -55,6 +55,7 @@ $ php utils/updatedb.php
 ```
 
 6. Import desired data (DB entries as well as the underlying images) into the system.
+   There is `utils/import.php` for this task. 
 
 For convenience there is a `deploy.php` script which does this step in order to make things easy.
 

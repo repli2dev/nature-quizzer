@@ -1,4 +1,35 @@
 <?php
+/**
+ * This is data importing tool for importing package with data about concepts, subconcepts, organisms and its variants.
+ * Key principles:
+ *   - Works in upsert fashion -- tries to find item (organism, concept etc.) if it already exists.
+ *   - For uniqueness these are used:
+ *      - concept: code_name
+ *      - language: code (according to ISO 639-1 (or ISO 639-2 when 1 not set))
+ *      - organism: latin_name (normalized)
+ *   - The packages has following structure inside given folder:
+ *      - package.json (contains all data to be stored in the database)
+ *      - files/ (contains all referenced files)
+ *
+ * Structure of package.json
+ *
+ * 	{
+ * 		"language": {
+ * 			"cz": {
+ *				"name": "Czech",
+ * 				"local_name": "Čeština"
+ * 				"is_default": true
+ * 			}
+ * 		},
+ * 		"concepts": {
+ * 			"cz": {
+ *				"name": "Czech Republic",
+ * 				" ": "Čeština"
+ * 				"is_default": true
+ * 			}
+ * 		},
+ *	}
+ */
 use NatureQuizzer\Database\Model\Concept;
 use NatureQuizzer\Database\Model\Organism;
 use Nette\Database\Context;
