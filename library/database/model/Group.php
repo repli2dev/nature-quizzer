@@ -11,7 +11,7 @@ class Group extends Table
 	public function insert($data, $infos = [])
 	{
 		return $this->performInTransaction(function () use ($data, $infos) {
-			$result =  $this->getTable()->insert($data);
+			$result = $this->getTable()->insert($data);
 			foreach ($infos as $langId => $tempData) {
 				$tempData = iterator_to_array($tempData);
 				$this->getInfoTable()->insert(array_merge($tempData, ['id_group' => $result->id_group, 'id_language' => $langId]));

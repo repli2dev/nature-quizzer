@@ -74,6 +74,15 @@ class User extends Table implements IAuthenticator
 		return $this->getTable()->where(':user_external.token = ?', self::EXTERNAL_GOOGLE . ':' . $googleId)->fetch();
 	}
 
+	public function getSetting($userId)
+	{
+		$row = $this->get($userId);
+		if ($row) {
+			return $row->id_setting;
+		}
+		return NULL;
+	}
+
 	public function addExternalToken($userId, $type, $token)
 	{
 		if ($type !== self::EXTERNAL_FACEBOOK && $type != self::EXTERNAL_GOOGLE) {

@@ -8,7 +8,7 @@ use Nette\Object;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Html;
 
-class QuestionSelection extends Object
+class BasicEloRandomDistractors extends Object implements IQuizGenerator
 {
 	const ALL_CONCEPTS = 'ALL';
 
@@ -29,7 +29,7 @@ class QuestionSelection extends Object
 		$this->currentLanguage = $currentLanguage;
 	}
 
-	public function fetch($userId, $concept, $count)
+	public function get($userId, $concept, $count)
 	{
 		$organismIds = $this->selectMainQuestions($userId, $concept, $count);
 		$organisms = $this->organism->getRepresentationsWithInfoByOrganisms($this->currentLanguage->get(), $organismIds);

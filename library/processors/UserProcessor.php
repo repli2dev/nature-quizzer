@@ -2,7 +2,10 @@
 namespace NatureQuizzer\Processors;
 
 use Exception;
+use NatureQuizzer\Database\Model\CurrentKnowledge;
+use NatureQuizzer\Database\Model\PriorKnowledge;
 use NatureQuizzer\Database\Model\Round;
+use NatureQuizzer\Database\Model\Setting as SettingModel;
 use NatureQuizzer\Database\Model\User as UserModel;
 use NatureQuizzer\Runtime\CurrentUser;
 use Nette\Forms\Form;
@@ -22,17 +25,27 @@ class UserProcessor extends Object
 
 	/** @var UserModel */
 	private $userModel;
+	/** @var SettingModel */
+	private $settingModel;
+	/** @var PriorKnowledge */
+	private $priorKnowledge;
+	/** @var CurrentKnowledge */
+	private $currentKnowledge;
 
 	/** @var CurrentUser */
 	private $currentUser;
 	/** @var Round */
 	private $round;
 
-	public function __construct(User $user, UserModel $userModel, Round $round, CurrentUser $currentUser)
+	public function __construct(User $user, UserModel $userModel, SettingModel $settingModel, Round $round,
+								PriorKnowledge $priorKnowledge, CurrentKnowledge $currentKnowledge, CurrentUser $currentUser)
 	{
 		$this->user = $user;
 		$this->userModel = $userModel;
+		$this->settingModel = $settingModel;
 		$this->currentUser = $currentUser;
+		$this->priorKnowledge = $priorKnowledge;
+		$this->currentKnowledge = $currentKnowledge;
 		$this->round = $round;
 	}
 
@@ -49,6 +62,7 @@ class UserProcessor extends Object
 			$output['anonymous'] = $this->user->isInRole(UserModel::GUEST_ROLE);
 			$output['id'] = $this->user->getId();
 			$output['name'] = $this->user->getIdentity()->name;
+			$output['model'] = $this->settingModel->getModelNameByUser($this->user->getId());
 		}
 		return $output;
 	}
@@ -94,14 +108,15 @@ class UserProcessor extends Object
 			$output['errors'] = $form->getErrors();
 			$output['status'] = 'fail';
 		} else {
+			$oldIdentity = $this->user->getIdentity();
 			$this->userModel->insert([
 				'name' => $data['name'],
 				'email' => Strings::lower($data['email']),
 				'password' => Passwords::hash($data['password']),
 				'inserted' => new DateTime(),
-				'anonymous' => TRUE
+				'anonymous' => FALSE,
+				'id_setting' => $this->userModel->getSetting($oldIdentity->getId())
 			]);
-			$oldIdentity = $this->user->getIdentity();
 			try {
 				$this->user->login(Strings::lower($data['email']), $data['password']);
 				$this->reownStuff($oldIdentity, $this->user->getIdentity());
@@ -152,7 +167,8 @@ class UserProcessor extends Object
 					'name' => $userInfo['name'],
 					'email' => Strings::lower($userInfo['email']),
 					'inserted' => new DateTime(),
-					'anonymous' => FALSE
+					'anonymous' => FALSE,
+					'id_setting' => $this->userModel->getSetting($this->user->getId())
 				]);
 			}
 			// Expectation: having and user by now
@@ -196,7 +212,8 @@ class UserProcessor extends Object
 					'name' => $userInfo['name'],
 					'email' => Strings::lower($userInfo['email']),
 					'inserted' => new DateTime(),
-					'anonymous' => FALSE
+					'anonymous' => FALSE,
+					'id_setting' => $this->userModel->getSetting($this->user->getId())
 				]);
 			}
 			// Expectation: having and user by now
@@ -224,6 +241,8 @@ class UserProcessor extends Object
 	private function reownStuff(Identity $oldIdentity, Identity $newIdentity)
 	{
 		$this->round->reownRounds($oldIdentity->getId(), $newIdentity->getId());
+		$this->priorKnowledge->reown($oldIdentity->getId(), $newIdentity->getId());
+		$this->currentKnowledge->reown($oldIdentity->getId(), $newIdentity->getId());
 	}
 
 	private function getLoginForm()

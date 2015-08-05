@@ -29,4 +29,9 @@ class CurrentKnowledge extends Table
 			$this->getTable()->insert($data);
 		}
 	}
+
+	public function reown($oldUserId, $newUserId)
+	{
+		$this->context->query('UPDATE current_knowledge SET id_user = ? WHERE id_user = ?', $newUserId, $oldUserId);
+	}
 }

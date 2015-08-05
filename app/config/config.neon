@@ -42,6 +42,7 @@ services:
 	- NatureQuizzer\Database\Model\Round
 	- NatureQuizzer\Database\Model\User
 	- NatureQuizzer\Database\Model\OrganismDifficulty
+	- NatureQuizzer\Database\Model\Setting
 	- NatureQuizzer\Database\Model\PriorKnowledge
 	- NatureQuizzer\Database\Model\CurrentKnowledge
 	- NatureQuizzer\RouterFactory
@@ -56,7 +57,8 @@ services:
 	- NatureQuizzer\Processors\UserProcessor
 	- NatureQuizzer\Model\Utils\UserAnswerFactory
 	- NatureQuizzer\Model\Utils\PostAnswerUpdate
-	- NatureQuizzer\Model\QuestionSelection
+	- NatureQuizzer\Model\BasicEloRandomDistractors
+	- NatureQuizzer\Model\QuizGeneratorFactory
 	user: NatureQuizzer\Utils\User
 	- NatureQuizzer\Utils\Facebook
 	- NatureQuizzer\Utils\Google

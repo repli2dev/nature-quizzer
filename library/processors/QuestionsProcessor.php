@@ -4,7 +4,9 @@ namespace NatureQuizzer\Processors;
 use NatureQuizzer\Database\Model\Concept;
 use NatureQuizzer\Database\Model\Organism;
 use NatureQuizzer\Database\Model\QuestionType;
-use NatureQuizzer\Model\QuestionSelection;
+use NatureQuizzer\Model\BasicEloRandomDistractors;
+use NatureQuizzer\Model\IQuizGenerator;
+use NatureQuizzer\Model\QuizGeneratorFactory;
 use NatureQuizzer\RequestProcessorException;
 use NatureQuizzer\Runtime\CurrentLanguage;
 use NatureQuizzer\Runtime\CurrentUser;
@@ -22,12 +24,16 @@ class QuestionsProcessor extends Object
 	private $concept;
 	/** @var Organism */
 	private $organism;
-	/** @var QuestionSelection */
-	private $questionSelection;
+	/** @var IQuizGenerator */
+	private $quizGenerator;
 
-	public function __construct(CurrentUser $currentUser, CurrentLanguage $currentLanguage, Concept $concept, Organism $organism, QuestionSelection $questionSelection)
+	public function __construct(CurrentUser $currentUser, CurrentLanguage $currentLanguage, Concept $concept, Organism $organism, QuizGeneratorFactory $quizGeneratorFactory)
 	{
-		list ($this->currentUser, $this->currentLanguage, $this->concept, $this->organism, $this->questionSelection) = func_get_args();
+		$this->currentUser = $currentUser;
+		$this->currentLanguage = $currentLanguage;
+		$this->concept = $concept;
+		$this->organism = $organism;
+		$this->quizGenerator = $quizGeneratorFactory->get($this->currentUser->get());
 	}
 
 	private function fetchConceptInfo($conceptId)
@@ -39,7 +45,7 @@ class QuestionsProcessor extends Object
 			}
 			return $concept;
 		} else {
-			return QuestionSelection::ALL_CONCEPTS;
+			return BasicEloRandomDistractors::ALL_CONCEPTS;
 		}
 	}
 
@@ -47,7 +53,7 @@ class QuestionsProcessor extends Object
 	{
 		$output = [];
 		$output['count'] = count($questions);
-		if ($concept !== QuestionSelection::ALL_CONCEPTS) {
+		if ($concept !== BasicEloRandomDistractors::ALL_CONCEPTS) {
 			$output['concept'] = [
 				'id_concept' => $concept->id_concept,
 				'code_name' => $concept->code_name,
@@ -65,7 +71,7 @@ class QuestionsProcessor extends Object
 	{
 		$count = min($count, 10);
 		$concept = $this->fetchConceptInfo($conceptId);
-		$questions = $this->questionSelection->fetch($this->currentUser->get(), $concept, $count);
+		$questions = $this->quizGenerator->get($this->currentUser->get(), $concept, $count);
 		return $this->prepareOutput($concept, $questions);
 	}
 }
