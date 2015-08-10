@@ -145,7 +145,12 @@ class OrganismPresenter extends BasePresenter
 		$form->addUpload('file', 'Image')
 			->setRequired('Please choose file.')
 			->addRule($form::IMAGE, 'File has to be an image.');
+
+		$form->addGroup('Meta information');
 		$form->addText('source', 'Source');
+		$form->addText('rights_holder', 'Držitel práv');
+		$form->addText('license', 'Licence');
+
 		$form->setCurrentGroup(null);
 		$form->addSubmit('send', 'Add');
 		$form->onSuccess[] = $this->addRepresentationFormSucceeded;
@@ -157,11 +162,20 @@ class OrganismPresenter extends BasePresenter
 		$file = $values['file'];
 		unset($values['file']);
 		if ($file->isOk()) {
+			$values['hash'] = $hash = hash_file('sha512', $file->getTemporaryFile());
+			if ($this->organismModel->representationExists($hash)) {
+				$form->addError('THis representation is already inserted in the database.');
+				return;
+			}
 			$representation = $this->organismModel->addRepresentation($this->getParameter('id'), $values);
 			$file->move(__DIR__ . '/../../www/images/organisms/' . $representation->id_representation);
+
+			$this->flashMessage('Representation has been successfully added.');
+			$this->redirect('this');
+		} else {
+			$form->addError('Representation was not added due to upload problem.');
 		}
-		$this->flashMessage('Representation has been successfully added.');
-		$this->redirect('this');
+
 	}
 	public function handledeleteRepresentation($key)
 	{

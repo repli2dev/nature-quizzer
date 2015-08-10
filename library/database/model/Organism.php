@@ -97,6 +97,11 @@ class Organism extends Table
 		return $this->getRepresentationTable()->insert($tempData);
 	}
 
+	public function representationExists($hash)
+	{
+		return $this->getRepresentationTable()->where('hash = ?', $hash)->count() == 1;
+	}
+
 	public function deleteRepresentation($key)
 	{
 		return $this->getRepresentationTable()->where('id_representation = ?', $key)->delete();
