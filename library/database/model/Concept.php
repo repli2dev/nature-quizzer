@@ -39,6 +39,16 @@ class Concept extends Table
 		});
 	}
 
+	public function findByCodeName($codeName)
+	{
+		return $this->getTable()->where('code_name = ?', $codeName)->fetch();
+	}
+
+	public function getPairs()
+	{
+		return $this->getTable()->fetchPairs('id_concept', 'code_name');
+	}
+
 	public function getInfos($concept)
 	{
 		$data = $this->getInfoTable()

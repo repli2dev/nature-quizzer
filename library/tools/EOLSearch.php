@@ -4,7 +4,13 @@ namespace NatureQuizzer\Tools;
 use Exception;
 use Nette\Utils\Json;
 
-class EOLSearch
+/**
+ * Class for search organisms through http://eol.org API.
+ * For given query (ideally canonized latin name) returns EOL ID.
+ *
+ * @see http://eol.org/api/docs/search/1.0
+ */
+class EOLSearch extends EOLAPI
 {
 	const API_URL = 'http://eol.org/api/search/1.0.json?q=__QUERY__&page=1&exact=true';
 

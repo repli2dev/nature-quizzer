@@ -40,6 +40,11 @@ class Organism extends Table
 		});
 	}
 
+	public function findByLatinName($latinName)
+	{
+		return $this->getTable()->where('latin_name = ?', $latinName)->fetch();
+	}
+
 	public function getInfos($organism)
 	{
 		$data = $this->getInfoTable()
@@ -65,6 +70,13 @@ class Organism extends Table
 		if (!$conceptId) throw new InvalidArgumentException('No concept id given.');
 		if (!$organismId) throw new InvalidArgumentException('No organism id given.');
 		$this->getBelongingTable()->insert(['id_concept' => $conceptId, 'id_organism' => $organismId]);
+	}
+
+	public function existsBelonging($organismId, $conceptId)
+	{
+		if (!$conceptId) throw new InvalidArgumentException('No concept id given.');
+		if (!$organismId) throw new InvalidArgumentException('No organism id given.');
+		return $this->getBelongingTable()->where('id_concept = ? AND id_organism = ?', $conceptId, $organismId)->count() > 0;
 	}
 
 	public function syncBelonging($conceptId, $organisms = [])
@@ -95,6 +107,11 @@ class Organism extends Table
 		$tempData = iterator_to_array($data);
 		$tempData['id_organism'] = $organism;
 		return $this->getRepresentationTable()->insert($tempData);
+	}
+
+	public function findRepresentationByHash($hash)
+	{
+		return $this->getRepresentationTable()->where('hash = ?', $hash)->fetch();
 	}
 
 	public function representationExists($hash)

@@ -1,6 +1,6 @@
 <?php
 /**
- * Animals (cca Chordata) related to Czech Republic.
+ * Animals (cca Vertebrata) related to Czech Republic.
  *
  * Source: lists on czech Wikipedia
  * @see https://cs.wikipedia.org/wiki/Kategorie:Seznamy_%C5%BEivo%C4%8Dich%C5%AF
@@ -9,7 +9,7 @@ use NatureQuizzer\Utils\Normalizator;
 use NatureQuizzer\Tools\WebProcessor;
 use Tracy\Debugger;
 
-include_once __DIR__ . "/../../app/bootstrap.php";
+include_once __DIR__ . "/../../../app/bootstrap.php";
 
 Debugger::enable(Debugger::DEVELOPMENT);
 

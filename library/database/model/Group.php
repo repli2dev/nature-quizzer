@@ -39,6 +39,11 @@ class Group extends Table
 		});
 	}
 
+	public function findByCodeName($codeName)
+	{
+		return $this->getTable()->where('code_name = ?', $codeName)->fetch();
+	}
+
 	public function getPairs()
 	{
 		return $this->getTable()->fetchPairs('id_group', 'code_name');

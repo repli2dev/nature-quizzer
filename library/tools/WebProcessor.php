@@ -3,8 +3,12 @@ namespace NatureQuizzer\Tools;
 
 use Exception;
 
+/**
+ * Class for parsing out parts of web page specified by URL.
+ */
 class WebProcessor
 {
+	use CurlDownloader;
 	private $url;
 
 	/** @var callable */
@@ -29,24 +33,8 @@ class WebProcessor
 
 	public function getOutput()
 	{
-		$content = $this->fetchContent();
+		$content = $this->fetchByCurl($this->url);
 		$output = call_user_func($this->parser, $content);
 		return $output;
-	}
-
-	private function fetchContent()
-	{
-		$curl = curl_init();
-		curl_setopt_array($curl, [
-			CURLOPT_URL => $this->url,
-			CURLOPT_FOLLOWLOCATION => true,
-			CURLOPT_RETURNTRANSFER => true
-		]);
-		$result = curl_exec($curl);
-		if ($result === false) {
-			throw new Exception('Fetching given page have failed.');
-		}
-		curl_close($curl);
-		return $result;
 	}
 }
