@@ -59,6 +59,7 @@ App.PlayRoute = Ember.Route.extend({
 		controller.set('roundIdentification', App.Utils.getRoundIdentification());
 		controller.set('model', model);
 		controller.set('questionCurrent', 1);
+		controller.set('answered', false);
 		controller.set('questionMaxCount', model.count);
 		if (typeof model.concept === 'undefined') {
 			controller.set('id_concept', 'mix');
