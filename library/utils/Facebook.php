@@ -3,11 +3,9 @@
 namespace NatureQuizzer\Utils;
 
 use Exception;
-use Facebook\FacebookRedirectLoginHelper;
-use Facebook\FacebookRequest;
-use Facebook\FacebookRequestException;
-use Facebook\FacebookSession;
-use Facebook\GraphUser;
+use Facebook\Exceptions\FacebookResponseException;
+use Facebook\Exceptions\FacebookSDKException;
+use Facebook\Facebook as FacebookSession;
 use Nette\Application\AbortException;
 use Nette\DI\Container;
 use Nette\Http\Response;
@@ -15,7 +13,7 @@ use Nette\Http\Response;
 /**
  * Class Facebook as a simple wrapper around used FB interactions.
  *
- * See: https://developers.facebook.com/docs/php/gettingstarted/4.0.0
+ * See: https://developers.facebook.com/docs/php/gettingstarted/5.0.0
  *
  * @package NatureQuizzer\Utils
  */
@@ -34,6 +32,9 @@ class Facebook
 	/** @var Response */
 	private $response;
 
+	/** @var FacebookSession */
+	private $facebookSession;
+
 	public function __construct(Response $response, Container $container)
 	{
 		$this->response = $response;
@@ -47,7 +48,11 @@ class Facebook
 		}
 
 		if ($this->appId && $this->appSecret) {
-			FacebookSession::setDefaultApplication($this->appId, $this->appSecret);
+			$this->facebookSession = new FacebookSession([
+				'app_id' =>$this->appId,
+				'app_secret' => $this->appSecret,
+				'default_graph_version' => 'v2.2',
+			]);
 			$this->initialized = TRUE;
 		}
 	}
@@ -70,35 +75,38 @@ class Facebook
 	{
 		$this->ensureInitialized();
 
-		$helper = new FacebookRedirectLoginHelper($redirectUrl);
+		$helper = $this->facebookSession->getRedirectLoginHelper();
 		$session = NULL;
 		try {
-			$session = $helper->getSessionFromRedirect();
-		} catch(FacebookRequestException $ex) {
-			throw new Exception('Something on Facebook failed.', self::FACEBOOK_ERROR, $ex);
+			$accessToken = $helper->getAccessToken();
+		} catch(FacebookResponseException $ex) {
+			throw new Exception('Something on Facebook failed when performing request.', self::FACEBOOK_ERROR, $ex);
+		} catch(FacebookSDKException $ex) {
+			throw new Exception('Something on Facebook failed after the request.', self::FACEBOOK_ERROR, $ex);
 		} catch(Exception $ex) {
 			throw new Exception('Something else failed', self::UNKNOWN_ERROR, $ex);
 		}
-		if ($session) {
+		if ($accessToken) {
 			// Logged in
 			try {
-				$userProfile = (new FacebookRequest(
-					$session, 'GET', '/me'
-				))->execute()->getGraphObject(GraphUser::className());
+				$userProfile = $this->facebookSession->get(
+					'/me',
+					$accessToken
+				)->getGraphUser();
 
 				return [
 					'name' => $userProfile->getName(),
 					'id' => $userProfile->getId(),
-					'email' => $userProfile->getProperty('email')
+					'email' => $userProfile->getField('email')
 				];
-			} catch(FacebookRequestException $e) {
-				throw new Exception('Something after login failed.', self::AFTER_LOGIN_ERROR, $e);
+			} catch(FacebookResponseException $ex) {
+				throw new Exception('Something after login failed.', self::AFTER_LOGIN_ERROR, $ex);
+			} catch(FacebookSDKException $ex) {
+				throw new Exception('Something after login failed.', self::AFTER_LOGIN_ERROR, $ex);
 			}
 		} else {
 			// Not logged in
-			$loginUrl = $helper->getLoginUrl(
-				['scope' => 'email']
-			);
+			$loginUrl = $helper->getLoginUrl($redirectUrl, ['email'] /* scope */);
 			$this->response->redirect($loginUrl);
 			throw new AbortException();
 		}

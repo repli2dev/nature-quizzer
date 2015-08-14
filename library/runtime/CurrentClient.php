@@ -15,13 +15,12 @@ class CurrentClient extends Object
 	public function __construct(Request $httpRequest)
 	{
 		$this->request = $httpRequest;
-		$this->agentParser = Parser::create(__DIR__ . '/../../utils/regexes.php');
+		$this->agentParser = Parser::create();
 	}
 
 	public function get()
 	{
 		$result = $this->agentParser->parse($this->request->getHeader('User-Agent'));
-		dump($result);
 		$result->os->toString();
 		$output = [
 			'ua' => $result->originalUserAgent,
@@ -35,7 +34,6 @@ class CurrentClient extends Object
 			'viewport' => null,
 			'accept_language' => $this->request->getHeader('Accept-Language')
 		];
-		dump($output);
 		return $output;
 	}
 
