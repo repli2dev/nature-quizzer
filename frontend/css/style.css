@@ -202,6 +202,9 @@ div.cleaner {
 .institutions a:hover {
 	background: inherit;
 }
+.institutions a img {
+	margin-bottom: 20px;
+}
 
 #window {
 	position: absolute;
