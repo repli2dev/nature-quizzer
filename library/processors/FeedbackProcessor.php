@@ -47,6 +47,7 @@ class FeedbackProcessor extends Object
 			$output['result'] = 'Message was successfully sent. Thank you.';
 			$output['status'] = 'success';
 		}
+		sleep(2); // Prevention of spamming
 		return $output;
 	}
 

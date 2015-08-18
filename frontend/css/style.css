@@ -110,7 +110,7 @@ div.cleaner {
 	vertical-align: middle;
 	color: white;
 	text-align: center;
-	margin-top: 10px;
+	margin-top: 0px;
 }
 #user span.username {
 	margin-top: 10px;
@@ -206,7 +206,7 @@ div.cleaner {
 	margin-bottom: 20px;
 }
 
-#window {
+.window {
 	position: absolute;
 	background: white;
 	box-shadow: black 0px 0px 300px;
@@ -218,7 +218,7 @@ div.cleaner {
 	max-width: 900px;
 	border: 3px solid #A1891F;
 }
-#window-header {
+.window-header {
 	padding: 10px;
 	background: #FBE686;
 	border-top-left-radius: 5px;
@@ -282,8 +282,12 @@ div.cleaner {
 	background: white;
 	color: black;
 }
-#window-content {
+.window-content {
 	position: relative;
+}
+.window-padding {
+	padding: 20px;
+	padding-top: 0px;
 }
 #question-loading {
 	position: absolute;

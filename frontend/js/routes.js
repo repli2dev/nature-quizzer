@@ -1,6 +1,5 @@
 App.Router.map(function () {
 	this.route('about');
-	this.route('contact');
 	this.route('facebook-login-problem');
 	this.route('google-login-problem');
 	this.route('play', { path: '/play/:id_concept' });
@@ -25,10 +24,6 @@ App.ApplicationRoute = Ember.Route.extend({
 App.IndexRoute = Ember.Route.extend({
 	model: App.Concept.getQuick
 });
-
-App.ContactRoute = Ember.Route.extend({
-});
-
 
 App.ConceptsRoute = Ember.Route.extend({
 	model: App.Concept.getAll,

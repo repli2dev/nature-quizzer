@@ -1,4 +1,6 @@
 App.ApplicationController = Ember.Controller.extend({
+	contactModal: false,
+
 	currentUser: function() {
 		return App.AuthManager.get('data');
 	}.property('App.AuthManager.data'),
@@ -9,7 +11,19 @@ App.ApplicationController = Ember.Controller.extend({
 
 	isLogged: function () {
 		return App.AuthManager.isLogged();
-	}.property('App.AuthManager.data')
+	}.property('App.AuthManager.data'),
+
+	actions: {
+		openContactModal: function() {
+			this.set('contactModal', true);
+			$("body").animate({
+				scrollTop: 0
+			}, 400);
+		},
+		closeContactModal: function() {
+			this.set('contactModal', false);
+		}
+	}
 });
 
 App.ConceptsController = Ember.Controller.extend({
@@ -89,41 +103,6 @@ App.UserRegisterController = Ember.Controller.extend({
 						logged: true,
 						errors: []
 					};
-				}
-				self.setProperties(output);
-			});
-		}
-	}
-});
-
-App.ContactController = Ember.Controller.extend({
-	isProcessing: false,
-	errors: [],
-	result: null,
-	actions: {
-		send: function (formData, callback) {
-			this.set('isProcessing', true);
-			var data = {};
-			data.email = formData.email;
-			data.text = formData.text;
-
-			var self = this;
-			App.Feedback.send(data, function (response) {
-				self.set('isProcessing', false);
-				var output;
-				if (response.status == 'fail') {
-					output = {
-						errors: response.errors,
-						result: null
-					};
-				} else {
-					output = {
-						errors: [],
-						result: response.result
-					};
-					if (typeof callback !== 'undefined') {
-						callback();
-					}
 				}
 				self.setProperties(output);
 			});

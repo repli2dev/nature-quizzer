@@ -1,3 +1,21 @@
+<p>Máte nějaký nápad na vylepšení této aplikace? Narazili jste na chybu? Máte jiný komentář, nápad či postřeh? Napište nám. Děkujeme :-)</p>
+
+{{#if errors.length}}
+	<div class="flash error">
+		Odeslání zprávy se nezdařilo:<br />
+		<ul>
+			{{#each errors as |error|}}
+				<li>{{error}}</li>
+			{{/each}}
+		</ul>
+	</div>
+{{/if}}
+{{#if result}}
+	<div class="flash success">
+		{{result}}
+	</div>
+{{/if}}
+
 <form {{action "submit" on="submit"}}>
 	<div class="pair">
 		{{textarea value=text cols="80" rows="6"}}
@@ -6,6 +24,6 @@
 		{{input value=email placeholder='E-mail'}}
 	</div>
 	<div class="pair">
-		<input type="submit" {{bind-attr value=submitTitle}}>
+		<input type="submit" value="Odeslat">
 	</div>
 </form>

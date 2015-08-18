@@ -22,10 +22,15 @@
 </div>
 <div id="content">
 	<div id="feedback-button">
-		{{#link-to 'contact'}}Napište nám{{/link-to}}
+		<a {{action 'openContactModal'}}>Napište nám</a>
 	</div>
 	<div id="content-center">
 		{{outlet}}
+		{{#if contactModal}}
+			<div id="modal-contact">
+				{{partial "contact"}}
+			</div>
+		{{/if}}
 	</div>
 </div>
 <div id="footer">
@@ -33,7 +38,7 @@
 		<div class="more-about">
 			<ul>
 				<li>{{#link-to 'about'}}O projektu{{/link-to}}</li>
-				<li>{{#link-to 'contact'}}Napište nám{{/link-to}}</li>
+				<li><a {{action 'openContactModal'}}>Napište nám</a></li>
 				<li><a href="http://www.facebook.com">Facebook</a></li>
 			</ul>
 		</div>

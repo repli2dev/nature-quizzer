@@ -23,15 +23,35 @@ App.LoginFormComponent = Ember.Component.extend({
 });
 
 App.ContactFormComponent = Ember.Component.extend({
+	isProcessing: false,
+	errors: [],
+	result: null,
 	actions: {
-		submit: function() {
+		submit: function () {
+			this.set('isProcessing', true);
+			var data = {};
+			data.email = this.get('email');
+			data.text = this.get('text');
+
 			var self = this;
-			this.sendAction('submit', {
-				text: this.get('text'),
-				email: this.get('email')
-			}, function () {
-				self.set('text', '');
-				self.set('email', '');
+			App.Feedback.send(data, function (response) {
+				self.set('isProcessing', false);
+				var output;
+				if (response.status == 'fail') {
+					output = {
+						errors: response.errors,
+						result: null
+					};
+				} else {
+					output = {
+						errors: [],
+						result: response.result
+					};
+					// Reset data
+					self.set('text', '');
+					self.set('email', '');
+				}
+				self.setProperties(output);
 			});
 		}
 	}

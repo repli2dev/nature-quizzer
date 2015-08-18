@@ -11,8 +11,8 @@
 			<div class="flash error">
 				Přihlášení se nezdařilo:<br />
 				<ul>
-					{{#each errors}}
-						<li>{{this}}</li>
+					{{#each errors as |error|}}
+						<li>{{error}}</li>
 					{{/each}}
 				</ul>
 			</div>
