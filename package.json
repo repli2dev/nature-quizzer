@@ -4,13 +4,10 @@
   "description": "Project for adaptive quizzer of nature concepts (e.g. plants, trees, animals...)",
   "license": "MIT",
   "dependencies": {
-    "ember-handlebars": "^1.2.0",
     "gulp": "^3.8.11",
     "gulp-clean": "^0.3.1",
     "gulp-concat": "^2.5.2",
-    "gulp-ember-template-compiler": "^0.1.4",
-    "gulp-htmlbars": "^0.3.0",
-    "gulp-htmlbars-compiler": "^0.0.1"
+    "gulp-htmlbars-compiler": "^0.0.2"
   },
   "repository": {
     "type": "git",

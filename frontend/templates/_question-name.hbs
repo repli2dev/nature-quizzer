@@ -1,8 +1,8 @@
 <div class="question">
 	<div class="question-image">{{{question.questionImage}}}</div>
 	<div class="question-text-options">
-		{{#each option in question.options}}
-			<span class="question-text-option" {{bind-attr id="option.id_organism"}} {{action 'answer' option.id_organism}}>
+		{{#each question.options as |option|}}
+			<span class="question-text-option" id="{{option.id_organism}}" {{action 'answer' option.id_organism}}>
 						{{option.text}}
 				<span class="dead-end"><span>&#x2715;</span></span>
 						<span class="continue"><span>&rarr;</span></span>

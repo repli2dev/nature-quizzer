@@ -3,11 +3,11 @@
 	<p>A zase umíte o kousek více,&hellip; vyberte si čím chcete pokračovat.</p>
 
 	<div>
-		{{#if mix}}
+		{{#if model.mix}}
 			{{#link-to 'play' 'mix' classNames='button'}}Pokračovat{{/link-to}}
 		{{/if}}
-		{{#if id_concept}}
-			{{#link-to 'play' id_concept classNames='button'}}Pokračovat{{/link-to}}
+		{{#if model.id_concept}}
+			{{#link-to 'play' model.id_concept classNames='button'}}Pokračovat{{/link-to}}
 		{{/if}}
 		{{#link-to 'concepts' classNames='button'}}Vybrat si nové téma{{/link-to}}
 	</div>

@@ -1,8 +1,8 @@
 <div class="question question-choose-representation">
 	<div class="question-text">Který je: {{question.questionText}}</div>
 	<div class="question-image-options">
-		{{#each option in question.options}}
-			<span class="question-image-option" {{bind-attr id="option.id_representation"}} {{action 'answer' option.id_representation}}>
+		{{#each question.options as |option|}}
+			<span class="question-image-option" id="{{option.id_representation}}" {{action 'answer' option.id_representation}}>
 						{{{option.image}}}
 				<span class="dead-end"><span>&#x2715;</span></span>
 						<span class="continue"><span>&rarr;</span></span>

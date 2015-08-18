@@ -9,13 +9,13 @@
 	<div class="flash info">Zkuste si vybrat jiné téma :-)</div>
 {{/if}}
 
-{{#each category in model}}
+{{#each model as |category|}}
 	<div class="group">
 		{{#if others}}
 			<h2>Ostatní</h2>
 		{{/if}}
 		<h2>{{category.name}}</h2>
-		{{#each concept in category.concepts}}
+		{{#each category.concepts as |concept|}}
 			<div class="concept">
 				{{#link-to 'play' concept.id_concept classNames="start-button"}}Řešit{{/link-to}}
 

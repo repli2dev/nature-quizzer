@@ -1,12 +1,12 @@
 App.Router.map(function () {
-	this.resource('about');
-	this.resource('contact');
-	this.resource('facebook-login-problem');
-	this.resource('google-login-problem');
-	this.resource('play', { path: '/play/:id_concept' });
-	this.resource('result', { path: '/result/:id_concept' });
-	this.resource('concepts');
-	this.resource('user', function () {
+	this.route('about');
+	this.route('contact');
+	this.route('facebook-login-problem');
+	this.route('google-login-problem');
+	this.route('play', { path: '/play/:id_concept' });
+	this.route('result', { path: '/result/:id_concept' });
+	this.route('concepts');
+	this.route('user', function () {
 		this.route('login');
 		this.route('logout');
 		this.route('register');

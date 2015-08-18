@@ -12,13 +12,13 @@ App.ApplicationController = Ember.Controller.extend({
 	}.property('App.AuthManager.data')
 });
 
-App.ConceptsController = Ember.ObjectController.extend({
+App.ConceptsController = Ember.Controller.extend({
 	queryParams: ['invalid', 'interruption'],
 	invalid: null,
 	interruption: null
 });
 
-App.UserLoginController = Ember.ObjectController.extend({
+App.UserLoginController = Ember.Controller.extend({
 	facebookLoginLink: App.External.FACEBOOK_LOGIN_URL,
 	googleLoginLink: App.External.GOOGLE_LOGIN_URL,
 
@@ -59,7 +59,7 @@ App.UserLoginController = Ember.ObjectController.extend({
 	}
 });
 
-App.UserRegisterController = Ember.ObjectController.extend({
+App.UserRegisterController = Ember.Controller.extend({
 	facebookLoginLink: App.External.FACEBOOK_LOGIN_URL,
 	googleLoginLink: App.External.GOOGLE_LOGIN_URL,
 
@@ -96,7 +96,7 @@ App.UserRegisterController = Ember.ObjectController.extend({
 	}
 });
 
-App.ContactController = Ember.ObjectController.extend({
+App.ContactController = Ember.Controller.extend({
 	isProcessing: false,
 	errors: [],
 	result: null,
@@ -131,7 +131,7 @@ App.ContactController = Ember.ObjectController.extend({
 	}
 });
 
-App.PlayController = Ember.ObjectController.extend({
+App.PlayController = Ember.Controller.extend({
 	id_concept: null,
 	roundIdentification: null,
 
@@ -284,7 +284,7 @@ App.PlayController = Ember.ObjectController.extend({
 	}
 });
 
-App.FacebookLoginProblemController = Ember.ObjectController.extend({
+App.FacebookLoginProblemController = Ember.Controller.extend({
 	queryParams: ['type'],
 	type: null,
 	isTheirFailure: function() { return this.type == 1; }.property("this.type"),
@@ -293,7 +293,7 @@ App.FacebookLoginProblemController = Ember.ObjectController.extend({
 	isUnavailability: function() { return this.type == 4; }.property("this.type")
 });
 
-App.GoogleLoginProblemController = Ember.ObjectController.extend({
+App.GoogleLoginProblemController = Ember.Controller.extend({
 	queryParams: ['type'],
 	type: null,
 	isTheirFailure: function() { return this.type == 1; }.property("this.type"),

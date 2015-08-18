@@ -2,15 +2,15 @@ var gulp = require('gulp');
 var htmlbars = require('gulp-htmlbars-compiler');
 var concat = require('gulp-concat');
 var clean = require('gulp-clean');
-// Hardcoded way to the ember-template-compilator as the versions needs to match
-var compiler = require('./node_modules/gulp-htmlbars/bower_components/ember/ember-template-compiler');
+// Hardcoded way to the ember-template-compilator as the versions needs to match and there is no node module in the repository
+var compiler = require('./frontend/js/externals/ember-template-compiler-2.0.0');
 
 
 // ====== Configuration =======
 var paths = {
 	scripts: [
-		'frontend/js/externals/jquery-1.11.1.js',
-		'frontend/js/externals/ember-1.10.0.js',
+		'frontend/js/externals/jquery-2.1.4.js',
+		'frontend/js/externals/ember-2.0.0.js',
 		'frontend/js/utils.js',
 		'frontend/js/app.js',
 		'frontend/js/routes.js',
