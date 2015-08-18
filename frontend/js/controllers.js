@@ -14,13 +14,13 @@ App.ApplicationController = Ember.Controller.extend({
 	}.property('App.AuthManager.data'),
 
 	actions: {
-		openContactModal: function() {
+		openContactModal: function () {
 			this.set('contactModal', true);
 			$("body").animate({
 				scrollTop: 0
 			}, 400);
 		},
-		closeContactModal: function() {
+		closeContactModal: function () {
 			this.set('contactModal', false);
 		}
 	}
@@ -154,6 +154,24 @@ App.PlayController = Ember.Controller.extend({
 
 	isProcessing: false,
 
+	shortcutTriggered: function (event, controller) {
+		if (event.keyCode == 27) { // Escape
+			controller.send('close');
+		} else if (event.keyCode == 97) { // Num 1
+			controller.send('answerByKeyboard', 1);
+		} else  if (event.keyCode == 98) { // Num 2
+			controller.send('answerByKeyboard', 2);
+		} else  if (event.keyCode == 99) { // Num 3
+			controller.send('answerByKeyboard', 3);
+		} else  if (event.keyCode == 100) { // Num 4
+			controller.send('answerByKeyboard', 4);
+		} else if (event.keyCode == 13) { // Enter
+			if (controller.isAnswered()) {
+				controller.send('next');
+			}
+		}
+	},
+
 	loadNextQuestion: function() {
 		this.set('isProcessing', true);
 		var self = this;
@@ -257,22 +275,43 @@ App.PlayController = Ember.Controller.extend({
 				this.markAnswered();
 			}
 		},
+		answerByKeyboard: function(index) {
+			index = index - 1; // Array offset start from 0
+			var options = this.model.questions[0].options;
+			if (!(index in options)) {
+				console.log('xxx');
+				return;
+			}
+			var selectedOption = options[index];
+			var value;
+			if (selectedOption.hasOwnProperty('id_organism')) {
+				value = selectedOption.id_organism;
+			} else {
+				value = selectedOption.id_representation;
+			}
+			this.send('answer', value);
+		},
 		next: function (selectedValue) {
 			// If this was last question we proceed to 'result' screen
 			if (this.isLastQuestion()) {
 				this.transitionToRoute('result', this.get('id_concept'));
 				return;
 			}
-			// If user clicked on wrong answer do nothing
-			var answerCorrect = this.evaluateAnswerCorrectness(selectedValue);
-			if (!answerCorrect) {
-				return;
+			if (typeof selectedValue !== 'undefined') {
+				// If user clicked on wrong answer do nothing
+				var answerCorrect = this.evaluateAnswerCorrectness(selectedValue);
+				if (!answerCorrect) {
+					return;
+				}
 			}
 			// Otherwise load and prepare for the next question
 			this.reset();
 			this.set('questionCurrent', this.get('questionCurrent') + 1);
 			this.loadNextQuestion();
 			return;
+		},
+		close: function () {
+			this.transitionToRoute('concepts', {queryParams: {interruption: 1, invalid: "null"}});
 		}
 	}
 });

@@ -11,6 +11,7 @@ var paths = {
 	scripts: [
 		'frontend/js/externals/jquery-2.1.4.js',
 		'frontend/js/externals/ember-2.0.0.js',
+		'frontend/js/externals/ember-shortcuts.js',
 		'frontend/js/utils.js',
 		'frontend/js/app.js',
 		'frontend/js/routes.js',

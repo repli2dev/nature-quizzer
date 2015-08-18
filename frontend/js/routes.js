@@ -42,10 +42,14 @@ App.ResultRoute = Ember.Route.extend({
 });
 
 App.PlayRoute = Ember.Route.extend({
+	shortcutHandler: null,
+	controller: null,
 	model: function (params) {
 		return App.Play.getQuestions(params.id_concept);
 	},
 	setupController: function (controller, model) {
+		this.set('shortcutHandler', controller.shortcutTriggered);
+		this.set('controller', controller);
 		// Check that on initial route there are any data
 		if (model.questions.length == 0) {
 			controller.transitionToRoute('concepts', {queryParams: {invalid: true, interruption: null}});
@@ -60,6 +64,23 @@ App.PlayRoute = Ember.Route.extend({
 			controller.set('id_concept', 'mix');
 		} else {
 			controller.set('id_concept', model.concept.id_concept);
+		}
+	},
+	shortcuts: {
+		'num1': 'handleShortcut',
+		'num2': 'handleShortcut',
+		'num3': 'handleShortcut',
+		'num4': 'handleShortcut',
+		'enter': 'handleShortcut',
+		'escape': 'handleShortcut',
+	},
+	actions: {
+		handleShortcut: function (event) {
+			var handler = this.shortcutHandler;
+			var controller = this.controller;
+			if (handler && controller) {
+				handler(event, controller);
+			}
 		}
 	}
 });
