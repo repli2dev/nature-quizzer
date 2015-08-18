@@ -37,12 +37,14 @@ App.UserLoginController = Ember.Controller.extend({
 	googleLoginLink: App.External.GOOGLE_LOGIN_URL,
 
 	isProcessing: false,
+	timeout: 5000,
 	logged: false,
 	errors: [],
 	result: null,
 	actions: {
 		login: function (formData) {
 			this.set('isProcessing', true);
+			setTimeout(this.processingTimeout, this.get('timeout'), this);
 			var data = {};
 			data.email = formData.email;
 			data.password = formData.password;
@@ -70,6 +72,11 @@ App.UserLoginController = Ember.Controller.extend({
 				self.setProperties(output);
 			});
 		}
+	},
+	processingTimeout: function(self) {
+		self.set('isProcessing', false);
+		self.set('errors', ['Processing failed. Please check your internet connection and try again.']);
+		self.set('result', null);
 	}
 });
 
@@ -78,11 +85,13 @@ App.UserRegisterController = Ember.Controller.extend({
 	googleLoginLink: App.External.GOOGLE_LOGIN_URL,
 
 	isProcessing: false,
+	timeout: 5000,
 	errors: [],
 	logged: false,
 	actions: {
 		register: function (formData) {
 			this.set('isProcessing', true);
+			setTimeout(this.processingTimeout, this.get('timeout'), this);
 			var data = {};
 			data.name = formData.name;
 			data.email = formData.email;
@@ -107,6 +116,11 @@ App.UserRegisterController = Ember.Controller.extend({
 				self.setProperties(output);
 			});
 		}
+	},
+	processingTimeout: function(self) {
+		self.set('isProcessing', false);
+		self.set('errors', ['Processing failed. Please check your internet connection and try again.']);
+		self.set('result', null);
 	}
 });
 
