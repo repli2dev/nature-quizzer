@@ -1,4 +1,4 @@
-ALTER TABLE "organism_representation" ADD "rights_holder" text NOT NULL;
+ALTER TABLE "organism_representation" ADD "rights_holder" text NULL;
 COMMENT ON COLUMN "organism_representation"."rights_holder" IS 'Describes who is rights holders of this organism representation.';
 
 ALTER TABLE "organism_representation" ADD "hash" character varying(128) NOT NULL;
