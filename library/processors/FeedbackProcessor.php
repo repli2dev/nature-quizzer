@@ -44,7 +44,7 @@ class FeedbackProcessor extends Object
 			$message->addTo($this->mails['feedback']);
 			$message->setBody($data['text']);
 			$this->mailer->send($message);
-			$output['result'] = 'Message was successfully sent. Thank you.';
+			$output['result'] = 'contact.message_sent';
 			$output['status'] = 'success';
 		}
 		sleep(2); // Prevention of spamming
@@ -55,10 +55,10 @@ class FeedbackProcessor extends Object
 	{
 		$form = new Form();
 		$form->addTextArea('text')
-			->addRule(Form::FILLED, 'Please fill in the content of your message.');
+			->addRule(Form::FILLED, 'contact.empty_message');
 		$form->addText('email')
-			->addRule(Form::FILLED, 'Please fill in the e-mail.')
-			->addRule(Form::EMAIL, 'E-mail must be in proper format: someone@somewhere.tld.');
+			->addRule(Form::FILLED, 'contact.empty_email')
+			->addRule(Form::EMAIL, 'contact.wrong_email_format');
 		return $form;
 	}
 }

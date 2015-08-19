@@ -1,8 +1,7 @@
 <div class="narrow-column">
-	<h2>Odhlášení</h2>
-	<div class="flash success">Byli jste úspěšně odhlášeni. Na viděnou příště.</div>
+	<h2>{{translate 'user.heading_logout'}}</h2>
+	<div class="flash success">{{translate 'user.logout_success'}}</div>
 	<div>
-		{{#link-to 'index' classNames='button'}}Vybrat téma{{/link-to}}
-		{{#link-to 'user.login' classNames='button'}}Přihlásit se{{/link-to}}
+		{{#link-to 'user.login' classNames='button'}}{{translate 'user.login'}}{{/link-to}}
 	</div>
 </div>

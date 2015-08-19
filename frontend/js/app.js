@@ -70,7 +70,7 @@ App.Menu.toogle = function () {
 	} else {
 		el.addClass('top-bar-opened');
 	}
-}
+};
 
 /*** Timetracking support ***/
 
@@ -104,3 +104,29 @@ App.Utils.getClientInfo = function getClientInfo()  {
 App.Utils.getRoundIdentification = function getRoundIdentification() {
 	return navigator.userAgent + ' ' + (new Date()).getTime() + ' ' + Math.random();
 };
+
+/*** Language support ***/
+
+App.Languages = {};
+App.Languages.available = {
+	'cs': {
+		'name':'Czech',
+		'local_name': 'Čeština',
+	}
+};
+App.Languages.default = 'cs';
+
+/*** Common helpers ***/
+
+/** Adapted from: http://stackoverflow.com/questions/2061325/javascript-object-key-value-coding-dynamically-setting-a-nested-value */
+function getNestedData(key, obj) {
+	if (!obj) obj = data; //outside (non-recursive) call, use "data" as our base object
+	var ka = key.split(/\./); //split the key by the dots
+	if (ka.length < 2) {
+		return obj[ka[0]]; //only one part (no dots) in key, just set value
+	} else {
+		if (!obj[ka[0]]) obj[ka[0]] = {}; //create our "new" base obj if it doesn't exist
+		obj = obj[ka.shift()]; //remove the new "base" obj from string array, and hold actual object for recursive call
+		return getNestedData(ka.join("."), obj); //join the remaining parts back up with dots, and recursively set data on our new "base" obj
+	}
+}

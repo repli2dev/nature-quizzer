@@ -1,23 +1,23 @@
 <div class="narrow-column">
-	<h2>Registrace uživatele</h2>
+	<h2>{{translate 'user.heading_registration'}}</h2>
 	{{partial "processing"}}
 	{{#unless logged}}
-		<h3>Přes externí služby</h3>
+		<h3>{{translate 'user.via_external_services'}}</h3>
 		{{partial "external-logins"}}
 
-		<h3>Pomocí e-mailu</h3>
+		<h3>{{translate 'user.via_email'}}</h3>
 
 		{{#if errors.length}}
 			<div class="flash error">
-				Registrace se nezdařila:<br />
+				{{translate 'user.registration_fail'}}:<br />
 				<ul>
 					{{#each errors as |error|}}
-						<li>{{error}}</li>
+						<li>{{translate error}}</li>
 					{{/each}}
 				</ul>
 			</div>
 		{{/if}}
-		{{register-form submit="register" submitTitle='Registrovat a přihlásit'}}
+		{{register-form submit="register"}}
 	{{/unless}}
 	{{#if logged}}
 		{{partial "welcome-screen"}}

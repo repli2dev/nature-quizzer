@@ -57,8 +57,11 @@ App.ContactFormComponent = Ember.Component.extend({
 		}
 	},
 	processingTimeout: function(self) {
+		if (!self.get('isProcessing')) {
+			return;
+		}
 		self.set('isProcessing', false);
-		self.set('errors', ['Processing failed. Please check your internet connection and try again.']);
+		self.set('errors', [App.Translator.translate('processing_timeout')]);
 		self.set('result', null);
 	}
 });

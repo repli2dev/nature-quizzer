@@ -2,11 +2,11 @@
 	<div class="window-header">
 		<div class="window-title">
 			{{#if model.all}}
-				Náhodný mix
+				{{translate 'quiz.random_mix'}}
 			{{/if}}
 			{{model.concept.name}}
 		</div>
-		<div class="window-close"><a {{action "close"}} title="Zavřít">&#x2715;</a></div>
+		<div class="window-close"><a {{action "close"}} href="#" title="{{translate 'quiz.close'}}">&#x2715;</a></div>
 		<div class="window-info">
 			<progress value="{{progressValue}}" max="{{progressMax}}"></progress>
 			&nbsp;{{progressValue}}/{{questionMaxCount}}
@@ -16,7 +16,7 @@
 	<div class="window-content">
 		{{#if isProcessing}}
 			<div id="question-loading">
-				<img src="../images/spinner.gif" alt="Načítání" />
+				<img src="../images/spinner.gif" alt="{{translate 'quiz.loading'}}" />
 			</div>
 		{{/if}}
 			{{#if isChooseRepresentationQuestion}}

@@ -19,6 +19,12 @@ App.ApplicationRoute = Ember.Route.extend({
 		// Instantiate authentication manager to handle user login/logout management
 		App.AuthManager = AuthManager.create();
 		App.Feedback = Feedback.create();
+		// Prepare translator, helpers and load language
+		App.Translator = Translator.create();
+		App.TranslateHelper = Ember.Helper.helper(function (params, hash) {
+			return App.Translator.translate(params[0]);
+		});
+		App.Translator.change(App.Languages.default, App.Translations[App.Languages.default]);
 	}
 });
 App.IndexRoute = Ember.Route.extend({

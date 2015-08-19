@@ -1,5 +1,5 @@
 <div class="question">
-	<div class="question-image">{{{question.questionImage}}}</div>
+	<div class="question-image" title="{{question.questionImageRightsHolder}} ({{question.questionImageLicense}})">{{{question.questionImage}}}</div>
 	<div class="question-text-options">
 		{{#each question.options as |option|}}
 			<span class="question-text-option" id="{{option.id_organism}}" {{action 'answer' option.id_organism}}>

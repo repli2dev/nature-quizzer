@@ -1,30 +1,30 @@
 <div class="quick-choice">
-	<h2>Procvičovátko přírody</h2>
-	<p>Vyberte si okruh procvičování:</p>
+	<h2>{{translate 'index.heading'}}</h2>
+	<p>{{translate 'index.choose_topic'}}:</p>
 	<div id="quick-buttons">
 		{{#each model.concepts as |concept|}}
 			{{#link-to 'play' concept.id_concept classNames="quick-button"}}{{concept.name}}{{/link-to}}
 		{{/each}}
 		<div class="cleaner" ></div>
 	</div>
-	<p>Chcete jiný okruh? Podívejte se na {{#link-to 'concepts'}}všechny dostupné{{/link-to}}.</p>
+	<p>{{translate 'index.other_topics'}} {{#link-to 'concepts'}}{{translate 'index.all_available'}}{{/link-to}}.</p>
 </div>
 
 <div class="narrow-column">
-	<h2>Jak to funguje?</h2>
+	<h2>{{translate 'index.how_it_works'}}</h2>
 
 		<div class="adaptive">
-			<h3>Adaptabilní procvičování</h3>
-			<p>Naše aplikace nabízí adaptabilní procvičování, tedy aplikace se přizpůsobí tomu jaké již máte vědomosti a podle toho volí otázky a frekvenci opakování. Zároveň se aplikace snaží vybrat státy jejich procvičení je nejužitečnější a zároveň, tak aby vás to nepřestalo bavit.</p>
+			<h3>{{translate 'index.heading_adaptive'}}</h3>
+			<p>{{translate 'index.text_adaptive'}}</p>
 		</div>
 
 		<div class="specialized-system">
-			<h3>Specializovaný systém</h3>
-			<p>Obecných vyukových systémů na faktografické znalosti je na internetu spousta... naše aplikace se ale soustředí (a je tedy optimalizovaná) speciálně  na konkrétní oblast biologie užitečné pro laiky.</p>
+			<h3>{{translate 'index.heading_specialized'}}</h3>
+			<p>{{translate 'index.text_specialized'}}</p>
 		</div>
 
 		<div class="data-learning">
-			<h3>Učení z dat</h3>
-			<p>Aplikace se snaží využít získaná data od uživatelů ke svému vlastnímu rozvoji. Aplikace se tak učí a není tedy potřeba žádného experta, aby zjistil, jak je která rostlina či zvíře těžké na naučení.</p>
+			<h3>{{translate 'index.heading_data'}}</h3>
+			<p>{{translate 'index.text_data'}}</p>
 		</div>
 </div>

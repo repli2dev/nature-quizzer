@@ -1,23 +1,23 @@
-<h2>Témata</h2>
-<p>Vyberte si jaké téma, respektive oblast přírody se chcete začít učit a stiskněte <strong>Řešit</strong>.</p>
+<h2>{{translate 'topics.heading'}}</h2>
+<p>{{translate 'topics.description'}} <strong>{{translate 'topics.start'}}</strong>.</p>
 
 {{#if invalid}}
-	<div class="flash error">Omlouváme se, ale toto téma je momentálně neprovozuschopné. Zkuste to, prosím, později.</div>
+	<div class="flash error">{{translate 'topics.invalid'}}</div>
 {{/if}}
 
 {{#if interruption}}
-	<div class="flash info">Zkuste si vybrat jiné téma :-)</div>
+	<div class="flash info">{{translate 'topics.interruption'}}</div>
 {{/if}}
 
 {{#each model as |category|}}
 	<div class="group">
 		{{#if others}}
-			<h2>Ostatní</h2>
+			<h2>{{translate 'topics.others'}}</h2>
 		{{/if}}
 		<h2>{{category.name}}</h2>
 		{{#each category.concepts as |concept|}}
 			<div class="concept">
-				{{#link-to 'play' concept.id_concept classNames="start-button"}}Řešit{{/link-to}}
+				{{#link-to 'play' concept.id_concept classNames="start-button"}}{{translate 'topics.start'}}{{/link-to}}
 
 				<span class="concept-name">{{concept.name}}</span>
 				<span class="concept-description">{{concept.description}}</span>

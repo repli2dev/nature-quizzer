@@ -21,9 +21,28 @@ var Feedback = Ember.Object.extend({
 	}
 });
 
+var Translator = Ember.Object.extend({
+	data: {},
+	langauge: null,
+
+	translate: function (key) {
+		var result = getNestedData(key, this.data);
+		if (typeof result !== 'undefined') {
+			return result;
+		} else {
+			console.warn('Missing translation: ' + key);
+			return key;
+		}
+	},
+	change: function(language, data) {
+		this.set('language', language);
+		this.set('data', data);
+	}
+});
+
 var AuthManager = Ember.Object.extend({
 
-	init: function() {
+	init: function () {
 		this.flushData();
 		this.refreshProfile();
 	},

@@ -2,14 +2,14 @@
 	{{#unless isAnonymous}}
 		<span class="username">{{currentUser.name}}</span>
 		<span class="links">
-			{{#link-to 'user.logout'}}Odhlásit{{/link-to}}
+			{{#link-to 'user.logout'}}{{translate 'user.logout'}}{{/link-to}}
 		</span>
 	{{/unless}}
 	{{#if isAnonymous}}
-		<span class="username">Anonymní uživatel</span>
+		<span class="username">{{translate 'user.anonymous_user'}}</span>
 		<span class="links">
-			{{#link-to 'user.login'}}Přihlásit{{/link-to}}
-			{{#link-to 'user.register'}}Registrovat{{/link-to}}
+			{{#link-to 'user.login'}}{{translate 'user.login'}}{{/link-to}}
+			{{#link-to 'user.register'}}{{translate 'user.register'}}{{/link-to}}
 		</span>
 	{{/if}}
 </div>

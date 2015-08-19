@@ -1,14 +1,14 @@
 <div class="narrow-column">
-	<h2>Hotovo!</h2>
-	<p>A zase umíte o kousek více,&hellip; vyberte si čím chcete pokračovat.</p>
+	<h2>{{translate 'quiz.done'}}</h2>
+	<p>{{translate 'quiz.hurray'}}</p>
 
 	<div>
 		{{#if model.mix}}
-			{{#link-to 'play' 'mix' classNames='button'}}Pokračovat{{/link-to}}
+			{{#link-to 'play' 'mix' classNames='button'}}{{translate 'quiz.continue'}}{{/link-to}}
 		{{/if}}
 		{{#if model.id_concept}}
-			{{#link-to 'play' model.id_concept classNames='button'}}Pokračovat{{/link-to}}
+			{{#link-to 'play' model.id_concept classNames='button'}}{{translate 'quiz.continue'}}{{/link-to}}
 		{{/if}}
-		{{#link-to 'concepts' classNames='button'}}Vybrat si nové téma{{/link-to}}
+		{{#link-to 'concepts' classNames='button'}}{{translate 'quiz.choose_new_topic'}}{{/link-to}}
 	</div>
 </div>

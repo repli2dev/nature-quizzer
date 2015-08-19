@@ -1,31 +1,33 @@
-<p>Máte nějaký nápad na vylepšení této aplikace? Narazili jste na chybu? Máte jiný komentář, nápad či postřeh? Napište nám. Děkujeme :-)</p>
+<p>{{translate 'contact.description'}}</p>
 
 {{partial "processing"}}
 
 {{#if errors.length}}
 	<div class="flash error">
-		Odeslání zprávy se nezdařilo:<br />
+		{{translate 'contact.fail'}}:<br />
 		<ul>
 			{{#each errors as |error|}}
-				<li>{{error}}</li>
+				<li>{{translate error}}</li>
 			{{/each}}
 		</ul>
 	</div>
 {{/if}}
 {{#if result}}
 	<div class="flash success">
-		{{result}}
+		{{translate result}}
 	</div>
 {{/if}}
 
 <form {{action "submit" on="submit"}}>
 	<div class="pair">
+		<label style="vertical-align: top;">{{translate 'contact.content'}}</label>
 		{{textarea value=text cols="80" rows="6"}}
 	</div>
 	<div class="pair">
-		{{input value=email placeholder='E-mail'}}
+		<label>{{translate 'contact.email'}}</label>
+		{{input value=email}}
 	</div>
 	<div class="pair">
-		<input type="submit" value="Odeslat">
+		<input type="submit" value="{{translate 'contact.send'}}">
 	</div>
 </form>

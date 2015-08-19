@@ -249,10 +249,10 @@ class UserProcessor extends Object
 	{
 		$form = new Form();
 		$form->addText('email')
-			->addRule(Form::FILLED, 'Please fill in the e-mail.')
-			->addRule(Form::EMAIL, 'E-mail must be in proper format: someone@somewhere.tld.');
+			->addRule(Form::FILLED, 'user.empty_email')
+			->addRule(Form::EMAIL, 'user.wrong_email_format');
 		$form->addText('password')
-			->addRule(Form::FILLED, 'Please fill in the password.');
+			->addRule(Form::FILLED, 'user.empty_password');
 		return $form;
 	}
 
@@ -260,22 +260,22 @@ class UserProcessor extends Object
 	{
 		$form = new Form();
 		$form->addText('name')
-			->addRule(Form::FILLED, 'Please fill in the name');
+			->addRule(Form::FILLED, 'user.empty_name');
 		$form->addText('email')
-			->addRule(Form::FILLED, 'Please fill in the e-mail.')
-			->addRule(Form::EMAIL, 'E-mail must be in proper format: someone@somewhere.tld.')
+			->addRule(Form::FILLED, 'user.empty_email')
+			->addRule(Form::EMAIL, 'user.wrong_email_format')
 			->addRule(function ($item) {
 				$data = $this->userModel->findByEmail($item->getValue());
 				return $data === FALSE;
-			}, 'This e-mail is already registered.');
+			}, 'email_taken');
 		$form->addText('password')
-			->addRule(Form::FILLED, 'Please fill in the password.');
+			->addRule(Form::FILLED, 'user.empty_password');
 		$form->addText('password2')
-			->addRule(Form::FILLED, 'Please fill in the password for check.');
+			->addRule(Form::FILLED, 'user.empty_password2');
 
 		$form['password']
 			->addCondition(Form::FILLED)
-			->addRule(Form::EQUAL, 'Passwords have to match each other.', $form['password2']);
+			->addRule(Form::EQUAL, 'user.password_mismatch', $form['password2']);
 		return $form;
 	}
 }

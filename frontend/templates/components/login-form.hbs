@@ -1,11 +1,13 @@
 <form {{action "submit" on="submit"}}>
 	<div class="pair">
-		{{input value=email placeholder='E-mail'}}
+		<label>{{translate 'user.email'}}</label>
+		{{input value=email}}
 	</div>
 	<div class="pair">
-		{{input type='password' value=password placeholder='Heslo'}}
+		<label>{{translate 'user.password'}}</label>
+		{{input type='password' value=password}}
 	</div>
 	<div class="pair">
-		<input type="submit" {{bind-attr value=submitTitle}}>
+		<input type="submit" value="{{translate 'user.login'}}">
 	</div>
 </form>

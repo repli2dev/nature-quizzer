@@ -1,17 +1,21 @@
 <form {{action "submit" on="submit"}}>
 	<div class="pair">
-		{{input value=name placeholder='Jméno/přezdívka'}}
+		<label>{{translate 'user.name'}}</label>
+		{{input value=name}}
 	</div>
 	<div class="pair">
-		{{input value=email placeholder='E-mail' size=30}}
+		<label>{{translate 'user.email'}}</label>
+		{{input value=email size=30}}
 	</div>
 	<div class="pair">
-		{{input type='password' value=password placeholder='Heslo'}}
+		<label>{{translate 'user.password'}}</label>
+		{{input type='password' value=password}}
 	</div>
 	<div class="pair">
-		{{input type='password' value=password2 placeholder='Heslo pro kontrolu'}}
+		<label>{{translate 'user.password2'}}</label>
+		{{input type='password' value=password2}}
 	</div>
 	<div class="pair">
-		<input type="submit" {{bind-attr value=submitTitle}}>
+		<input type="submit" value="{{translate 'user.register_and_login'}}">
 	</div>
 </form>

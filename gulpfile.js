@@ -20,6 +20,9 @@ var paths = {
 		'frontend/js/components.js',
 		'frontend/js/netteForms.js'
 	],
+	locales: [
+		'frontend/locales/**/*.js'
+	],
 	stylesFrontend: [
 		'frontend/css/animations.css',
 		'frontend/css/style.css',
@@ -59,7 +62,7 @@ gulp.task('styles', ['styles-backend', 'styles-frontend']);
 
 // ====== Javascript =======
 gulp.task('scripts', function() {
-	return gulp.src(paths.scripts)
+	return gulp.src(paths.scripts.concat(paths.locales))
 		.pipe(concat('scripts.js'))
 		.pipe(gulp.dest(destination));
 });
@@ -80,6 +83,7 @@ gulp.task('watch', function() {
 	gulp.watch(paths.stylesBackend, ['styles-backend']);
 
 	gulp.watch(paths.scripts, ['scripts']);
+	gulp.watch(paths.locales, ['scripts']);
 	gulp.watch(paths.templates, ['templates']);
 });
 

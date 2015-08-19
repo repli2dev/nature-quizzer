@@ -40,3 +40,13 @@ input[type=submit]:hover {
 input[type=submit]:active {
 	outline: none;
 }
+
+label {
+	width: 150px;
+	display: inline-block;
+	text-align: right;
+	margin-right: 20px;
+}
+label::after {
+	content: ':';
+}
