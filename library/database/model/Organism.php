@@ -133,7 +133,10 @@ class Organism extends Table
 	{
 		return $this->context->query('
 			SELECT
-				organism_representation.*,
+				organism_representation.id_representation,
+				organism_representation.id_organism,
+				organism_representation.license,
+				organism_representation.rights_holder,
 				organism_name.name,
 				organism_concept.id_concept
 			FROM organism_representation

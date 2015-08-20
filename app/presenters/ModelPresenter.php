@@ -2,7 +2,7 @@
 
 namespace NatureQuizzer\Presenters;
 
-use NatureQuizzer\Database\Model\Setting;
+use NatureQuizzer\Database\Model\Model;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Utils\DateTime;
@@ -10,16 +10,16 @@ use Nextras\Datagrid\Datagrid;
 use PDOException;
 
 
-class SettingPresenter extends BasePresenter
+class ModelPresenter extends BasePresenter
 {
 	protected $resource = 'content';
 
-	/** @var Setting */
-	private $settingModel;
+	/** @var Model */
+	private $model;
 
-	public function injectBase(Setting $settingModel)
+	public function injectBase(Model $model)
 	{
-		$this->settingModel = $settingModel;
+		$this->model = $model;
 	}
 
 	public function startup()
@@ -30,7 +30,7 @@ class SettingPresenter extends BasePresenter
 
 	public function actionEdit($id)
 	{
-		$data = $this->settingModel->get($id);
+		$data = $this->model->get($id);
 		if ($data === FALSE) {
 			throw new BadRequestException();
 		}
@@ -42,7 +42,7 @@ class SettingPresenter extends BasePresenter
 	protected function createComponentEditForm()
 	{
 		$form = $this->prepareForm();
-		$form->addSubmit('send', 'Update setting');
+		$form->addSubmit('send', 'Update model setting');
 		$form->onSuccess[] = $this->editFormSucceeded;
 		return $form;
 	}
@@ -52,11 +52,11 @@ class SettingPresenter extends BasePresenter
 		unset($values['name']);
 		$values['updated'] = new DateTime();
 		try {
-			$this->settingModel->update($this->getParameter('id'), $values);
+			$this->model->update($this->getParameter('id'), $values);
 		} catch (PDOException $ex) {
 			throw $ex;
 		}
-		$this->flashMessage('Setting has been successfully updated.', 'success');
+		$this->flashMessage('Model settings has been successfully updated.', 'success');
 		$this->redirect('default');
 	}
 
@@ -79,13 +79,13 @@ class SettingPresenter extends BasePresenter
 	public function createComponentSettingList()
 	{
 		$grid = new Datagrid();
-		$grid->setRowPrimaryKey('id_setting');
+		$grid->setRowPrimaryKey('id_model');
 		$grid->setDatasourceCallback(function ($filter, $order) {
-			return $this->settingModel->getAll();
+			return $this->model->getAll();
 		});
 
-		$grid->addCellsTemplate(__DIR__ . '/../grids/setting-list.latte');
-		$grid->addColumn('id_setting', 'ID');
+		$grid->addCellsTemplate(__DIR__ . '/../grids/model-list.latte');
+		$grid->addColumn('id_model', 'ID');
 		$grid->addColumn('name', 'Name');
 		$grid->addColumn('ratio', 'Ratio');
 		$grid->addColumn('inserted', 'Inserted');

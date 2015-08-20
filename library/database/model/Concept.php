@@ -8,6 +8,8 @@ use Nette\Utils\DateTime;
 
 class Concept extends Table
 {
+	const ALL = 'ALL';
+
 	public function insert($data, $infos = [])
 	{
 		return $this->performInTransaction(function () use ($data, $infos) {

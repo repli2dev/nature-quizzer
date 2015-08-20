@@ -11,6 +11,7 @@ class UserAnswer extends Object
 {
 	public $hasErrors = false;
 
+	public $id_model;
 	public $id_round;
 	public $question_seq_num;
 	public $question_type;
@@ -27,6 +28,7 @@ class UserAnswer extends Object
 	public function isValid()
 	{
 		$state = !$this->hasErrors;
+		$state &= $this->id_model !== null;
 		$state &= $this->id_round !== null;
 		$state &= $this->question_seq_num !== null && $this->question_seq_num > 0;
 		$state &= QuestionType::isValid($this->question_type);
@@ -76,6 +78,7 @@ class UserAnswer extends Object
 	public function toRows()
 	{
 		$common = [
+			'id_model' => (int) $this->id_model,
 			'id_round' => (int) $this->id_round,
 			'question_seq_num' => (int) $this->question_seq_num,
 			'question_type' => (int) $this->question_type,

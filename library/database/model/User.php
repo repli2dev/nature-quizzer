@@ -74,11 +74,11 @@ class User extends Table implements IAuthenticator
 		return $this->getTable()->where(':user_external.token = ?', self::EXTERNAL_GOOGLE . ':' . $googleId)->fetch();
 	}
 
-	public function getSetting($userId)
+	public function getModel($userId)
 	{
 		$row = $this->get($userId);
 		if ($row) {
-			return $row->id_setting;
+			return $row->id_model;
 		}
 		return NULL;
 	}

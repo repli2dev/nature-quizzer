@@ -4,9 +4,9 @@ namespace NatureQuizzer\Processors;
 use NatureQuizzer\Database\Model\Concept;
 use NatureQuizzer\Database\Model\Organism;
 use NatureQuizzer\Database\Model\QuestionType;
-use NatureQuizzer\Model\BasicEloRandomDistractors;
-use NatureQuizzer\Model\IQuizGenerator;
-use NatureQuizzer\Model\QuizGeneratorFactory;
+use NatureQuizzer\Model\EloRandomDistractors;
+use NatureQuizzer\Model\IModelFacade;
+use NatureQuizzer\Model\ModelFacadeFactory;
 use NatureQuizzer\RequestProcessorException;
 use NatureQuizzer\Runtime\CurrentLanguage;
 use NatureQuizzer\Runtime\CurrentUser;
@@ -24,10 +24,10 @@ class QuestionsProcessor extends Object
 	private $concept;
 	/** @var Organism */
 	private $organism;
-	/** @var IQuizGenerator */
+	/** @var IModelFacade */
 	private $quizGenerator;
 
-	public function __construct(CurrentUser $currentUser, CurrentLanguage $currentLanguage, Concept $concept, Organism $organism, QuizGeneratorFactory $quizGeneratorFactory)
+	public function __construct(CurrentUser $currentUser, CurrentLanguage $currentLanguage, Concept $concept, Organism $organism, ModelFacadeFactory $quizGeneratorFactory)
 	{
 		$this->currentUser = $currentUser;
 		$this->currentLanguage = $currentLanguage;
@@ -45,7 +45,7 @@ class QuestionsProcessor extends Object
 			}
 			return $concept;
 		} else {
-			return BasicEloRandomDistractors::ALL_CONCEPTS;
+			return Concept::ALL;
 		}
 	}
 
@@ -53,7 +53,7 @@ class QuestionsProcessor extends Object
 	{
 		$output = [];
 		$output['count'] = count($questions);
-		if ($concept !== BasicEloRandomDistractors::ALL_CONCEPTS) {
+		if ($concept !== Concept::ALL) {
 			$output['concept'] = [
 				'id_concept' => $concept->id_concept,
 				'code_name' => $concept->code_name,

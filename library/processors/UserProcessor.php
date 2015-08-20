@@ -5,7 +5,7 @@ use Exception;
 use NatureQuizzer\Database\Model\CurrentKnowledge;
 use NatureQuizzer\Database\Model\PriorKnowledge;
 use NatureQuizzer\Database\Model\Round;
-use NatureQuizzer\Database\Model\Setting as SettingModel;
+use NatureQuizzer\Database\Model\Model as SettingModel;
 use NatureQuizzer\Database\Model\User as UserModel;
 use NatureQuizzer\Runtime\CurrentUser;
 use Nette\Forms\Form;
@@ -115,7 +115,7 @@ class UserProcessor extends Object
 				'password' => Passwords::hash($data['password']),
 				'inserted' => new DateTime(),
 				'anonymous' => FALSE,
-				'id_setting' => $this->userModel->getSetting($oldIdentity->getId())
+				'id_model' => $this->userModel->getModel($oldIdentity->getId())
 			]);
 			try {
 				$this->user->login(Strings::lower($data['email']), $data['password']);
@@ -168,7 +168,7 @@ class UserProcessor extends Object
 					'email' => Strings::lower($userInfo['email']),
 					'inserted' => new DateTime(),
 					'anonymous' => FALSE,
-					'id_setting' => $this->userModel->getSetting($this->user->getId())
+					'id_model' => $this->userModel->getModel($this->user->getId())
 				]);
 			}
 			// Expectation: having and user by now
@@ -213,7 +213,7 @@ class UserProcessor extends Object
 					'email' => Strings::lower($userInfo['email']),
 					'inserted' => new DateTime(),
 					'anonymous' => FALSE,
-					'id_setting' => $this->userModel->getSetting($this->user->getId())
+					'id_model' => $this->userModel->getModel($this->user->getId())
 				]);
 			}
 			// Expectation: having and user by now

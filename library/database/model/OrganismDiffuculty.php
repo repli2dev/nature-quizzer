@@ -7,25 +7,25 @@ use NatureQuizzer\Model\OrganismDifficultyEntry;
 
 class OrganismDifficulty extends Table
 {
-	public function fetch($organism)
+	public function fetch($model, $organism)
 	{
-		$data = $this->getTable()->where('id_organism = ?', $organism)->fetch();
+		$data = $this->getTable()->where('id_model = ? AND id_organism = ?', $model, $organism)->fetch();
 		if ($data === FALSE) {
 			return new OrganismDifficultyEntry($organism, null);
 		}
 		return new OrganismDifficultyEntry($data->id_organism, $data->value);
 	}
 
-	public function persist(OrganismDifficultyEntry $entry)
+	public function persist($model, OrganismDifficultyEntry $entry)
 	{
 		$data = [
 			'value' => $entry->getValue(),
 			'id_organism' => $entry->getOrganism()
 		];
-		if ($this->getTable()->where('id_organism = ?', $entry->getOrganism())->fetch() !== FALSE) {
-			$this->getTable()->where('id_organism = ?', $entry->getOrganism())->update($data);
+		if ($this->getTable()->where('id_model = ? AND id_organism = ?', $model, $entry->getOrganism())->fetch() !== FALSE) {
+			$this->getTable()->where('id_model = ? AND id_organism = ?', $model, $entry->getOrganism())->update($data);
 		} else {
-			$this->getTable()->insert($data);
+			$this->getTable()->insert(array_merge($data, ['id_model' => $model]));
 		}
 
 	}
