@@ -220,3 +220,16 @@ CREATE TABLE current_knowledge (
 );
 CREATE INDEX ON current_knowledge (id_organism);
 COMMENT ON TABLE prior_knowledge IS 'Skill of user U of organism O after already facing it.';
+
+------------------------------------------------------------------------------------------------------------------------
+-- Tables for distractors selection
+------------------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE organism_distance (
+  id_organism_from BIGINT NOT NULL REFERENCES organism (id_organism) ON UPDATE CASCADE ON DELETE CASCADE,
+  id_organism_to BIGINT NOT NULL REFERENCES organism (id_organism) ON UPDATE CASCADE ON DELETE CASCADE,
+  distance INT NOT NULL CHECK (distance > 0),
+  PRIMARY KEY (id_organism_from, id_organism_to)
+);
+
+COMMENT ON TABLE organism_distance IS 'Captures distance between two organisms';

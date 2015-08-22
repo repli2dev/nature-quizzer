@@ -45,6 +45,16 @@ class Organism extends Table
 		return $this->getTable()->where('latin_name = ?', $latinName)->fetch();
 	}
 
+	public function findRandom($count)
+	{
+		return $this->getTable()->order('random()')->limit($count)->select('id_organism')->fetchPairs(NULL, 'id_organism');
+	}
+
+	public function findInDistance($organismId, $distance = 0, $count)
+	{
+		return $this->getDistanceTable()->where('id_organism_from = ? AND distance > ?', $organismId, $distance)->order('distance ASC')->order('random()')->limit($count)->fetchPairs(NULL, 'id_organism_to');
+	}
+
 	public function getInfos($organism)
 	{
 		$data = $this->getInfoTable()
@@ -97,6 +107,11 @@ class Organism extends Table
 		return $this->context->table('organism_concept');
 	}
 
+	public function getDistanceTable()
+	{
+		return $this->context->table('organism_distance');
+	}
+
 	public function getRepresentations($organism)
 	{
 		return $this->getRepresentationTable()->where('id_organism = ?', $organism)->fetchAll();
@@ -129,27 +144,6 @@ class Organism extends Table
 		return $this->getTable()->where(':organism_representation.id_representation = ?', $representationId)->fetch();
 	}
 
-	public function getRepresentationsWithInfo($languageId, $conceptId = NULL)
-	{
-		return $this->context->query('
-			SELECT
-				organism_representation.id_representation,
-				organism_representation.id_organism,
-				organism_representation.license,
-				organism_representation.rights_holder,
-				organism_name.name,
-				organism_concept.id_concept
-			FROM organism_representation
-			LEFT JOIN organism_name USING (id_organism)
-			LEFT JOIN organism_concept USING (id_organism)
-			WHERE id_language = ? AND (? IS NULL OR id_concept = ?)
-		',
-			$languageId,
-			$conceptId,
-			$conceptId
-		)->fetchAssoc('id_organism[]');
-	}
-
 	public function getRepresentationsWithInfoByOrganisms($languageId, $organismIds)
 	{
 		return $this->context->query('
@@ -158,7 +152,6 @@ class Organism extends Table
 				organism_name.name
 			FROM organism_representation
 			LEFT JOIN organism_name USING (id_organism)
-			LEFT JOIN organism_concept USING (id_organism)
 			WHERE id_language = ? AND id_organism IN (?)
 		',
 			$languageId,
@@ -175,22 +168,22 @@ class Organism extends Table
 		return $this->context->table('organism_representation');
 	}
 
-	public function getSelectionAttributes($userId, $conceptId = NULL)
+	public function getSelectionAttributes($userId, $modelId, $conceptId = NULL)
 	{
 		return $this->context->query('
 			SELECT
 				organism.id_organism,
 				COUNT(*) AS total_answered,
 				MAX(answer.inserted) AS last_answer,
-				(SELECT value FROM prior_knowledge WHERE id_user = ?) AS prior_knowledge,
+				(SELECT value FROM prior_knowledge WHERE id_user = ? AND id_model = ?) AS prior_knowledge,
 				current_knowledge.value AS current_knowledge
 			FROM organism
 			LEFT JOIN answer ON answer.id_organism = organism.id_organism
 			LEFT JOIN round on round.id_round = answer.id_round AND round.id_user = ?
-			LEFT JOIN prior_knowledge ON prior_knowledge.id_user = round.id_user
-			LEFT JOIN current_knowledge ON current_knowledge.id_user = round.id_user AND current_knowledge.id_organism = organism.id_organism
+			LEFT JOIN prior_knowledge ON prior_knowledge.id_user = round.id_user AND prior_knowledge.id_model = ?
+			LEFT JOIN current_knowledge ON current_knowledge.id_user = round.id_user AND current_knowledge.id_model = ? AND current_knowledge.id_organism = organism.id_organism
 			WHERE (? IS NULL OR organism.id_organism IN (SELECT id_organism FROM organism_concept WHERE id_concept = ?))
 			GROUP BY organism.id_organism, round.id_user, prior_knowledge.value, current_knowledge.value
-		', $userId, $userId, $conceptId, $conceptId);
+		', $userId, $modelId, $userId, $modelId, $modelId, $conceptId, $conceptId);
 	}
 }

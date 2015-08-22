@@ -57,10 +57,12 @@ services:
 	- NatureQuizzer\Processors\UserProcessor
 	- NatureQuizzer\Model\Utils\UserAnswerFactory
 	- NatureQuizzer\Model\EloRandomDistractors
+	- NatureQuizzer\Model\EloTaxonomyDistractors
 	-
 		class: NatureQuizzer\Model\ModelFacadeFactory
 		setup:
 			- register(@NatureQuizzer\Model\EloRandomDistractors)
+			- register(@NatureQuizzer\Model\EloTaxonomyDistractors)
 
 	user: NatureQuizzer\Utils\User
 	- NatureQuizzer\Utils\Facebook

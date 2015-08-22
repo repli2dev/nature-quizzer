@@ -5,6 +5,7 @@ namespace NatureQuizzer\Database\Utils;
 use Exception;
 use Nette\Database\Context;
 use Nette\DI\Container;
+use Tracy\Debugger;
 
 class ImportTransaction
 {
@@ -22,8 +23,10 @@ class ImportTransaction
 		$databaseContext = $this->container->getByType('Nette\\Database\\Context');
 		$databaseContext->beginTransaction();
 		try {
+			Debugger::timer('import');
 			call_user_func($function, $this->container);
 			$databaseContext->commit();
+			echo "\n\nELAPSED: " .round(Debugger::timer('import')) . "s\n";
 			echo "\n\nIMPORT DONE\n";
 		} catch (Exception $ex) {
 			echo "\n\nIMPORT FAILED\n";

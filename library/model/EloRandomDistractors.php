@@ -24,6 +24,20 @@ class EloRandomDistractors extends BasicElo implements IModelFacade
 
 		$this->eloUpdateFactorA = 1;
 		$this->eloUpdateFactorB = 0.05;
+	}
 
+	protected function selectDistractors($userId, $organismIds, $distractorCount)
+	{
+		$desiredCount = count($organismIds) * $distractorCount;
+		$organisms = $this->organism->findRandom($desiredCount);
+
+		$output = [];
+		foreach ($organismIds as $seqId => $organismId) {
+			// Some harakiri due to need to exclude organism itself.
+			$distractors = array_slice(array_filter(array_slice($organisms, 0, $distractorCount+1), function ($item) use ($organismId) { return $item != $organismId; }), 0, $distractorCount);
+			$output[$seqId] = $distractors;
+			shuffle($organisms);
+		}
+		return $output;
 	}
 }
