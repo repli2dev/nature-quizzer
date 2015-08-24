@@ -61,7 +61,7 @@ class Google
 	private function ensureInitialized()
 	{
 		if (!$this->initialized) {
-			throw new Exception('Facebook authentication is not available at the moment.', self::NOT_AVAILABLE);
+			throw new Exception('Google authentication is not available at the moment.', self::NOT_AVAILABLE);
 		}
 	}
 
