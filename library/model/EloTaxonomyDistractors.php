@@ -40,6 +40,8 @@ class EloTaxonomyDistractors extends BasicElo implements IModelFacade
 			$eloScore = ($currentK->getValue() !== NULL) ? $currentK->getValue() : $priorK->getValue();
 			$distance = $this->distance($this->probabilityEstimated($eloScore));
 
+			//fdump('eloScore: ', $eloScore, 'pst:', $this->probabilityEstimated($eloScore), 'distance:', $distance);
+
 			$output[$seqId] = $this->organism->findInDistance($organismId, $distance, $distractorCount);
 		}
 		return $output;
@@ -53,17 +55,7 @@ class EloTaxonomyDistractors extends BasicElo implements IModelFacade
 
 	private function distance($probability)
 	{
-		//fdump($probability);
-		/* TODO: finish properly*/
-		$temp = 3;
-		if ($probability > 0.99) {
-			$temp = -2301;
-		}
-		$result = round((1 / (pow($probability, 3)) + 2));
-		//fdump($result);
-		if ($result > 25) {
-			return 25;
-		}
-		return $result;
+		$distance = -23 * $probability + 25;
+		return round($distance);
 	}
 }
