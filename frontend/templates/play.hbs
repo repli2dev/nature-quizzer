@@ -9,10 +9,11 @@
 			{{/if}}
 			{{model.concept.name}}
 		</div>
-		<div class="window-close"><a {{action "close"}} href="#" title="{{translate 'quiz.close'}}">&#x2715;</a></div>
+		<div class="window-close"><a {{action "close"}} title="{{translate 'quiz.close'}}">&#x2715;</a></div>
 		<div class="window-info">
 			<progress value="{{progressValue}}" max="{{progressMax}}"></progress>
 			&nbsp;{{progressValue}}/{{questionMaxCount}}
+			<a {{action "openContactModal" reportMessage}} class="report">&#x238B; {{translate 'quiz.report'}}</a>
 		</div>
 		<div class="cleaner"></div>
 	</div>

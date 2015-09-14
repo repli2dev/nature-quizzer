@@ -25,6 +25,26 @@ App.ApplicationRoute = Ember.Route.extend({
 			return App.Translator.translate(params[0]);
 		});
 		App.Translator.change(App.Languages.default, App.Translations[App.Languages.default]);
+	},
+	actions: {
+		openContactModal: function (value) {
+			this.controller.set('contactModal', true);
+			if (typeof value !== 'undefined') {
+				this.controller.set('contactContent', value);
+			}
+			$("body").animate({
+				scrollTop: 0
+			}, 400);
+		},
+		closeContactModal: function () {
+			this.controller.set('contactModal', false);
+			this.controller.set('contactContent', '');
+		},
+		changeLanguage: function (language) {
+			// TODO: finish switching languages and redrawing
+			// console.log(App.Translator);
+			// App.Translator.change(language, {});
+		}
 	}
 });
 App.IndexRoute = Ember.Route.extend({

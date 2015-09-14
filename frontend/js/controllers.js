@@ -1,5 +1,6 @@
 App.ApplicationController = Ember.Controller.extend({
 	contactModal: false,
+	contactContent: '',
 
 	currentUser: function() {
 		return App.AuthManager.get('data');
@@ -13,22 +14,7 @@ App.ApplicationController = Ember.Controller.extend({
 		return App.AuthManager.isLogged();
 	}.property('App.AuthManager.data'),
 
-	actions: {
-		openContactModal: function () {
-			this.set('contactModal', true);
-			$("body").animate({
-				scrollTop: 0
-			}, 400);
-		},
-		closeContactModal: function () {
-			this.set('contactModal', false);
-		},
-		changeLanguage: function (language) {
-			// TODO: finish switching languages and redrawing
-			// console.log(App.Translator);
-			// App.Translator.change(language, {});
-		}
-	}
+	/* For actions see ApplicationRoute */
 });
 
 App.ConceptsController = Ember.Controller.extend({
@@ -164,6 +150,29 @@ App.PlayController = Ember.Controller.extend({
 	markedAnswers: [],	// Answers marked (selected) by the user
 
 	isProcessing: false,
+
+	reportMessage: function() {
+		var message = App.Translator.translate('quiz.report_description') + ': ';
+		var question = this.get('question');
+		if (typeof question === 'undefined') {
+			return '';
+		}
+		if (this.get('isChooseRepresentationQuestion')) {
+			message += '' + question.questionText + ' ' + App.Translator.translate('quiz.report_representations') + ' [';
+			question.options.forEach(function(el) {
+				message += el.id_representation + ' '
+			});
+			message += ']';
+		} else if (this.get('isChooseNameQuestion')) {
+			message += '' + question.id_representation + ' ' + App.Translator.translate('quiz.report_organisms') + ' [';
+			question.options.forEach(function(el) {
+				message += el.id_organism + ' '
+			});
+			message += ']\n\n';
+		}
+		message += '\n' + App.Translator.translate('quiz.report_comment') + ':\n';
+		return message;
+	}.property('this.questionCurrent'),
 
 	shortcutTriggered: function (event, controller) {
 		if (event.keyCode == 27) { // Escape
@@ -323,7 +332,7 @@ App.PlayController = Ember.Controller.extend({
 		},
 		close: function () {
 			this.transitionToRoute('concepts', {queryParams: {interruption: 1, invalid: "null"}});
-		}
+		},
 	}
 });
 

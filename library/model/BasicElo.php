@@ -102,6 +102,7 @@ abstract class BasicElo extends AModelFacade
 		$organism = ArrayHash::from($this->getRandomItem($data[$organismId]));
 		$question = [
 			'type' => QuestionType::CHOOSE_NAME,
+			'id_representation' => $organism->id_representation,
 			'questionImage' => $this->getRepresentationImage($organism->id_representation),
 			'questionImageRightsHolder' => $organism->rights_holder,
 			'questionImageLicense' => $organism->license,

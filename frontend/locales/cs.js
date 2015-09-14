@@ -88,6 +88,11 @@ App.Translations.cs = {
 		'hurray': 'A zase umíte o kousek více,... vyberte si čím chcete pokračovat.',
 		'continue': 'Pokračovat',
 		'choose_new_topic': 'Vybrat si nové téma',
+		'report': 'Nahlásit',
+		'report_description': 'Popis situace',
+		'report_representations': 'z reprezentací',
+		'report_organisms': 'z organismů',
+		'report_comment': 'Váš komentář'
 	},
 	'about': {
 		'heading_team': 'Kdo za tím stojí',

@@ -54,7 +54,7 @@ App.ContactFormComponent = Ember.Component.extend({
 				}
 				self.setProperties(output);
 			});
-		}
+		},
 	},
 	processingTimeout: function(self) {
 		if (!self.get('isProcessing')) {

@@ -206,6 +206,10 @@ div.cleaner {
 	margin-bottom: 20px;
 }
 
+a.report {
+	margin-left: 20px;
+}
+
 .window-shadow {
 	position: absolute;
 	top: 0px;
@@ -557,4 +561,8 @@ div.flash {
 	background: url('../images/data-learning.png') no-repeat;
 	padding-left: 85px;
 	margin-bottom: 30px;
+}
+
+[data-ember-action] {
+	cursor: pointer;
 }
