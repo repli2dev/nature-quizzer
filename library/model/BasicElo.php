@@ -179,6 +179,9 @@ abstract class BasicElo extends AModelFacade
 		$data = $this->organism->getSelectionAttributes($userId, $this->getId(), $conceptId)->fetchAll();
 		$scores = [];
 		foreach ($data as $row) {
+			if ($row->representation_count == 0) {
+				continue;
+			}
 			$eloScore = ($row->current_knowledge !== NULL) ? $row->current_knowledge : $row->prior_knowledge;
 			$score = $this->weightProbability * $this->scoreProbability($this->probabilityEstimated($eloScore), $this->targetProbability);
 			$score += $this->weightTime * $this->scoreTime($row->last_answer);

@@ -176,7 +176,8 @@ class Organism extends Table
 				COUNT(*) AS total_answered,
 				MAX(answer.inserted) AS last_answer,
 				(SELECT value FROM prior_knowledge WHERE id_user = ? AND id_model = ?) AS prior_knowledge,
-				current_knowledge.value AS current_knowledge
+				current_knowledge.value AS current_knowledge,
+				(SELECT COUNT(*) FROM organism_representation WHERE id_organism = organism.id_organism) AS representation_count
 			FROM organism
 			LEFT JOIN answer ON answer.id_organism = organism.id_organism
 			LEFT JOIN round on round.id_round = answer.id_round AND round.id_user = ?
