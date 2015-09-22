@@ -63,6 +63,7 @@ class UserProcessor extends Object
 			$output['id'] = $this->user->getId();
 			$output['name'] = $this->user->getIdentity()->name;
 			$output['model'] = $this->settingModel->getModelNameByUser($this->user->getId());
+			$output['email'] = $this->user->getIdentity()->email;
 		}
 		return $output;
 	}

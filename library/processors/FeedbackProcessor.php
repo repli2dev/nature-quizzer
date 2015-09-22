@@ -40,7 +40,9 @@ class FeedbackProcessor extends Object
 		} else {
 			$message = new Message();
 			$message->setSubject('Nature Quizzer: Feedback');
-			$message->setFrom($data['email']);
+			if (isset($data['email'])) {
+				$message->setFrom($data['email']);
+			}
 			$message->addTo($this->mails['feedback']);
 			$message->setBody($data['text']);
 			$this->mailer->send($message);
@@ -57,7 +59,7 @@ class FeedbackProcessor extends Object
 		$form->addTextArea('text')
 			->addRule(Form::FILLED, 'contact.empty_message');
 		$form->addText('email')
-			->addRule(Form::FILLED, 'contact.empty_email')
+			->addCondition(Form::FILLED)
 			->addRule(Form::EMAIL, 'contact.wrong_email_format');
 		return $form;
 	}

@@ -11,7 +11,6 @@ App.Translations.cs = {
 		'email': 'E-mail',
 		'content': 'Co máte na srdci',
 		'empty_message': 'Vyplňte, prosím, text zprávy.',
-		'empty_email': 'Vyplňte, prosím, e-mailovou adresu.',
 		'wrong_email_format': 'E-mailová adresa musí být ve správném formátu nekdo@nekde.koncovka.',
 		'message_sent': 'Vaše zpráva byla úspěšně odeslána. Děkujeme.',
 	},
