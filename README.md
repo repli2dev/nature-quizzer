@@ -47,17 +47,29 @@ $ cd <project path>
 $ vim app/config.local.neon
 ```
 
-5. To install basic database schema run prepared migrations:
+5. Create database and import ``sources/itis.sql.gz`` from ``nature-quizzer-packages`` repository.
+ 
+```
+$ psql -U postgres -d nature-quizzer < itis.sql
+```
+
+6. To install basic database schema run prepared migrations:
 
 ```
 $ cd <project path>
 $ php utils/updatedb.php
 ```
 
-6. Import desired data (DB entries as well as the underlying images) into the system.
-   There is `utils/import.php` for this task. 
+7. Import desired data (DB entries as well as the underlying images) into the system.
+   There is `utils/import.php` for this task.
+    
+8. After changing organisms (adding or removing) the organism distance script should be executed:
 
-For convenience there is a `deploy.php` script which does this step in order to make things easy.
+```
+$ php utils/update-organism-distances.php 
+```
+
+For convenience there is a `deploy.php` script which does this step in order to make things easy (except importing data)
 
 Running
 =======

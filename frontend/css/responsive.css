@@ -42,4 +42,19 @@
 		margin-bottom: 30px;
 		float: none;
 	}
+
+	.narrow-column {
+		width: 100%;
+	}
+
+	.window-info progress[value] {
+		width: 150px;
+	}
+}
+
+@media only screen and (max-width: 500px) {
+	#top-bar h1 {
+		width: 0px;
+		overflow: hidden;
+	}
 }
