@@ -58,3 +58,15 @@
 		overflow: hidden;
 	}
 }
+
+@media only screen and (min-height: 800px) {
+	.window {
+		top: 50px;
+	}
+}
+
+@media only screen and (min-height: 920px) {
+	.window {
+		top: 100px;
+	}
+}
