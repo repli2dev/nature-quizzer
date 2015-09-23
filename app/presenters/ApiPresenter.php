@@ -99,7 +99,6 @@ class ApiPresenter extends BasePresenter
 
 	public function actionAnswer()
 	{
-		throw new Exception();
 		$data = $this->request->getPost();
 		$this->answerProcessor->save($data);
 		$this->terminate();
