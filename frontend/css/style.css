@@ -517,6 +517,11 @@ div.flash {
 	margin-bottom: 20px;
 }
 
+div.error {
+	background: #F9858B;
+	color: white;
+}
+
 #external-logins {
 	margin-bottom: 30px;
 }

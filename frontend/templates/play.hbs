@@ -23,6 +23,13 @@
 				<img src="../images/spinner.gif" alt="{{translate 'quiz.loading'}}" />
 			</div>
 		{{/if}}
+		{{#if failureDetected}}
+			<div class="question">
+				<div class="flash error">
+					{{translate 'quiz.failure'}}
+				</div>
+			</div>
+		{{/if}}
 			{{#if isChooseRepresentationQuestion}}
 				{{partial "question-representation"}}
 			{{/if}}

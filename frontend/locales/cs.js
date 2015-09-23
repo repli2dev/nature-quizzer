@@ -91,7 +91,8 @@ App.Translations.cs = {
 		'report_description': 'Popis situace',
 		'report_representations': 'z reprezentací',
 		'report_organisms': 'z organismů',
-		'report_comment': 'Váš komentář'
+		'report_comment': 'Váš komentář',
+		'failure': 'Ups. Došlo k selhání při ukládání odpovědi či načítání dalších otázek. Kvíz nemusí fungovat dle očekávání. Věříme, že systém své selhání ohlásil, přesto nám raději napište. Díky!',
 	},
 	'about': {
 		'heading_team': 'Kdo za tím stojí',
@@ -113,7 +114,7 @@ App.Translations.cs = {
 	'topics': {
 		'heading': 'Témata',
 		'description': 'Vyberte si jaké téma, respektive oblast přírody se chcete začít učit a stiskněte',
-		'invalid': 'Omlouváme se, ale toto téma je momentálně neprovozuschopné. Zkuste to, prosím, později.',
+		'invalid': 'Omlouváme se, ale toto téma je momentálně neprovozuschopné. Zkuste to, prosím, později. Pokud problém přetrvává, napište nám. Díky.',
 		'interruption': 'Zkuste si vybrat jiné téma :-)',
 		'others': 'Ostatní',
 		'start': 'Řešit',

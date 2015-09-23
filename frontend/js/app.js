@@ -54,12 +54,12 @@ App.Play.getQuestions = function(conceptId, count) {
 		return data;
 	});
 };
-App.Play.answerQuestion = function(data) {
+App.Play.answerQuestion = function(data, failureCallback) {
 	$.ajax({
 		type: "POST",
 		url: App.Play.ANSWER_URL,
 		data: data
-	});
+	}).fail(failureCallback);
 };
 
 App.Menu = {};

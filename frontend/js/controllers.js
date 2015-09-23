@@ -150,6 +150,7 @@ App.PlayController = Ember.Controller.extend({
 	markedAnswers: [],	// Answers marked (selected) by the user
 
 	isProcessing: false,
+	failureDetected: false,
 
 	reportMessage: function() {
 		var message = App.Translator.translate('quiz.report_description') + ': ';
@@ -198,6 +199,10 @@ App.PlayController = Ember.Controller.extend({
 		var request = App.Play.getQuestions(this.id_concept, this.questionMaxCount - this.questionCurrent + 1); // +1 as the questionCurrent is already incremented
 		request.then(function(data) {
 			self.set('isProcessing', false);
+			if (data.hasOwnProperty('error') || (data.hasOwnProperty('questions') && data.questions.length == 0)) {
+				self.transitionToRoute('concepts', {queryParams: {invalid: true, interruption: null}});
+				return;
+			}
 			self.set('model', data);
 			App.Timetracking.start('question');
 		});
@@ -266,7 +271,9 @@ App.PlayController = Ember.Controller.extend({
 		output.time = questionTime;
 		output.seqNum = this.questionCurrent;
 
-		App.Play.answerQuestion(output);
+		App.Play.answerQuestion(output, function() {
+			self.set('failureDetected', true);
+		});
 	},
 
 	actions: {

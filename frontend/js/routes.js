@@ -42,8 +42,6 @@ App.ApplicationRoute = Ember.Route.extend({
 		},
 		changeLanguage: function (language) {
 			// TODO: finish switching languages and redrawing
-			// console.log(App.Translator);
-			// App.Translator.change(language, {});
 		}
 	}
 });
@@ -76,13 +74,15 @@ App.PlayRoute = Ember.Route.extend({
 	setupController: function (controller, model) {
 		this.set('shortcutHandler', controller.shortcutTriggered);
 		this.set('controller', controller);
-		// Check that on initial route there are any data
-		if (model.questions.length == 0) {
+		// Check if the request went OK and that there are some data at all
+		if (typeof model === "undefined" || model === null || model.hasOwnProperty('error') || (model.hasOwnProperty('questions') && model.questions.length == 0)) {
 			controller.transitionToRoute('concepts', {queryParams: {invalid: true, interruption: null}});
 			return;
 		}
+
 		controller.set('roundIdentification', App.Utils.getRoundIdentification());
 		controller.set('model', model);
+		controller.set('failureDetected', false);
 		controller.set('questionCurrent', 1);
 		controller.set('answered', false);
 		controller.set('questionMaxCount', model.count);
