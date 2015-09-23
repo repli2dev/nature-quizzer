@@ -200,9 +200,17 @@ App.PlayController = Ember.Controller.extend({
 		request.then(function(data) {
 			self.set('isProcessing', false);
 			if (data.hasOwnProperty('error') || (data.hasOwnProperty('questions') && data.questions.length == 0)) {
-				self.transitionToRoute('concepts', {queryParams: {invalid: true, interruption: null}});
-				return;
+
+				// Commented code is for fast quit, which is not so user friendly.
+				//self.transitionToRoute('concepts', {queryParams: {invalid: true, interruption: null}});
+				//return;
+
+				// More UX way, use data from previous query
+				data = self.get('model');
+				data.count -= 1;
+				data.questions.splice(0,1); // Remove first item and shift all question forward
 			}
+			self.set('model', null);
 			self.set('model', data);
 			App.Timetracking.start('question');
 		});
