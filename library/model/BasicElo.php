@@ -15,6 +15,7 @@ use NatureQuizzer\Model\Scoring\ELO;
 use NatureQuizzer\Runtime\CurrentLanguage;
 use Nette\Utils\ArrayHash;
 use Tracy\Debugger;
+use Tracy\ILogger;
 
 abstract class BasicElo extends AModelFacade
 {
@@ -111,7 +112,8 @@ abstract class BasicElo extends AModelFacade
 		$options[] = ['id_organism' => $organism->id_organism, 'text' => $organism->name, 'correct' => TRUE];
 		foreach ($questionDistractors as $distractorId) {
 			if (!isset($data[$distractorId])) {
-				continue; // TBD: error reporting
+				Debugger::log('Missing data for distractor organism: ['.$distractorId.']', ILogger::WARNING);
+				continue;
 			}
 			// We are interested only in the name, so we can ignore other representation and take the first one.
 			$otherOrganism = ArrayHash::from($data[$distractorId][0]);
@@ -139,7 +141,8 @@ abstract class BasicElo extends AModelFacade
 		];
 		foreach ($questionDistractors as $distractorId) {
 			if (!isset($data[$distractorId])) {
-				continue; // TBD: error reporting
+				Debugger::log('Missing data for distractor organism: ['.$distractorId.']', ILogger::WARNING);
+				continue;
 			}
 			$otherOrganism = ArrayHash::from($this->getRandomItem($data[$distractorId]));
 			$options[] = [
@@ -181,6 +184,7 @@ abstract class BasicElo extends AModelFacade
 		$scores = [];
 		foreach ($data as $row) {
 			if ($row->representation_count == 0) {
+				Debugger::log('Question skipped as no representation for organism: ['.$row->id_organism.']', ILogger::WARNING);
 				continue;
 			}
 			$eloScore = ($row->current_knowledge !== NULL) ? $row->current_knowledge : $row->prior_knowledge;

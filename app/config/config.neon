@@ -14,6 +14,8 @@ parameters:
 	mails:
 		feedback: jan.drabek@mail.muni.cz
 
+tracy:
+	email: jan.drabek@mail.muni.cz
 
 php:
 	date.timezone: Europe/Prague

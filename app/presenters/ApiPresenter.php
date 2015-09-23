@@ -12,6 +12,7 @@ use NatureQuizzer\Processors\UserProcessor;
 use NatureQuizzer\RequestProcessorException;
 use Nette\Application\AbortException;
 use Tracy\Debugger;
+use Tracy\ILogger;
 
 class ApiPresenter extends BasePresenter
 {
@@ -44,11 +45,12 @@ class ApiPresenter extends BasePresenter
 			$output = $this->conceptsProcessor->get($conceptId);
 			$this->sendJson($output);
 		} catch (RequestProcessorException $ex) {
+			Debugger::log($ex, ILogger::WARNING); // These exceptions are due to malformed requests
 			$this->sendErrorJSON($ex->getCode(), $ex->getMessage());
 		} catch (AbortException $ex) {
-			throw $ex;
+			throw $ex; // This is Nette application stuff, needs to be rethrowed
 		} catch (Exception $ex) {
-			Debugger::log($ex, Debugger::EXCEPTION);
+			Debugger::log($ex, Debugger::CRITICAL);
 			$this->sendErrorJSON(0, 'Unknown error');
 		}
 	}
@@ -59,11 +61,12 @@ class ApiPresenter extends BasePresenter
 			$output = $this->conceptsProcessor->getAll();
 			$this->sendJson($output);
 		} catch (RequestProcessorException $ex) {
+			Debugger::log($ex, ILogger::WARNING); // These exceptions are due to malformed requests
 			$this->sendErrorJSON($ex->getCode(), $ex->getMessage());
 		} catch (AbortException $ex) {
-			throw $ex;
+			throw $ex; // This is Nette application stuff, needs to be rethrowed
 		} catch (Exception $ex) {
-			Debugger::log($ex, Debugger::EXCEPTION);
+			Debugger::log($ex, Debugger::CRITICAL);
 			$this->sendErrorJSON(0, 'Unknown error');
 		}
 	}
@@ -73,11 +76,12 @@ class ApiPresenter extends BasePresenter
 			$output = $this->conceptsProcessor->getQuick();
 			$this->sendJson($output);
 		} catch (RequestProcessorException $ex) {
+			Debugger::log($ex, ILogger::WARNING); // These exceptions are due to malformed requests
 			$this->sendErrorJSON($ex->getCode(), $ex->getMessage());
 		} catch (AbortException $ex) {
-			throw $ex;
+			throw $ex; // This is Nette application stuff, needs to be rethrowed
 		} catch (Exception $ex) {
-			Debugger::log($ex, Debugger::EXCEPTION);
+			Debugger::log($ex, Debugger::CRITICAL);
 			$this->sendErrorJSON(0, 'Unknown error');
 		}
 	}
@@ -88,54 +92,91 @@ class ApiPresenter extends BasePresenter
 			$output = $this->questionsProcessor->get($conceptId, $count);
 			$this->sendJson($output);
 		} catch (RequestProcessorException $ex) {
+			Debugger::log($ex, ILogger::WARNING); // These exceptions are due to malformed requests
 			$this->sendErrorJSON($ex->getCode(), $ex->getMessage());
 		} catch (AbortException $ex) {
-			throw $ex;
+			throw $ex; // This is Nette application stuff, needs to be rethrowed
 		} catch (Exception $ex) {
-			Debugger::log($ex, Debugger::EXCEPTION);
+			Debugger::log($ex, Debugger::CRITICAL);
 			$this->sendErrorJSON(0, 'Unknown error');
 		}
 	}
 
 	public function actionAnswer()
 	{
-		$data = $this->request->getPost();
-		$this->answerProcessor->save($data);
-		$this->terminate();
+		try {
+			$data = $this->request->getPost();
+			$this->answerProcessor->save($data);
+			$this->terminate();
+		} catch (AbortException $ex) {
+			throw $ex; // This is Nette application stuff, needs to be rethrowed
+		} catch (Exception $ex) {
+			Debugger::log($ex, Debugger::CRITICAL);
+		}
 	}
 
 	public function actionFeedback()
 	{
-		$data = $this->request->getPost();
-		$output = $this->feedbackProcessor->send($data);
-		$this->sendJson($output);
-		$this->terminate();
+		try {
+			$data = $this->request->getPost();
+			$output = $this->feedbackProcessor->send($data);
+			$this->sendJson($output);
+			$this->terminate();
+		} catch (AbortException $ex) {
+			throw $ex; // This is Nette application stuff, needs to be rethrowed
+		} catch (Exception $ex) {
+			Debugger::log($ex, Debugger::CRITICAL);
+		}
 	}
 
 	public function actionUserProfile()
 	{
-		$this->sendJson($this->userProcessor->profile());
-		$this->terminate();
+		try {
+			$this->sendJson($this->userProcessor->profile());
+			$this->terminate();
+		} catch (AbortException $ex) {
+			throw $ex; // This is Nette application stuff, needs to be rethrowed
+		} catch (Exception $ex) {
+			Debugger::log($ex, Debugger::CRITICAL);
+		}
 	}
 
 	public function actionUserLogin()
 	{
-		$data = $this->request->getPost();
-		$this->sendJson($this->userProcessor->login($data));
-		$this->terminate();
+		try {
+			$data = $this->request->getPost();
+			$this->sendJson($this->userProcessor->login($data));
+			$this->terminate();
+		} catch (AbortException $ex) {
+			throw $ex; // This is Nette application stuff, needs to be rethrowed
+		} catch (Exception $ex) {
+			Debugger::log($ex, Debugger::CRITICAL);
+		}
 	}
 
 	public function actionUserRegister()
 	{
-		$data = $this->request->getPost();
-		$this->sendJson($this->userProcessor->register($data));
-		$this->terminate();
+		try {
+			$data = $this->request->getPost();
+			$this->sendJson($this->userProcessor->register($data));
+			$this->terminate();
+		} catch (AbortException $ex) {
+			throw $ex; // This is Nette application stuff, needs to be rethrowed
+		} catch (Exception $ex) {
+			Debugger::log($ex, Debugger::CRITICAL);
+		}
 	}
 
 	public function actionUserLogout()
 	{
-		$this->sendJson($this->userProcessor->logout());
-		$this->terminate();
+		try {
+			$this->sendJson($this->userProcessor->logout());
+			$this->terminate();
+		} catch (AbortException $ex) {
+			throw $ex; // This is Nette application stuff, needs to be rethrowed
+		} catch (Exception $ex) {
+			Debugger::log($ex, Debugger::CRITICAL);
+		}
 	}
 
 	private function sendErrorJSON($code, $message)
