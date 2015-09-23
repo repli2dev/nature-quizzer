@@ -40,6 +40,8 @@ $ cd <project path>
 $ gulp
 ```
 
+There are two gulp targets: `gulp development` will watch for changes, whereas `gulp production` will minify the JS output. 
+
 4. Create local configuration (database credentials, FB and Google+ API keys etc)
 
 ```

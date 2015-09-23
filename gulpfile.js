@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var htmlbars = require('gulp-htmlbars-compiler');
 var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
 var clean = require('gulp-clean');
 // Hardcoded way to the ember-template-compilator as the versions needs to match and there is no node module in the repository
 var compiler = require('./frontend/js/externals/ember-template-compiler-2.0.0');
@@ -66,6 +67,12 @@ gulp.task('scripts', function() {
 		.pipe(concat('scripts.js'))
 		.pipe(gulp.dest(destination));
 });
+gulp.task('mini-scripts', function() {
+	return gulp.src(paths.scripts.concat(paths.locales))
+		.pipe(concat('scripts.js'))
+		.pipe(uglify())
+		.pipe(gulp.dest(destination));
+});
 
 // ====== Handlebars templates =======
 gulp.task('templates', function() {
@@ -88,5 +95,7 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', ['styles', 'scripts', 'templates']);
+gulp.task('default-mini', ['styles', 'mini-scripts', 'templates']);
 
 gulp.task('development', ['default', 'watch']);
+gulp.task('production', ['default']);
