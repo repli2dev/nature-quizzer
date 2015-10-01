@@ -368,7 +368,7 @@ a.quick-button:hover {
 	transition: background-color .35s, color .35ms;
 	-webkit-transition: background-color .35s, color .35ms;
 }
-.quick-buttons {
+#quick-buttons {
 	width: 60%;
 	margin: auto;
 }
