@@ -352,6 +352,9 @@ a.quick-button {
 	background: #A1891F;
 	margin-right: 10px;
 }
+a.quick-button {
+	margin-bottom: 10px;
+}
 
 a.start-button:hover,
 a.button:hover {
@@ -364,6 +367,10 @@ a.quick-button:hover {
 	background: white;
 	transition: background-color .35s, color .35ms;
 	-webkit-transition: background-color .35s, color .35ms;
+}
+.quick-buttons {
+	width: 60%;
+	margin: auto;
 }
 
 div.question {
