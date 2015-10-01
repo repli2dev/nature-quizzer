@@ -40,7 +40,7 @@ class FeedbackProcessor extends Object
 		} else {
 			$message = new Message();
 			$message->setSubject('Nature Quizzer: Feedback');
-			if (isset($data['email'])) {
+			if (isset($data['email']) && $data['email']) {
 				$message->setFrom($data['email']);
 			}
 			$message->addTo($this->mails['feedback']);
