@@ -17,6 +17,7 @@ use Nette\Security\Passwords;
 use Nette\Security\User;
 use Nette\Utils\DateTime;
 use Nette\Utils\Strings;
+use Tracy\Debugger;
 
 class UserProcessor extends Object
 {
@@ -190,6 +191,7 @@ class UserProcessor extends Object
 			$this->user->login($identity);
 			$this->reownStuff($oldIdentity, $this->user->getIdentity());
 		} catch (Exception $ex) {
+			Debugger::log($ex);
 			throw new Exception('Login by identity should not fail.');
 		}
 	}
@@ -235,6 +237,7 @@ class UserProcessor extends Object
 			$this->user->login($identity);
 			$this->reownStuff($oldIdentity, $this->user->getIdentity());
 		} catch (Exception $ex) {
+			Debugger::log($ex);
 			throw new Exception('Login by identity should not fail.');
 		}
 	}
