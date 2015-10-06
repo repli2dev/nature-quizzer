@@ -91,6 +91,7 @@ App.PlayRoute = Ember.Route.extend({
 		} else {
 			controller.set('id_concept', model.concept.id_concept);
 		}
+		App.Timetracking.start('question');
 	},
 	shortcuts: {
 		'num1': 'handleShortcut',
