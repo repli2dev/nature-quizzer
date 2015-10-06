@@ -22,6 +22,9 @@ class UserAnswer extends Object
 	 *  - option_seq_num
 	 *  - correct
 	 *  - main
+	 *
+	 * Mandatory on question type CHOOSE_REPRESENTATION and main question of CHOOSE_NAME:
+	 *  - id_representation
 	 */
 	public $options = [];
 
@@ -35,6 +38,12 @@ class UserAnswer extends Object
 		$state &= count($this->options) > 0;
 		$hasMain = false;
 		foreach ($this->options as $option) {
+			if ($this->question_type == QuestionType::CHOOSE_REPRESENTATION) {
+				$state &= isset($option->id_representation);
+			}
+			if ($this->question_type == QuestionType::CHOOSE_NAME && $option->main) {
+				$state &= isset($option->id_representation);
+			}
 			$state &= isset($option->main);
 			if (isset($option->main)) {
 				$hasMain |= $option->main;

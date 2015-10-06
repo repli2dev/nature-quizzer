@@ -269,6 +269,9 @@ App.PlayController = Ember.Controller.extend({
 					correct: option.correct,
 					answered: (typeof this.markedAnswers[option.id_organism] !== 'undefined')
 				};
+				if (option.correct) {
+					answers[i].id_representation = model.questions[0].id_representation;
+				}
 			}
 		}
 		var output = {};

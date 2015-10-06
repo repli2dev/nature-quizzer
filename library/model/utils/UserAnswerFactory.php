@@ -34,7 +34,9 @@ class UserAnswerFactory extends Object
 			'viewportHeight' => $data['viewportHeight']
 		]);
 		foreach ($data['answers'] as $optionSeqNum => $answer) {
+			$representationId = NULL;
 			if (isset($answer['id_representation'])) {
+				$representationId = $answer['id_representation'];
 				$row = $this->organism->getOrganismByRepresentation($answer['id_representation']);
 				if ($row === FALSE) {
 					Debugger::log(sprintf('Cannot find id_organism for id_representation [%s]', $answer['id_representation']), Debugger::ERROR);
@@ -46,6 +48,7 @@ class UserAnswerFactory extends Object
 				$organismId = $answer['id_organism'];
 			}
 			$a->options[] = ArrayHash::from([
+				'id_representation' => $representationId,
 				'id_organism' => $organismId,
 				'option_seq_num' => $optionSeqNum,
 				'correct' => ($answer['answered'] == $answer['correct']),
