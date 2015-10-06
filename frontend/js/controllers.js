@@ -244,9 +244,9 @@ App.PlayController = Ember.Controller.extend({
 		return state;
 	},
 	highlightAnswer: function(selectedValue, answerCorrect) {
-		var oldClasses = $('#' + selectedValue).attr('class');
+		var oldClasses = $('#a-' + selectedValue).attr('class');
 		var toAppend = (answerCorrect) ? 'correct' : 'wrong';
-		$('#' + selectedValue).attr('class', oldClasses + ' ' + toAppend);
+		$('#a-' + selectedValue).attr('class', oldClasses + ' ' + toAppend);
 	},
 
 	sendQuestionInfo: function(questionTime) {
