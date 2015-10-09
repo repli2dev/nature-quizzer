@@ -8,6 +8,7 @@ use NatureQuizzer\Processors\AnswerProcessor;
 use NatureQuizzer\Processors\ConceptsProcessor;
 use NatureQuizzer\Processors\FeedbackProcessor;
 use NatureQuizzer\Processors\QuestionsProcessor;
+use NatureQuizzer\Processors\SummaryProcessor;
 use NatureQuizzer\Processors\UserProcessor;
 use NatureQuizzer\RequestProcessorException;
 use Nette\Application\AbortException;
@@ -27,16 +28,19 @@ class ApiPresenter extends BasePresenter
 	private $userProcessor;
 	/** @var FeedbackProcessor */
 	private $feedbackProcessor;
+	/** @var SummaryProcessor */
+	private $summaryProcessor;
 
 	public function injectBase(AnswerProcessor $answerProcessor, ConceptsProcessor $conceptsProcessor,
 							   QuestionsProcessor $questionsProcessor, UserProcessor $userProcessor,
-							   FeedbackProcessor $feedbackProcessor)
+							   FeedbackProcessor $feedbackProcessor, SummaryProcessor $summaryProcessor)
 	{
 		$this->answerProcessor = $answerProcessor;
 		$this->conceptsProcessor = $conceptsProcessor;
 		$this->questionsProcessor = $questionsProcessor;
 		$this->userProcessor = $userProcessor;
 		$this->feedbackProcessor = $feedbackProcessor;
+		$this->summaryProcessor = $summaryProcessor;
 	}
 
 	public function actionConcept($conceptId)
@@ -121,6 +125,18 @@ class ApiPresenter extends BasePresenter
 			$data = $this->request->getPost();
 			$output = $this->feedbackProcessor->send($data);
 			$this->sendJson($output);
+			$this->terminate();
+		} catch (AbortException $ex) {
+			throw $ex; // This is Nette application stuff, needs to be rethrowed
+		} catch (Exception $ex) {
+			Debugger::log($ex, Debugger::CRITICAL);
+		}
+	}
+
+	public function actionRoundSummary()
+	{
+		try {
+			$this->sendJson($this->summaryProcessor->get());
 			$this->terminate();
 		} catch (AbortException $ex) {
 			throw $ex; // This is Nette application stuff, needs to be rethrowed

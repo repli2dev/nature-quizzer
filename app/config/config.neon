@@ -57,6 +57,7 @@ services:
 	- NatureQuizzer\Processors\FeedbackProcessor
 	- NatureQuizzer\Processors\QuestionsProcessor
 	- NatureQuizzer\Processors\UserProcessor
+	- NatureQuizzer\Processors\SummaryProcessor
 	- NatureQuizzer\Model\Utils\UserAnswerFactory
 	- NatureQuizzer\Model\EloRandomDistractors
 	- NatureQuizzer\Model\EloTaxonomyDistractors

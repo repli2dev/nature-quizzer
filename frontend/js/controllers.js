@@ -17,6 +17,17 @@ App.ApplicationController = Ember.Controller.extend({
 	/* For actions see ApplicationRoute */
 });
 
+App.ResultController = Ember.Controller.extend({
+	questions: null,
+	successRate: function() {
+		var questions = this.get('questions');
+		if (questions != null && questions.hasOwnProperty('count') && questions.hasOwnProperty('success_rate') && questions.success_rate > 0) {
+			return Math.round((questions.success_rate / questions.count)*100);
+		}
+		return 0;
+	}.property('this.questions')
+});
+
 App.ConceptsController = Ember.Controller.extend({
 	queryParams: ['invalid', 'interruption'],
 	invalid: null,
@@ -317,7 +328,6 @@ App.PlayController = Ember.Controller.extend({
 			index = index - 1; // Array offset start from 0
 			var options = this.model.questions[0].options;
 			if (!(index in options)) {
-				console.log('xxx');
 				return;
 			}
 			var selectedOption = options[index];
@@ -349,7 +359,12 @@ App.PlayController = Ember.Controller.extend({
 			return;
 		},
 		close: function () {
-			this.transitionToRoute('concepts', {queryParams: {interruption: 1, invalid: "null"}});
+			if (this.get('questionCurrent') == 1 && !this.get('answered')) {
+				this.transitionToRoute('concepts', {queryParams: {interruption: 1, invalid: "null"}});
+			} else {
+				this.transitionToRoute('result', this.get('id_concept'));
+			}
+
 		},
 	}
 });

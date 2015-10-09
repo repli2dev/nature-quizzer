@@ -62,6 +62,14 @@ App.Play.answerQuestion = function(data, failureCallback) {
 	}).fail(failureCallback);
 };
 
+App.RoundSummary = {};
+App.RoundSummary.URL = '/api/round-summary/';
+App.RoundSummary.getSummary = function() {
+	return $.getJSON(App.RoundSummary.URL).then(function (data) {
+		return data;
+	});
+};
+
 App.Menu = {};
 App.Menu.toogle = function () {
 	var el = $("#top-bar");

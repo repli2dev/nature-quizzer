@@ -1,8 +1,8 @@
 <div class="narrow-column">
 	<h2>{{translate 'quiz.done'}}</h2>
-	<p>{{translate 'quiz.hurray'}}</p>
 
 	<div>
+		{{log model}}
 		{{#if model.mix}}
 			{{#link-to 'play' 'mix' classNames='button'}}{{translate 'quiz.continue'}}{{/link-to}}
 		{{/if}}
@@ -11,4 +11,19 @@
 		{{/if}}
 		{{#link-to 'concepts' classNames='button'}}{{translate 'quiz.choose_new_topic'}}{{/link-to}}
 	</div>
+
+	{{#if questions.count}}
+		<p>{{translate 'quiz.success_rate'}}:&nbsp;{{successRate}}&nbsp;%</p>
+		<progress class="quiz-success-rate" value="{{questions.success_rate}}" max="{{questions.count}}"></progress>
+		<div class="cleaner">&nbsp;</div>
+
+		{{#each questions.answered as |item|}}
+			<div class="quiz-item {{item.correct}}">
+				<span class="quiz-item-name">{{item.name}}</span>
+				{{{item.image}}}
+			</div>
+			<span class="dummy-even-cleaner"></span>
+		{{/each}}
+		<div class="cleaner">&nbsp;</div>
+	{{/if}}
 </div>

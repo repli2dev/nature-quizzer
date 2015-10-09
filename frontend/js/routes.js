@@ -62,6 +62,13 @@ App.ConceptsRoute = Ember.Route.extend({
 App.ResultRoute = Ember.Route.extend({
 	model: function(params) {
 		return App.Concept.get(params.id_concept);
+	},
+	setupController: function(controller, model) {
+		controller.set('model', model);
+		var request = App.RoundSummary.getSummary();
+		request.then(function(data) {
+			controller.set('questions', data);
+		});
 	}
 });
 
