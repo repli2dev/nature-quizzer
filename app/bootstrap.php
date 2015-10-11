@@ -12,6 +12,10 @@ if (PHP_SAPI === 'cli') {
 	$configurator->setDebugMode(true);
 }
 
+if (file_exists(__DIR__ . '/../.deployment-in-progress') || file_exists(__DIR__ . '/../.deployment')) {
+	include(__DIR__ . '/../www/.maintenance.php');
+}
+
 $configurator->enableDebugger(__DIR__ . '/../log');
 $configurator->setTempDirectory(__DIR__ . '/../temp');
 $configurator->createRobotLoader()
