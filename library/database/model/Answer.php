@@ -38,4 +38,33 @@ class Answer extends Table
 			ORDER BY answer.question_seq_num ASC
 		', $languageId, $userId)->fetchAll();
 	}
+
+	public function getStats()
+	{
+		return $this->context->query('
+			SELECT
+				inserted::DATE,
+				inserted::DATE::TEXT AS "dummy_date",
+				COUNT(*) AS all,
+				COUNT(NULLIF(NOT (SELECT bool_and(correct) FROM answer AS distractor WHERE distractor.id_round = answer.id_round AND answer.question_seq_num = distractor.question_seq_num AND distractor.main = FALSE), TRUE)) AS correct
+			FROM answer
+			WHERE main = TRUE AND inserted > NOW() - INTERVAL \'14 DAY\'
+			GROUP BY inserted::DATE
+		')->fetchAssoc('dummy_date=');
+	}
+
+	public function getOrganismDistribution()
+	{
+		return $this->context->query('
+			SELECT
+				answer.id_organism,
+				organism.latin_name,
+				COUNT(*) AS count
+			FROM answer
+			JOIN organism ON organism.id_organism = answer.id_organism
+			WHERE main = TRUE AND answer.inserted > NOW() - INTERVAL \'14 DAY\'
+			GROUP BY answer.id_organism, latin_name
+			ORDER BY count DESC
+		')->fetchAll();
+	}
 }
