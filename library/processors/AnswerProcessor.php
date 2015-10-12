@@ -45,7 +45,7 @@ class AnswerProcessor extends Object
 		$userId = $this->currentUser->get();
 		$roundId = $this->currentRound->get($roundHash, $userId, $this->prepareClientInfo($data));
 
-		$userAnswer = $this->userAnswerFactory->create($this->modelFacade->getId(), $roundId, $data);
+		$userAnswer = $this->userAnswerFactory->create($this->modelFacade->getId(), $this->modelFacade->getPersistenceId(), $roundId, $data);
 		if (!$userAnswer->isValid()) { // Data are invalid, log it and go away
 			Debugger::log(sprintf('User answer is not valid. Stopping.'), Debugger::EXCEPTION);
 			Debugger::log($userAnswer, Debugger::EXCEPTION);

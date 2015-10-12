@@ -19,12 +19,13 @@ class UserAnswerFactory extends Object
 		$this->organism = $organism;
 	}
 
-	public function create($modelId, $roundId, array $data)
+	public function create($modelId, $persistenceModelId, $roundId, array $data)
 	{
 		$error = false;
 
 		$a = new UserAnswer();
 		$a->id_model = $modelId;
+		$a->id_persistence_model = $persistenceModelId;
 		$a->id_round = $roundId;
 		$a->question_seq_num = $data['seqNum'];
 		$a->question_type = (int) $data['questionType'];

@@ -16,13 +16,13 @@ class EloRandomDistractors extends BasicElo implements IModelFacade
 		$this->targetProbability = 0.75;
 
 		$this->weightProbability = 10;
-		$this->weightTime = 120;
+		$this->weightTime = 150;
 		$this->weightCount = 10;
 
-		$this->weightInvalidAnswer = 1;
-		$this->weightCorrectAnswer = 1;
+		$this->weightInvalidAnswer = 3.4;
+		$this->weightCorrectAnswer = 0.3;
 
-		$this->eloUpdateFactorA = 1;
+		$this->eloUpdateFactorA = 0.8;
 		$this->eloUpdateFactorB = 0.05;
 	}
 

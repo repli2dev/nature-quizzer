@@ -13,6 +13,7 @@ use NatureQuizzer\Database\Model\QuestionType;
 use NatureQuizzer\Model\AModelFacade;
 use NatureQuizzer\Model\Scoring\ELO;
 use NatureQuizzer\Runtime\CurrentLanguage;
+use NatureQuizzer\Utils\Helpers;
 use Nette\Utils\ArrayHash;
 use Tracy\Debugger;
 use Tracy\ILogger;
@@ -104,7 +105,7 @@ abstract class BasicElo extends AModelFacade
 		$question = [
 			'type' => QuestionType::CHOOSE_NAME,
 			'id_representation' => $organism->id_representation,
-			'questionImage' => $this->getRepresentationImage($organism->id_representation),
+			'questionImage' => Helpers::getRepresentationImage($organism->id_representation),
 			'questionImageRightsHolder' => $organism->rights_holder,
 			'questionImageLicense' => $organism->license,
 		];
@@ -134,7 +135,7 @@ abstract class BasicElo extends AModelFacade
 		$options = [];
 		$options[] = [
 			'id_representation' => $organism->id_representation,
-			'image' => $this->getRepresentationImage($organism->id_representation),
+			'image' => Helpers::getRepresentationImage($organism->id_representation),
 			'imageRightsHolder' => $organism->rights_holder,
 			'imageLicense' => $organism->license,
 			'correct' => TRUE
@@ -147,7 +148,7 @@ abstract class BasicElo extends AModelFacade
 			$otherOrganism = ArrayHash::from($this->getRandomItem($data[$distractorId]));
 			$options[] = [
 				'id_representation' => $otherOrganism->id_representation,
-				'image' => $this->getRepresentationImage($otherOrganism->id_representation),
+				'image' => Helpers::getRepresentationImage($otherOrganism->id_representation),
 				'imageRightsHolder' => $otherOrganism->rights_holder,
 				'imageLicense' => $otherOrganism->license,
 				'correct' => FALSE
@@ -180,8 +181,11 @@ abstract class BasicElo extends AModelFacade
 		if ($concept !== Concept::ALL) {
 			$conceptId = $concept->id_concept;
 		}
-		$data = $this->organism->getSelectionAttributes($userId, $this->getId(), $conceptId)->fetchAll();
+		$data = $this->organism->getSelectionAttributes($userId, $this->getPersistenceId(), $conceptId)->fetchAll();
+		//fdump($this->getPersistenceId());
 		$scores = [];
+		$temp = [];
+		//fdump($this->weightCount, $this->weightProbability, $this->weightTime);
 		foreach ($data as $row) {
 			if ($row->representation_count == 0) {
 				Debugger::log('Question skipped as no representation for organism: ['.$row->id_organism.']', ILogger::WARNING);
@@ -192,15 +196,26 @@ abstract class BasicElo extends AModelFacade
 			$score += $this->weightTime * $this->scoreTime($row->last_answer);
 			$score += $this->weightCount * $this->scoreCount($row->total_answered);
 			$scores[$row->id_organism] = $score;
+			$temp[$row->id_organism] =
+				(sprintf("%s: %f; probability: %f; time: %f; count %f\n",
+				$row->id_organism,
+				$score,
+				$this->weightProbability * $this->scoreProbability($this->probabilityEstimated($eloScore), $this->targetProbability),
+				$this->weightTime * $this->scoreTime($row->last_answer),
+				$this->weightCount * $this->scoreCount($row->total_answered)
+			));
 		}
 		arsort($scores);
 		$organisms = array_keys(array_slice($scores, 0, $count, true));
+		/*foreach ($organisms as $organism) {
+			fdump($temp[$organism]);
+		}*/
 		return $organisms;
 	}
 
 	public function answer($userId, UserAnswer $answer)
 	{
-		$modelId = $this->getId();
+		$modelId = $this->getPersistenceId();
 		$organismId = $answer->getMainOrganism();
 		$optionsCount = $answer->getOptionsCount();
 		$isCorrect = $answer->isCorrect();
