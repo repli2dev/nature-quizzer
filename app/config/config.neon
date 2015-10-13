@@ -41,6 +41,7 @@ services:
 	- NatureQuizzer\Database\Model\Group
 	- NatureQuizzer\Database\Model\Organism
 	- NatureQuizzer\Database\Model\Language
+	- NatureQuizzer\Database\Model\Package
 	- NatureQuizzer\Database\Model\Round
 	- NatureQuizzer\Database\Model\User
 	- NatureQuizzer\Database\Model\OrganismDifficulty
