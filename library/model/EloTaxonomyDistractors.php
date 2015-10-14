@@ -16,11 +16,11 @@ class EloTaxonomyDistractors extends BasicElo implements IModelFacade
 		$this->targetProbability = 0.75;
 
 		$this->weightProbability = 10;
-		$this->weightTime = 150;
+		$this->weightTime = 120;
 		$this->weightCount = 10;
 
-		$this->weightInvalidAnswer = 3.4;
-		$this->weightCorrectAnswer = 0.3;
+		$this->weightCorrectAnswer = 3.4;
+		$this->weightInvalidAnswer = 0.3;
 
 		$this->eloUpdateFactorA = 0.8;
 		$this->eloUpdateFactorB = 0.05;
@@ -41,12 +41,14 @@ class EloTaxonomyDistractors extends BasicElo implements IModelFacade
 			// TODO: performance optimalization
 
 			$currentK = $this->currentKnowledge->fetch($modelId, $organismId, $userId);
-			$eloScore = ($currentK->getValue() !== NULL) ? $currentK->getValue() : $priorK->getValue();
+			$organismD = $this->organismDifficulty->fetch($modelId, $organismId);
+			$eloScore = ($currentK->getValue() !== NULL) ? $currentK->getValue() : $priorK->getValue() - $organismD->getValue();
 			$distance = $this->distance($this->probabilityEstimated($eloScore));
 
 			//fdump('eloScore: ', $eloScore, 'pst:', $this->probabilityEstimated($eloScore), 'distance:', $distance);
 
 			$output[$seqId] = $this->organism->findInDistance($organismId, $distance, $distractorCount);
+			//fdump($output[$seqId]);
 		}
 		return $output;
 	}

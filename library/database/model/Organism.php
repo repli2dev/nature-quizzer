@@ -52,7 +52,14 @@ class Organism extends Table
 
 	public function findInDistance($organismId, $distance = 0, $count)
 	{
-		return $this->getDistanceTable()->where('id_organism_from = ? AND distance > ?', $organismId, $distance)->order('distance ASC')->order('random()')->limit($count)->fetchPairs(NULL, 'id_organism_to');
+		$data = $this->getDistanceTable()->where('id_organism_from = ? AND distance > ?', $organismId, $distance)->order('distance ASC')->order('random()')->limit($count)->fetchPairs(NULL, 'id_organism_to');
+		if (count($data) >= $count) {
+			return $data;
+		}
+		// if not enough organisms in wanted distance is found we take the most far organisms
+		$data2 = $this->getDistanceTable()->where('id_organism_from = ? AND distance <= ?', $organismId, $distance)->order('distance DESC')->limit($count+2)->fetchPairs(NULL, 'id_organism_to');
+		shuffle($data2);
+		return array_merge($data, array_splice($data2, 0, $count - count($data)));
 	}
 
 	public function getInfos($organism)
@@ -168,23 +175,32 @@ class Organism extends Table
 		return $this->context->table('organism_representation');
 	}
 
-	public function getSelectionAttributes($userId, $modelId, $conceptId = NULL)
+	public function getUserSelectionAttributes($userId, $modelId)
 	{
+		/* This query fetches dense data for each organism! */
 		return $this->context->query('
 			SELECT
 				organism.id_organism,
-				COUNT(*) AS total_answered,
-				MAX(answer.inserted) AS last_answer,
-				(SELECT value FROM prior_knowledge WHERE id_user = ? AND id_model = ?) AS prior_knowledge,
-				current_knowledge.value AS current_knowledge,
-				(SELECT COUNT(*) FROM organism_representation WHERE id_organism = organism.id_organism) AS representation_count
+				(SELECT COUNT(id_answer) FROM answer JOIN round ON round.id_round = answer.id_round WHERE id_user = ? AND answer.id_organism = organism.id_organism) AS total_answered,
+				(SELECT MAX(answer.inserted) FROM answer JOIN round ON round.id_round = answer.id_round WHERE id_user = ? AND answer.id_organism = organism.id_organism) AS last_answer,
+				(SELECT current_knowledge.value FROM current_knowledge WHERE current_knowledge.id_model = ? AND current_knowledge.id_organism = organism.id_organism AND current_knowledge.id_user = ?) AS current_knowledge
 			FROM organism
-			LEFT JOIN answer ON answer.id_organism = organism.id_organism
-			LEFT JOIN round on round.id_round = answer.id_round AND round.id_user = ?
-			LEFT JOIN prior_knowledge ON prior_knowledge.id_user = round.id_user AND prior_knowledge.id_model = ?
-			LEFT JOIN current_knowledge ON current_knowledge.id_user = round.id_user AND current_knowledge.id_model = ? AND current_knowledge.id_organism = organism.id_organism
-			WHERE (? IS NULL OR organism.id_organism IN (SELECT id_organism FROM organism_concept WHERE id_concept = ?))
-			GROUP BY organism.id_organism, round.id_user, prior_knowledge.value, current_knowledge.value
-		', $userId, $modelId, $userId, $modelId, $modelId, $conceptId, $conceptId);
+		', $userId, $userId, $modelId, $userId);
+	}
+
+	public function getGeneralSelectionAttributes($modelId, $conceptId = NULL)
+	{
+		/* This query fetches dense data for each organism! */
+		return $this->context->query('
+			SELECT
+				organism.id_organism,
+				organism_difficulty.value AS organism_difficulty,
+				(SELECT COUNT(*) FROM organism_representation WHERE organism_representation.id_organism = organism.id_organism) AS representation_count
+			FROM organism
+			LEFT JOIN organism_difficulty ON organism_difficulty.id_organism = organism.id_organism
+			WHERE
+				organism_difficulty.id_model = ? AND
+				(? IS NULL OR organism.id_organism IN (SELECT id_organism FROM organism_concept WHERE id_concept = ?))
+		', $modelId, $conceptId, $conceptId);
 	}
 }

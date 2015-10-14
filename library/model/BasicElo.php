@@ -11,7 +11,6 @@ use NatureQuizzer\Database\Model\OrganismDifficulty;
 use NatureQuizzer\Database\Model\PriorKnowledge;
 use NatureQuizzer\Database\Model\QuestionType;
 use NatureQuizzer\Model\AModelFacade;
-use NatureQuizzer\Model\Scoring\ELO;
 use NatureQuizzer\Runtime\CurrentLanguage;
 use NatureQuizzer\Utils\Helpers;
 use Nette\Utils\ArrayHash;
@@ -64,7 +63,6 @@ abstract class BasicElo extends AModelFacade
 
 	public function get($userId, $concept, $count)
 	{
-		Debugger::timer('a');
 		$organismIds = $this->selectMainQuestions($userId, $concept, $count);
 		$distractorsIds = $this->selectDistractors($userId, $organismIds, $this->distractorCount);
 
@@ -177,32 +175,47 @@ abstract class BasicElo extends AModelFacade
 	 */
 	protected function selectMainQuestions($userId, $concept, $count)
 	{
+		$modelId = $this->getPersistenceId();
 		$conceptId = NULL;
 		if ($concept !== Concept::ALL) {
 			$conceptId = $concept->id_concept;
 		}
-		$data = $this->organism->getSelectionAttributes($userId, $this->getPersistenceId(), $conceptId)->fetchAll();
-		//fdump($this->getPersistenceId());
+		$generalData = $this->organism->getGeneralSelectionAttributes($modelId, $conceptId)->fetchAssoc('id_organism=');
+		$userData = $this->organism->getUserSelectionAttributes($userId, $modelId)->fetchAssoc('id_organism=');
+		$priorK = $this->priorKnowledge->fetch($modelId, $userId);
+
 		$scores = [];
 		$temp = [];
-		//fdump($this->weightCount, $this->weightProbability, $this->weightTime);
-		foreach ($data as $row) {
-			if ($row->representation_count == 0) {
-				Debugger::log('Question skipped as no representation for organism: ['.$row->id_organism.']', ILogger::WARNING);
+
+		foreach ($generalData as $organismId => $o) {
+			$o = ArrayHash::from($o);
+			if ($o->representation_count == 0) {
+				Debugger::log('Question skipped as no representation for organism: ['. $organismId .']', ILogger::WARNING);
 				continue;
 			}
-			$eloScore = ($row->current_knowledge !== NULL) ? $row->current_knowledge : $row->prior_knowledge;
+			if (!isset($userData[$organismId])) {
+				Debugger::log('Question skipped as user data are missing for user, organism: ['. $userId . ', ' . $organismId .']', ILogger::CRITICAL);
+				continue;
+			}
+			$u = ArrayHash::from($userData[$organismId]);
+
+			$eloScore = ($u->current_knowledge !== NULL) ? $u->current_knowledge : ($priorK->getValue() - $o->organism_difficulty);
 			$score = $this->weightProbability * $this->scoreProbability($this->probabilityEstimated($eloScore), $this->targetProbability);
-			$score += $this->weightTime * $this->scoreTime($row->last_answer);
-			$score += $this->weightCount * $this->scoreCount($row->total_answered);
-			$scores[$row->id_organism] = $score;
-			$temp[$row->id_organism] =
-				(sprintf("%s: %f; probability: %f; time: %f; count %f\n",
-				$row->id_organism,
+			$score += $this->weightTime * $this->scoreTime($u->last_answer);
+			$score += $this->weightCount * $this->scoreCount($u->total_answered);
+			$scores[$o->id_organism] = $score;
+			$temp[$o->id_organism] =
+				(sprintf("%s: %f; estimated: %f; probability: %f; time: %f; count %f (input data > total_answered: %f; current_knowledge: %f; prior_knowledge: %f; organism_difficult: %f)\n",
+				$o->id_organism,
 				$score,
+				$this->probabilityEstimated($eloScore),
 				$this->weightProbability * $this->scoreProbability($this->probabilityEstimated($eloScore), $this->targetProbability),
-				$this->weightTime * $this->scoreTime($row->last_answer),
-				$this->weightCount * $this->scoreCount($row->total_answered)
+				$this->weightTime * $this->scoreTime($u->last_answer),
+				$this->weightCount * $this->scoreCount($u->total_answered),
+				$u->total_answered,
+				$u->current_knowledge,
+				$priorK->getValue(),
+				$o->organism_difficulty
 			));
 		}
 		arsort($scores);
@@ -227,26 +240,30 @@ abstract class BasicElo extends AModelFacade
 
 		// Update prior knowledge and item difficulty (only when previous answer from this user is present)
 		if ($currentK->getValue() === null) {
-			// Item difficulty
-			$elo = new ELO();
-			$elo->k = function () use ($organismId) {
-				return ($this->eloUpdateFactorA / (1 + $this->eloUpdateFactorB * $this->answer->organismFirstAnswersCount($organismId)));
-			};
-			$elo->p = function () use ($organismD, $priorK, $optionsCount, $isCorrect) {
-				$val = 1 / $optionsCount + (1 - 1 / $optionsCount) * (1 / (1 + pow(M_E, -($priorK->getValue() - $organismD->getValue()))));
+			$pF = function ($organismD, $priorK, $optionsCount, $isCorrect) {
+				$val = 1 / $optionsCount + (1 - 1 / $optionsCount) * (1 / (1 + pow(M_E, -($priorK - $organismD))));
 				if ($isCorrect) {
-					return 1 - $val;
+					return 1-$val;
 				} else {
-					return $val;
+					return -$val;
 				}
 			};
-			$elo->update($organismD);
+			// Item difficulty
+			$k = ($this->eloUpdateFactorA / (1 + $this->eloUpdateFactorB * $this->answer->organismFirstAnswersCount($organismId)));
+			$p = $pF($organismD->getValue(), $priorK->getValue(), $optionsCount, $isCorrect);
+			$newOrganismD = $organismD->getValue() - $k * $p;
 
 			// Prior knowledge of user
-			$elo->k = function () use ($userId) {
-				return $this->eloUpdateFactorA / (1 + $this->eloUpdateFactorB * $this->answer->userFirstAnswerCount($userId));
-			};
-			$elo->update($priorK);
+			$k = $this->eloUpdateFactorA / (1 + $this->eloUpdateFactorB * $this->answer->userFirstAnswerCount($userId));
+			$p = $pF($organismD->getValue(), $priorK->getValue(), $optionsCount, $isCorrect);
+			$newPriorK = $priorK->getValue() + $k * $p;
+
+			//fdump(sprintf('P: %f -> %f', $priorK->getValue(), $newPriorK));
+			//fdump(sprintf('OD: %f -> %f', $organismD->getValue(), $newOrganismD));
+
+			// Update values
+			$priorK->setValue($newPriorK);
+			$organismD->setValue($newOrganismD);
 
 			// Persist data
 			$this->organismDifficulty->persist($modelId, $organismD);
@@ -254,31 +271,27 @@ abstract class BasicElo extends AModelFacade
 		}
 
 		// Update current knowledge
-		$elo = new ELO();
-		$elo->k = function () use ($isCorrect) {
-			if ($isCorrect) {
-				return $this->weightCorrectAnswer;
+		$k = ($isCorrect) ? $this->weightCorrectAnswer : $this->weightInvalidAnswer;
+		$pF = function ($optionsCount, $isCorrect, $currentK, $priorK, $organismD) {
+			if ($currentK === NULL) {
+				$v = $priorK - $organismD;
 			} else {
-				return $this->weightInvalidAnswer;
+				$v = $currentK;
 			}
-		};
-		$elo->p = function () use ($optionsCount, $isCorrect, $currentK, $priorK, $organismD) {
-			if ($currentK->getValue() === NULL) {
-				$v = $priorK->getValue() - $organismD->getValue();
-			} else {
-				$v = $currentK->getValue();
-			}
-			$v =
 			$val = 1 / $optionsCount + (1 - 1 / $optionsCount) * (
 					1 / (1 + pow(M_E, - ($v)))
 				);
 			if ($isCorrect) {
 				return 1 - $val;
 			} else {
-				return $val;
+				return -$val;
 			}
 		};
-		$elo->update($currentK);
+		$p = $pF($optionsCount, $isCorrect, $currentK->getValue(), $priorK->getValue(), $organismD->getValue());
+		fdump('<<<<'.$k.','.$p.'>>>>');
+		$newCurrentK = $currentK->getValue() + $k * $p;
+		fdump(sprintf('CK: %f -> %f', $currentK->getValue(), $newCurrentK));
+		$currentK->setValue($newCurrentK);
 		$this->currentKnowledge->persist($modelId, $currentK);
 	}
 
