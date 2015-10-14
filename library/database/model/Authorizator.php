@@ -7,6 +7,7 @@ use Nette\Security\Permission;
 
 class Authorizator extends Object implements IAuthorizator {
 
+	const ROLE_USER = 'user';
 	const ROLE_GUEST = 'guest';
 	const ROLE_VIEWER = 'viewer';
 	const ROLE_ADMIN = 'admin';
@@ -24,6 +25,7 @@ class Authorizator extends Object implements IAuthorizator {
 		$this->acl->addResource("statistics");
 
 		// Adding of user's role
+		$this->acl->addRole(self::ROLE_USER);
 		$this->acl->addRole(self::ROLE_GUEST);
 		$this->acl->addRole(self::ROLE_VIEWER);
 		$this->acl->addRole(self::ROLE_ADMIN);
@@ -34,6 +36,7 @@ class Authorizator extends Object implements IAuthorizator {
 		$this->acl->allow(self::ROLE_VIEWER, 'commons');
 
 		$this->acl->deny(self::ROLE_GUEST);
+		$this->acl->deny(self::ROLE_USER);
 	}
 
 	public function isAllowed($role = self::ALL, $resource = self::ALL, $privilege = self::ALL) {
