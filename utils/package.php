@@ -120,8 +120,10 @@ function printHelp()
 	print "Usage:\n\n";
 	print "\t php package.php import <PATH>\t\t Transactionally imports package from <PATH> where package.json and files folder are located\n";
 	print "\t php package.php delete <NAME>\t\t Remove package with name <NAME> from database (this doesn't remove the items! Use GC for that.)\n";
-	print "\t php package.php gc \t\t\t Performs garbage collection and will ask for confirmation.";
+	print "\t php package.php gc \t\t\t Performs garbage collection and will ask for confirmation.\n";
+	print "\t php package.php gc-representations \t Performs garbage collection of representations and will ask for confirmation.";
 	print "\n\n";
+	print "Typical order: import/delete -> gc -> gc-representations!\n\n";
 	print "Use with care!";
 	print "\n\n";
 }
@@ -367,6 +369,36 @@ if ($command == 'import') {
 	});
 
 	exit(0);
+} elseif ($command == 'gc-representations') {
+	/** @var Package $package */
+	$packageModel = $container->getByType('NatureQuizzer\\Database\\Model\\Package');
+
+	print "Representation garbage collection\n";
+	print "---------------------------------\n";
+	print "Run package.php gc before this!\n\n";
+
+	print "To be deleted\n";
+	print "-------------\n";
+	$allFiles = [];
+	foreach (Finder::findFiles('*')->exclude('.*')->in(__DIR__ . '/../www/images/organisms/') as $item) {
+		$allFiles[] = $item->getBasename();
+	}
+	$trackedFiles = $packageModel->getTrackedRepresentations();
+	$leftovers = array_diff($allFiles, $trackedFiles);
+	foreach ($leftovers as $item) {
+		print " - ". $item . "\n";
+	}
+	print "\n--------------\n";
+	print "Count: " . count($leftovers)  ." \n";
+	print "Delete? [y/N]: ";
+	$input = fgets(STDIN);
+	if ($input !== "y\n") {
+		print "ABORTING!\n";
+		exit(0);
+	}
+	foreach ($leftovers as $item) {
+		unlink(__DIR__ . '/../www/images/organisms/' . $item);
+	}
 }
 
 function array_projection($array, $key) {

@@ -83,4 +83,11 @@ class Package extends Table
 				(SELECT COUNT(*) FROM concept) AS concept_count
 		')->fetch();
 	}
+
+	public function getTrackedRepresentations()
+	{
+		return $this->context->query('
+			SELECT DISTINCT id_representation FROM package_organism_representation
+		')->fetchPairs(NULL, 'id_representation');
+	}
 }
