@@ -45,9 +45,9 @@
 	<h2>Organism distribution</h2>
 
 	<table class="stat">
-		<tr><th>Organism</th><th># of asked questions</th></tr>
+		<tr><th>#</th><th>Organism</th><th># of asked questions</th></tr>
 		{foreach $organismDistribution as $item}
-			<tr><td>{$item->latin_name}</td><td>{$item->count}</td></tr>
+			<tr><td>{$iterator->getCounter()}</td><td>{$item->latin_name}</td><td>{$item->count}</td></tr>
 		{/foreach}
 	</table>
 
