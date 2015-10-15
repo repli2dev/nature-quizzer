@@ -180,6 +180,8 @@ abstract class BasicElo extends AModelFacade
 		if ($concept !== Concept::ALL) {
 			$conceptId = $concept->id_concept;
 		}
+		$optionsCount = $this->distractorCount + 1; // The number of options is fixed, so we can take this into account of probability
+
 		$generalData = $this->organism->getGeneralSelectionAttributes($modelId, $conceptId)->fetchAssoc('id_organism=');
 		$userData = $this->organism->getUserSelectionAttributes($userId, $modelId)->fetchAssoc('id_organism=');
 		$priorK = $this->priorKnowledge->fetch($modelId, $userId);
@@ -200,7 +202,7 @@ abstract class BasicElo extends AModelFacade
 			$u = ArrayHash::from($userData[$organismId]);
 
 			$eloScore = ($u->current_knowledge !== NULL) ? $u->current_knowledge : ($priorK->getValue() - $o->organism_difficulty);
-			$score = $this->weightProbability * $this->scoreProbability($this->probabilityEstimated($eloScore), $this->targetProbability);
+			$score = $this->weightProbability * $this->scoreProbability($this->probabilityEstimated($eloScore, $optionsCount), $this->targetProbability);
 			$score += $this->weightTime * $this->scoreTime($u->last_answer);
 			$score += $this->weightCount * $this->scoreCount($u->total_answered);
 			$scores[$o->id_organism] = $score;
@@ -208,8 +210,8 @@ abstract class BasicElo extends AModelFacade
 				(sprintf("%s: %f; estimated: %f; probability: %f; time: %f; count %f (input data > total_answered: %f; current_knowledge: %f; prior_knowledge: %f; organism_difficult: %f)\n",
 				$o->id_organism,
 				$score,
-				$this->probabilityEstimated($eloScore),
-				$this->weightProbability * $this->scoreProbability($this->probabilityEstimated($eloScore), $this->targetProbability),
+				$this->probabilityEstimated($eloScore, $optionsCount),
+				$this->weightProbability * $this->scoreProbability($this->probabilityEstimated($eloScore, $optionsCount), $this->targetProbability),
 				$this->weightTime * $this->scoreTime($u->last_answer),
 				$this->weightCount * $this->scoreCount($u->total_answered),
 				$u->total_answered,
@@ -220,9 +222,9 @@ abstract class BasicElo extends AModelFacade
 		}
 		arsort($scores);
 		$organisms = array_keys(array_slice($scores, 0, $count, true));
-		/*foreach ($organisms as $organism) {
-			fdump($temp[$organism]);
-		}*/
+//		foreach ($organisms as $organism) {
+//			fdump($temp[$organism]);
+//		}
 		return $organisms;
 	}
 
@@ -288,17 +290,16 @@ abstract class BasicElo extends AModelFacade
 			}
 		};
 		$p = $pF($optionsCount, $isCorrect, $currentK->getValue(), $priorK->getValue(), $organismD->getValue());
-		fdump('<<<<'.$k.','.$p.'>>>>');
 		$newCurrentK = $currentK->getValue() + $k * $p;
-		fdump(sprintf('CK: %f -> %f', $currentK->getValue(), $newCurrentK));
+		//fdump(sprintf('CK: %f -> %f', $currentK->getValue(), $newCurrentK));
 		$currentK->setValue($newCurrentK);
 		$this->currentKnowledge->persist($modelId, $currentK);
 	}
 
 	// Helpers methods
-	private function probabilityEstimated($score)
+	private function probabilityEstimated($score, $optionsCount)
 	{
-		return 1 / (1 + pow(M_E, -$score));
+		return 1 / $optionsCount + (1 - 1 / $optionsCount) * (1 / (1 + pow(M_E, -$score)));
 	}
 
 	private function scoreProbability($pEst, $pTarget)
