@@ -3,6 +3,7 @@
 namespace NatureQuizzer\Database\Model;
 
 use InvalidArgumentException;
+use Nette\Database\SqlLiteral;
 use Nette\Database\Table\ActiveRow;
 use Nette\NotImplementedException;
 use Nette\Security\AuthenticationException;
@@ -56,7 +57,7 @@ class User extends Table implements IAuthenticator
 
 	public function findByEmail($email)
 	{
-		return $this->getTable()->where(self::COLUMN_EMAIL, $email)->fetch();
+		return $this->getTable()->where('LOWER(?) = ?', new SqlLiteral(self::COLUMN_EMAIL), $email)->fetch();
 	}
 
 	public function findAnonymousById($id)
