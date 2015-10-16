@@ -52,7 +52,7 @@ There are two gulp targets: `gulp development` will watch for changes, whereas `
 
 ```
 $ cd <project path>
-$ vim app/config.local.neon
+$ vim app/config/config.local.neon
 ```
 
 6. Create database and import ``sources/itis.sql.gz`` from ``nature-quizzer-packages`` repository.
@@ -69,7 +69,7 @@ $ php utils/updatedb.php
 ```
 
 8. Import desired data (DB entries as well as the underlying images) into the system.
-   There is `utils/import.php` for this task.
+   There is `utils/package.php` for this task.
     
 9. After changing organisms (adding or removing) the organism distance script should be executed:
 
