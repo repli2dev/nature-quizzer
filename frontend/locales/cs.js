@@ -68,7 +68,7 @@ App.Translations.cs = {
 	'index': {
 		'heading': 'Procvičovátko přírody',
 		'choose_topic': 'Vyberte si téma procvičování',
-		'other_topics': 'Chcete jiné téma? Zatím máme jen jedno, ale určitě nám co byste chtěli procvičovat ;-)',
+		'other_topics': 'Chcete jiné téma? Zatím máme jen jedno, ale určitě nám napište co byste chtěli procvičovat ;-)',
 		'all_available': 'všechny dostupné',
 		'how_it_works': 'Jak to funguje?',
 		'heading_adaptive': 'Adaptabilní procvičování',
@@ -91,7 +91,7 @@ App.Translations.cs = {
 		'report_representations': 'z reprezentací',
 		'report_organisms': 'z organismů',
 		'report_comment': 'Váš komentář',
-		'failure': 'Ups. Došlo k selhání při ukládání odpovědi či načítání dalších otázek. Kvíz nemusí fungovat dle očekávání. Věříme, že systém své selhání ohlásil, přesto nám raději napište. Díky!',
+		'failure': 'Ups. Došlo k selhání při ukládání odpovědi. Kvíz nemusí fungovat dle očekávání. Věříme, že systém své selhání ohlásil, přesto nám raději napište. Díky!',
 		'success_rate': 'Úspěšnost',
 	},
 	'about': {
