@@ -272,7 +272,7 @@ class UserProcessor extends Object
 			->addRule(function ($item) {
 				$data = $this->userModel->findByEmail(Strings::lower($item->getValue()));
 				return $data === FALSE;
-			}, 'email_taken');
+			}, 'user.email_taken');
 		$form->addText('password')
 			->addRule(Form::FILLED, 'user.empty_password');
 		$form->addText('password2')
