@@ -40,7 +40,7 @@ class UserAnswerFactory extends Object
 				$representationId = $answer['id_representation'];
 				$row = $this->organism->getOrganismByRepresentation($answer['id_representation']);
 				if ($row === FALSE) {
-					Debugger::log(sprintf('Cannot find id_organism for id_representation [%s]', $answer['id_representation']), Debugger::ERROR);
+					Debugger::log(sprintf('Cannot find id_organism for id_representation [%s]', $answer['id_representation']), Debugger::EXCEPTION);
 					$error = true;
 					continue;
 				}
