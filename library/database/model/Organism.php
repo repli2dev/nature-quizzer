@@ -199,7 +199,7 @@ class Organism extends Table
 			FROM organism
 			LEFT JOIN organism_difficulty ON organism_difficulty.id_organism = organism.id_organism
 			WHERE
-				organism_difficulty.id_model = ? AND
+				(organism_difficulty.id_model = ? OR organism_difficulty.id_model IS NULL) AND
 				(? IS NULL OR organism.id_organism IN (SELECT id_organism FROM organism_concept WHERE id_concept = ?))
 		', $modelId, $conceptId, $conceptId);
 	}
