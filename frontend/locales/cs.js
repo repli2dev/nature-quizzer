@@ -114,6 +114,7 @@ App.Translations.cs = {
 	'topics': {
 		'heading': 'Témata',
 		'description': 'Vyberte si jaké téma, respektive oblast přírody se chcete začít učit a stiskněte',
+		'description2': 'Momentálně máme k procvičování připraveno jen jedno téma, napište nám co byste chtěli procvičovat dále ;-)',
 		'invalid': 'Omlouváme se, ale toto téma je momentálně neprovozuschopné. Zkuste to, prosím, později. Pokud problém přetrvává, napište nám. Díky.',
 		'interruption': 'Zkuste si vybrat jiné téma :-)',
 		'others': 'Ostatní',
