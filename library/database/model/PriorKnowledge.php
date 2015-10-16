@@ -37,7 +37,7 @@ class PriorKnowledge extends Table
 			$temp = $this->context->query('SELECT TRUE FROM prior_knowledge WHERE id_user = ? AND id_model = ?', $newUserId, $item->id_model)->fetchField();
 		}
 		if ($temp === FALSE) {
-			$this->context->query('UPDATE prior_knowledge SET id_user = ? WHERE id_user = ? AND id_model', $newUserId, $oldUserId, $item->id_model);
+			$this->context->query('UPDATE prior_knowledge SET id_user = ? WHERE id_user = ?', $newUserId, $oldUserId);
 		}
 	}
 }
