@@ -7,8 +7,9 @@ class Answer extends Table
 	public function insert($rows)
 	{
 		return $this->performInTransaction(function () use ($rows) {
+			$result = NULL;
 			foreach ($rows as $row) {
-				$result =  $this->getTable()->insert($row);
+				$result = $this->getTable()->insert($row);
 			}
 			return $result;
 		});
