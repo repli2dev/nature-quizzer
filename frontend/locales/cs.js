@@ -64,6 +64,10 @@ App.Translations.cs = {
 		'password_mismatch': 'Obě zadaná hesla se musí shodovat.',
 		'email_taken': 'Tato e-mailová adresa je již zaregistrována.',
 		'empty_name': 'Vyplňte, prosím, jméno nebo přezdívku.',
+		'not_found': 'Uživatel s touto e-mailovou adresu neexistuje.',
+		'invalid_credentials': 'Heslo je neplatné.',
+		'not_approved': 'Přihlášení tohoto uživatele je zablokované. Kontaktujte nás, prosím.',
+		'failure': 'Při přihlašování došlo k selhání. Kontaktujte nás, prosím.',
 	},
 	'index': {
 		'heading': 'Procvičovátko přírody',

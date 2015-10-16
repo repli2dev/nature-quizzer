@@ -86,13 +86,13 @@ class UserProcessor extends Object
 			} catch (AuthenticationException $ex) {
 				$output['status'] = 'fail';
 				if ($ex->getCode() == IAuthenticator::IDENTITY_NOT_FOUND) {
-					$output['result'] = 'Identity not found';
+					$output['result'] = 'user.not_found';
 				} elseif ($ex->getCode() == IAuthenticator::INVALID_CREDENTIAL) {
-					$output['result'] = 'Invalid credential';
+					$output['result'] = 'user.invalid_credentials';
 				} elseif ($ex->getCode() == IAuthenticator::FAILURE) {
-					$output['result'] = 'Failure';
+					$output['result'] = 'user.failure';
 				} elseif ($ex->getCode() == IAuthenticator::NOT_APPROVED) {
-					$output['result'] = 'Not approved';
+					$output['result'] = 'user.not_approved';
 				}
 				// Restore previous identity
 				$this->user->login($oldIdentity);
