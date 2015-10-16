@@ -184,7 +184,7 @@ App.PlayController = Ember.Controller.extend({
 		}
 		message += '\n' + App.Translator.translate('quiz.report_comment') + ':\n';
 		return message;
-	}.property('this.questionCurrent'),
+	}.property('this.question'),
 
 	shortcutTriggered: function (event, controller) {
 		if (event.keyCode == 27) { // Escape

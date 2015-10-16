@@ -12,7 +12,7 @@ if (PHP_SAPI === 'cli') {
 	$configurator->setDebugMode(true);
 }
 
-if (file_exists(__DIR__ . '/../.deployment-in-progress') || file_exists(__DIR__ . '/../.deployment')) {
+if (PHP_SAPI !== 'cli' && (file_exists(__DIR__ . '/../.deployment-in-progress') || file_exists(__DIR__ . '/../.deployment'))) {
 	include(__DIR__ . '/../www/.maintenance.php');
 }
 

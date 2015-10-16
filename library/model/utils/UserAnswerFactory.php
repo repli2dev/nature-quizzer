@@ -19,12 +19,13 @@ class UserAnswerFactory extends Object
 		$this->organism = $organism;
 	}
 
-	public function create($modelId, $roundId, array $data)
+	public function create($modelId, $persistenceModelId, $roundId, array $data)
 	{
 		$error = false;
 
 		$a = new UserAnswer();
 		$a->id_model = $modelId;
+		$a->id_persistence_model = $persistenceModelId;
 		$a->id_round = $roundId;
 		$a->question_seq_num = $data['seqNum'];
 		$a->question_type = (int) $data['questionType'];
@@ -39,7 +40,7 @@ class UserAnswerFactory extends Object
 				$representationId = $answer['id_representation'];
 				$row = $this->organism->getOrganismByRepresentation($answer['id_representation']);
 				if ($row === FALSE) {
-					Debugger::log(sprintf('Cannot find id_organism for id_representation [%s]', $answer['id_representation']), Debugger::ERROR);
+					Debugger::log(sprintf('Cannot find id_organism for id_representation [%s]', $answer['id_representation']), Debugger::EXCEPTION);
 					$error = true;
 					continue;
 				}

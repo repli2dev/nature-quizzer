@@ -219,7 +219,7 @@ CREATE TABLE current_knowledge (
   UNIQUE (id_user, id_organism, id_model)
 );
 CREATE INDEX ON current_knowledge (id_organism);
-COMMENT ON TABLE prior_knowledge IS 'Skill of user U of organism O after already facing it.';
+COMMENT ON TABLE current_knowledge IS 'Skill of user U of organism O after already facing it.';
 
 ------------------------------------------------------------------------------------------------------------------------
 -- Tables for distractors selection

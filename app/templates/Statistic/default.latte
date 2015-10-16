@@ -1,0 +1,55 @@
+{block content}
+	<h1 n:block=title>Statistics</h1>
+	{include ../flashes.latte}
+	<p>This section shows overall general statistics for last 14 days.</p>
+
+	<h2>Number of rounds &amp; unique users &amp; answers with success rate</h2>
+
+	<table class="stat">
+		<tr><th>Date</th><th># of rounds</th><th># of unique users</th><th># of answered questions</th><th># of correct answers</th><th>% success rate</th></tr>
+		{foreach $range as $day}
+			<tr><td>{$day|date:"Y-m-d"}</td>
+				{if !isset($roundStats[$day->format('Y-m-d')])}
+					<td>NA</td>
+				{else}
+					{var $item = $roundStats[$day->format('Y-m-d')]}
+					<td>{$item['count']}</td>
+				{/if}
+
+				{if !isset($userStats[$day->format('Y-m-d')])}
+					<td>0</td>
+				{else}
+					{var $item = $userStats[$day->format('Y-m-d')]}
+					<td>{$item['count']}</td>
+				{/if}
+				{if !isset($answerStats[$day->format('Y-m-d')])}
+					<td>NA</td>
+					<td>NA</td>
+					<td>NA</td>
+				{else}
+					{var $item = $answerStats[$day->format('Y-m-d')]}
+					<td>{$item['all']}</td>
+					<td>{$item['correct']}</td>
+					<td>
+						{if $item['all'] == 0}
+							NA
+						{else}
+							{round(($item['correct']/$item['all'])*100,2)}&nbsp;%
+						{/if}
+					</td>
+				{/if}
+			</tr>
+		{/foreach}
+	</table>
+
+	<h2>Organism distribution</h2>
+
+	<table class="stat">
+		<tr><th>#</th><th>Organism</th><th># of asked questions</th></tr>
+		{foreach $organismDistribution as $item}
+			<tr><td>{$iterator->getCounter()}</td><td>{$item->latin_name}</td><td>{$item->count}</td></tr>
+		{/foreach}
+	</table>
+
+
+{/block}

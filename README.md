@@ -18,7 +18,13 @@ Installing
 
 0. Update to proper selected GIT branch/tag.
 
-1. Install development dependencies via `node`:
+1. Set proper permissions to `temp` and `log` directory:
+
+```
+$ chmod -R 777 log temp
+```
+
+2. Install development dependencies via `node`:
 
 ```
 $ cd <project path>
@@ -26,14 +32,14 @@ $ npm update
 
 ```
 
-2. Install runtime (aka PHP) dependencies via `composer`:
+3. Install runtime (aka PHP) dependencies via `composer`:
  
 ```
 $ cd <project path>
 $ composer update
 ```
 
-3. Run `gulp` to build css, templates and javascript files:
+4. Run `gulp` to build css, templates and javascript files:
 
 ```
 $ cd <project path>
@@ -42,36 +48,36 @@ $ gulp
 
 There are two gulp targets: `gulp development` will watch for changes, whereas `gulp production` will minify the JS output. 
 
-4. Create local configuration (database credentials, FB and Google+ API keys etc)
+5. Create local configuration (database credentials, FB and Google+ API keys etc)
 
 ```
 $ cd <project path>
 $ vim app/config.local.neon
 ```
 
-5. Create database and import ``sources/itis.sql.gz`` from ``nature-quizzer-packages`` repository.
+6. Create database and import ``sources/itis.sql.gz`` from ``nature-quizzer-packages`` repository.
  
 ```
 $ psql -U postgres -d nature-quizzer < itis.sql
 ```
 
-6. To install basic database schema run prepared migrations:
+7. To install basic database schema run prepared migrations:
 
 ```
 $ cd <project path>
 $ php utils/updatedb.php
 ```
 
-7. Import desired data (DB entries as well as the underlying images) into the system.
+8. Import desired data (DB entries as well as the underlying images) into the system.
    There is `utils/import.php` for this task.
     
-8. After changing organisms (adding or removing) the organism distance script should be executed:
+9. After changing organisms (adding or removing) the organism distance script should be executed:
 
 ```
 $ php utils/update-organism-distances.php 
 ```
 
-For convenience there is a `deploy.php` script which does this step in order to make things easy (except importing data)
+For convenience there is a `deploy.php` script which does some of this steps in order to make things easy (except importing data), especially for update.
 
 Running
 =======

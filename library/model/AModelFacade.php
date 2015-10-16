@@ -10,6 +10,7 @@ abstract class AModelFacade implements IModelFacade
 	private $model;
 
 	private $modelId;
+	private $persistenceModelId;
 
 	public function __construct(Model $model)
 	{
@@ -26,5 +27,22 @@ abstract class AModelFacade implements IModelFacade
 			$this->modelId = $row->id_model;
 		}
 		return $this->modelId;
+	}
+
+	public function getPersistenceId()
+	{
+		return $this->getId();
+	}
+
+	public function getPersistenceIdForName($name)
+	{
+		if (!$this->persistenceModelId) {
+			$row = $this->model->getModelByName($name);
+			if ($row === FALSE) {
+				throw new InvalidStateException('Cannot find model with name: [' . $name . ']');
+			}
+			$this->persistenceModelId = $row->id_model;
+		}
+		return $this->persistenceModelId;
 	}
 }

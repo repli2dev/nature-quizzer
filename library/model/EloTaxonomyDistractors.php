@@ -19,17 +19,21 @@ class EloTaxonomyDistractors extends BasicElo implements IModelFacade
 		$this->weightTime = 120;
 		$this->weightCount = 10;
 
-		$this->weightInvalidAnswer = 1;
-		$this->weightCorrectAnswer = 1;
+		$this->weightCorrectAnswer = 3.4;
+		$this->weightInvalidAnswer = 0.3;
 
-		$this->eloUpdateFactorA = 1;
+		$this->eloUpdateFactorA = 0.8;
 		$this->eloUpdateFactorB = 0.05;
+	}
 
+	public function getPersistenceId()
+	{
+		return $this->getPersistenceIdForName('ELO_RANDOM_DISTRACTORS');
 	}
 
 	protected function selectDistractors($userId, $organismIds, $distractorCount)
 	{
-		$modelId = $this->getId();
+		$modelId = $this->getPersistenceId();
 		$priorK = $this->priorKnowledge->fetch($modelId, $userId);
 
 		$output = [];
@@ -37,12 +41,14 @@ class EloTaxonomyDistractors extends BasicElo implements IModelFacade
 			// TODO: performance optimalization
 
 			$currentK = $this->currentKnowledge->fetch($modelId, $organismId, $userId);
-			$eloScore = ($currentK->getValue() !== NULL) ? $currentK->getValue() : $priorK->getValue();
+			$organismD = $this->organismDifficulty->fetch($modelId, $organismId);
+			$eloScore = ($currentK->getValue() !== NULL) ? $currentK->getValue() : $priorK->getValue() - $organismD->getValue();
 			$distance = $this->distance($this->probabilityEstimated($eloScore));
 
 			//fdump('eloScore: ', $eloScore, 'pst:', $this->probabilityEstimated($eloScore), 'distance:', $distance);
 
 			$output[$seqId] = $this->organism->findInDistance($organismId, $distance, $distractorCount);
+			//fdump($output[$seqId]);
 		}
 		return $output;
 	}

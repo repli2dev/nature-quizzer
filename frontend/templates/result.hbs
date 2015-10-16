@@ -2,7 +2,6 @@
 	<h2>{{translate 'quiz.done'}}</h2>
 
 	<div>
-		{{log model}}
 		{{#if model.mix}}
 			{{#link-to 'play' 'mix' classNames='button'}}{{translate 'quiz.continue'}}{{/link-to}}
 		{{/if}}

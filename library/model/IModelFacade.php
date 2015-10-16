@@ -34,6 +34,14 @@ interface IModelFacade
 	public function getId();
 
 	/**
+	 * Returns ID of model to which the model data are persisted.
+	 * When models are independent this should return the same value as getId().
+	 * However, for some situation the override may be useful.
+	 * @return int ID of model to persist to
+	 */
+	public function getPersistenceId();
+
+	/**
 	 * For particular user and concept returns specified number of questions.
 	 *
 	 * The expected output is following:

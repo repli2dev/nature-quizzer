@@ -244,6 +244,7 @@ class UserProcessor extends Object
 
 	private function reownStuff(Identity $oldIdentity, Identity $newIdentity)
 	{
+		// TODO: rethink this behaviour, seems to be a bit weird (with different model the migrated data will be not ever used etc.)
 		$this->round->reownRounds($oldIdentity->getId(), $newIdentity->getId());
 		$this->priorKnowledge->reown($oldIdentity->getId(), $newIdentity->getId());
 		$this->currentKnowledge->reown($oldIdentity->getId(), $newIdentity->getId());
@@ -269,7 +270,7 @@ class UserProcessor extends Object
 			->addRule(Form::FILLED, 'user.empty_email')
 			->addRule(Form::EMAIL, 'user.wrong_email_format')
 			->addRule(function ($item) {
-				$data = $this->userModel->findByEmail($item->getValue());
+				$data = $this->userModel->findByEmail(Strings::lower($item->getValue()));
 				return $data === FALSE;
 			}, 'email_taken');
 		$form->addText('password')

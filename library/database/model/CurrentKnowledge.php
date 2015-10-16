@@ -32,6 +32,12 @@ class CurrentKnowledge extends Table
 
 	public function reown($oldUserId, $newUserId)
 	{
-		$this->context->query('UPDATE current_knowledge SET id_user = ? WHERE id_user = ?', $newUserId, $oldUserId);
+		$items = $this->context->query('SELECT * FROM current_knowledge WHERE id_user = ?', $oldUserId)->fetchAll();
+		foreach ($items as $item) {
+			$temp = $this->context->query('SELECT TRUE FROM current_knowledge WHERE id_user = ? AND id_organism = ? AND id_model = ?', $newUserId, $item->id_organism, $item->id_model)->fetch();
+			if ($temp === FALSE) {
+				$this->context->query('UPDATE current_knowledge SET id_user = ? WHERE id_user = ? AND id_organism = ? AND id_model = ?', $newUserId, $oldUserId, $item->id_organism, $item->id_model);
+			}
+		}
 	}
 }

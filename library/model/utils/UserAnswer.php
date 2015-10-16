@@ -12,12 +12,15 @@ class UserAnswer extends Object
 	public $hasErrors = false;
 
 	public $id_model;
+	public $id_persistence_model;
 	public $id_round;
 	public $question_seq_num;
 	public $question_type;
 	public $extra;
 	/**
 	 * Each row should have:
+	 *  - id_model
+	 *  - id_persistence_model
 	 *  - id_organism
 	 *  - option_seq_num
 	 *  - correct
@@ -32,6 +35,7 @@ class UserAnswer extends Object
 	{
 		$state = !$this->hasErrors;
 		$state &= $this->id_model !== null;
+		$state &= $this->id_persistence_model !== null;
 		$state &= $this->id_round !== null;
 		$state &= $this->question_seq_num !== null && $this->question_seq_num > 0;
 		$state &= QuestionType::isValid($this->question_type);
@@ -88,6 +92,7 @@ class UserAnswer extends Object
 	{
 		$common = [
 			'id_model' => (int) $this->id_model,
+			'id_persistence_model' => (int) $this->id_persistence_model,
 			'id_round' => (int) $this->id_round,
 			'question_seq_num' => (int) $this->question_seq_num,
 			'question_type' => (int) $this->question_type,
