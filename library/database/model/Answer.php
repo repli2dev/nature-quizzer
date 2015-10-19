@@ -15,14 +15,22 @@ class Answer extends Table
 		});
 	}
 
+	/**
+	 * Returns summed count of first answers for given organism.
+	 * (That is equal to query of unique users answering question about particular organism.)
+	 */
 	public function organismFirstAnswersCount($organismId)
 	{
-		return $this->context->query('SELECT COUNT(id_user) FROM answer JOIN round USING (id_round) WHERE id_organism = ? GROUP BY id_user', $organismId)->fetchField();
+		return $this->context->query('SELECT COUNT(DISTINCT id_user) FROM answer JOIN round USING (id_round) WHERE id_organism = ? AND main = TRUE', $organismId)->fetchField();
 	}
 
+	/**
+	 * Returns summed count of first answers of given user.
+	 * (That is equal to query of unique organism ever answered by the user.)
+	 */
 	public function userFirstAnswerCount($userId)
 	{
-		return $this->context->query('SELECT COUNT(id_organism) FROM answer JOIN round USING (id_round) WHERE id_user = ? GROUP BY id_organism', $userId)->fetchField();
+		return $this->context->query('SELECT COUNT(DISTINCT id_organism) FROM answer JOIN round USING (id_round) WHERE id_user = ? AND main = TRUE', $userId)->fetchField();
 	}
 
 	public function findFromLastRound($userId, $languageId)
