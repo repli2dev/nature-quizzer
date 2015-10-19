@@ -28,7 +28,6 @@ class User extends Table implements IAuthenticator
 
 	public function authenticate(array $credentials)
 	{
-		fdump($credentials);
 		if (isset($credentials[self::ID])) {
 			$row = $this->findAnonymousById($credentials[self::ID]);
 			if (!$row) {
