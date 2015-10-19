@@ -4,6 +4,7 @@ namespace NatureQuizzer\Processors;
 use NatureQuizzer\Runtime\CurrentClient;
 use Nette\DI\Container;
 use Nette\Forms\Form;
+use Nette\Http\Request;
 use Nette\Mail\IMailer;
 use Nette\Mail\Message;
 use Nette\Object;
@@ -15,13 +16,16 @@ class FeedbackProcessor extends Object
 	private $mailer;
 	/** @var CurrentClient */
 	private $currentClient;
+	/** @var Request */
+	private $request;
 
 	private $mails;
 
-	public function __construct(IMailer $mailer, CurrentClient $currentClient, Container $container)
+	public function __construct(IMailer $mailer, CurrentClient $currentClient, Request $request, Container $container)
 	{
 		$this->mailer = $mailer;
 		$this->currentClient = $currentClient;
+		$this->request = $request;
 
 		$params = $container->getParameters();
 		if (isset($params['mails'])) {
@@ -31,6 +35,8 @@ class FeedbackProcessor extends Object
 
 	public function send($data)
 	{
+		$server = $this->request->getUrl()->getHost();
+
 		$output = [];
 		$form = $this->getContactForm();
 		$form->setValues($data);
@@ -39,7 +45,7 @@ class FeedbackProcessor extends Object
 			$output['status'] = 'fail';
 		} else {
 			$message = new Message();
-			$message->setSubject('Nature Quizzer: Feedback');
+			$message->setSubject(sprintf('Nature Quizzer (%s): Feedback', $server));
 			if (isset($data['email']) && $data['email']) {
 				$message->setFrom($data['email']);
 			} else {
@@ -51,7 +57,7 @@ class FeedbackProcessor extends Object
 			$output['result'] = 'contact.message_sent';
 			$output['status'] = 'success';
 		}
-		sleep(2); // Prevention of spamming
+		sleep(1); // Prevention of spamming
 		return $output;
 	}
 
