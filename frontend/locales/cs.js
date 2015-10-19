@@ -26,7 +26,7 @@ App.Translations.cs = {
 	'projects' : {
 		'tutor': 'Problem Solving Tutor',
 		'geography': 'Slepé mapy',
-		'anatomy': 'Slepá anatomie',
+		'anatomy': 'Anatom',
 		'czech': 'Umíme česky',
 		'mathematics': 'MatMat',
 		'driving': 'Autoškola chytře',
