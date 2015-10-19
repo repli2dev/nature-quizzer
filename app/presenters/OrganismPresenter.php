@@ -185,7 +185,7 @@ class OrganismPresenter extends BasePresenter
 	{
 		$fileName = __DIR__ . '/../../www/images/organisms/' . $key;
 		if (file_exists($fileName)) {
-			unlink($fileName);
+			@unlink($fileName);
 		}
 		$this->organismModel->deleteRepresentation($key);
 		$this->flashMessage('Representation has been successfully deleted.');
