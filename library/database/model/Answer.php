@@ -54,18 +54,22 @@ class Answer extends Table
 		')->fetchAssoc('dummy_date=');
 	}
 
-	public function getOrganismDistribution()
+	public function getOrganismDistribution($languageId, $modelId)
 	{
 		return $this->context->query('
 			SELECT
 				answer.id_organism,
 				organism.latin_name,
+				organism_name.name AS name,
+			  	organism_difficulty.value AS difficulty,
 				COUNT(*) AS count
 			FROM answer
 			JOIN organism ON organism.id_organism = answer.id_organism
+			JOIN organism_name ON organism_name.id_organism = organism.id_organism AND organism_name.id_language = ?
+			LEFT JOIN organism_difficulty ON organism_difficulty.id_organism = organism.id_organism AND organism_difficulty.id_model = ? -- For displayed organism we join estimated difficulty (not much so related to the query)
 			WHERE main = TRUE AND answer.inserted > NOW() - INTERVAL \'14 DAY\'
-			GROUP BY answer.id_organism, latin_name
+			GROUP BY answer.id_organism, latin_name, name, difficulty
 			ORDER BY count DESC
-		')->fetchAll();
+		', $languageId, $modelId)->fetchAll();
 	}
 }

@@ -44,10 +44,14 @@
 
 	<h2>Organism distribution</h2>
 
+	<p>Distribution of organisms in main questions for the period of last 14 days.</p>
+	<p>For showing difficulty estimations you have to select desired model in form below.</p>
+	{control modelSelection}
+
 	<table class="stat">
-		<tr><th>#</th><th>Organism</th><th># of asked questions</th></tr>
+		<tr><th>#</th><th>Organism</th><th>Latin name</th><th>Difficulty estimate</th><th># of asked questions</th></tr>
 		{foreach $organismDistribution as $item}
-			<tr><td>{$iterator->getCounter()}</td><td>{$item->latin_name}</td><td>{$item->count}</td></tr>
+			<tr><td>{$iterator->getCounter()}</td><td><b>{$item->name}</b></td><td>{$item->latin_name}</td><td>{$item->difficulty}</td><td>{$item->count}</td></tr>
 		{/foreach}
 	</table>
 

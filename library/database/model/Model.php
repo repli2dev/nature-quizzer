@@ -9,6 +9,11 @@ class Model extends Table
 		return $this->getTable()->order('id_model ASC')->fetchAll();
 	}
 
+	public function getPairs()
+	{
+		return $this->getTable()->order('id_model ASC')->fetchPairs('id_model', 'name');
+	}
+
 	public function getModelNameByUser($userId)
 	{
 		return $this->getConnection()->query('SELECT "name" FROM model WHERE id_model IN (SELECT id_model FROM "user" WHERE id_user = ?)', $userId)->fetch();
