@@ -4,6 +4,7 @@ namespace NatureQuizzer\Presenters;
 
 use NatureQuizzer\Database\Model\Language;
 use NatureQuizzer\Database\Model\Organism;
+use NatureQuizzer\Database\Utils\LanguageLookup;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\DateTime;
@@ -19,11 +20,14 @@ class OrganismPresenter extends BasePresenter
 	private $organismModel;
 	/** @var Language */
 	private $languageModel;
+	/** @var LanguageLookup */
+	private $languageLookup;
 
-	public function injectBase(Organism $organismModel, Language $languageModel)
+	public function injectBase(Organism $organismModel, Language $languageModel, LanguageLookup $languageLookup)
 	{
 		$this->organismModel = $organismModel;
 		$this->languageModel = $languageModel;
+		$this->languageLookup = $languageLookup;
 	}
 
 	public function startup()
@@ -193,11 +197,12 @@ class OrganismPresenter extends BasePresenter
 		$grid = new Datagrid();
 		$grid->setRowPrimaryKey('id_organism');
 		$grid->setDatasourceCallback(function ($filter, $order) {
-			return $this->organismModel->getAll();
+			return $this->organismModel->getAllWithName($this->languageLookup->getId(AdminPresenter::LANG));
 		});
 
 		$grid->addCellsTemplate(__DIR__ . '/../grids/organism-list.latte');
 		$grid->addColumn('id_organism', 'ID');
+		$grid->addColumn('name', 'Name');
 		$grid->addColumn('latin_name', 'Latin name');
 
 		return $grid;

@@ -9,8 +9,12 @@
 	{control addRepresentationForm}
 
 	<table class="grid">
-		<tr class="grid-columns"><th>Representation image</th><th>License info</th><th>Actions</th></tr>
-		<tr n:foreach="$representations as $row"><td><img width="200px;" src="{$basePath}/images/organisms/{$row->id_representation}" alt="{$row->source}" /></td><td>{$row->source}<br>{$row->rights_holder}<br>{$row->license}</td><td><a href="{plink deleteRepresentation!, $row->id_representation}">Delete</a></td></tr>
+		<tr class="grid-columns"><th>Representation image</th><th>License & Info</th><th>Actions</th></tr>
+		<tr n:foreach="$representations as $row">
+			<td>{$row->id_representation}<br><img width="200px;" src="{$basePath}/images/organisms/{$row->id_representation}" alt="{$row->source}" /></td>
+			<td><div style="width:500px;word-wrap:break-word;">{$row->hash}</div><br>{$row->source}<br>{$row->rights_holder}<br>{$row->license}</td>
+			<td><a href="{plink deleteRepresentation!, $row->id_representation}">Delete</a></td>
+		</tr>
 	</table>
 
 {/block}

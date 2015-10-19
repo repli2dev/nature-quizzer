@@ -40,6 +40,11 @@ class Organism extends Table
 		});
 	}
 
+	public function getAllWithName($languageId)
+	{
+		return $this->getTable()->select('organism.*, :organism_name.name')->where(':organism_name.id_language = ?', $languageId)->order('id_organism ASC')->fetchAll();
+	}
+
 	public function findByLatinName($latinName)
 	{
 		return $this->getTable()->where('latin_name = ?', $latinName)->fetch();
@@ -122,6 +127,12 @@ class Organism extends Table
 	public function getRepresentations($organism)
 	{
 		return $this->getRepresentationTable()->where('id_organism = ?', $organism)->fetchAll();
+	}
+	public function getRepresentationsByIds($representationIds)
+	{
+		$representationIds = (array) $representationIds;
+		$representationIds[] = NULL;
+		return $this->getRepresentationTable()->where('id_representation IN (?)', $representationIds)->fetchAll();
 	}
 
 	public function addRepresentation($organism, $data)

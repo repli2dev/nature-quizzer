@@ -55,5 +55,18 @@
 		{/foreach}
 	</table>
 
+	<h2 id="representation-checker">Representation checker</h2>
+	<p>This lets you fast search for organism's representations by ID.</p>
+	{control representationSearch}
+	{if isset($queryResult)}
+		<table class="grid">
+			<tr class="grid-columns"><th>Representation image</th><th>License & Info</th><th>Actions</th></tr>
+			<tr n:foreach="$queryResult as $row">
+				<td>{$row->id_representation}<br><img width="200px;" src="{$basePath}/images/organisms/{$row->id_representation}" alt="{$row->source}" /></td>
+				<td><div style="width:500px;word-wrap:break-word;">{$row->hash}</div><br>{$row->source}<br>{$row->rights_holder}<br>{$row->license}</td>
+				<td><a href="{plink Organism:edit, $row->id_organism}">Go to organism</a></td>
+			</tr>
+		</table>
+	{/if}
 
 {/block}

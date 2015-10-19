@@ -15,6 +15,8 @@ use PDOException;
 
 class AdminPresenter extends BasePresenter
 {
+	const LANG = 'cs';
+
 	protected $resource = 'commons';
 
 	/** @var Admin */
