@@ -61,7 +61,8 @@ class EloTaxonomyDistractors extends BasicElo implements IModelFacade
 
 	private function distance($probability)
 	{
-		$distance = -23 * $probability + 25;
+		//$distance = -23 * $probability + 25;
+		$distance = 20 / ( $probability + 0.57 ) - 10.5;
 		return round($distance);
 	}
 }
