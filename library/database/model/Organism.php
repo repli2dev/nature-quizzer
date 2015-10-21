@@ -192,8 +192,8 @@ class Organism extends Table
 		return $this->context->query('
 			SELECT
 				organism.id_organism,
-				(SELECT COUNT(id_answer) FROM answer JOIN round ON round.id_round = answer.id_round WHERE id_user = ? AND answer.id_organism = organism.id_organism) AS total_answered,
-				(SELECT MAX(answer.inserted) FROM answer JOIN round ON round.id_round = answer.id_round WHERE id_user = ? AND answer.id_organism = organism.id_organism) AS last_answer,
+				(SELECT COUNT(id_answer) FROM answer JOIN round ON round.id_round = answer.id_round WHERE id_user = ? AND answer.id_organism = organism.id_organism AND answer.main = TRUE) AS total_answered,
+				(SELECT MAX(answer.inserted) FROM answer JOIN round ON round.id_round = answer.id_round WHERE id_user = ? AND answer.id_organism = organism.id_organism AND answer.main = TRUE) AS last_answer,
 				(SELECT current_knowledge.value FROM current_knowledge WHERE current_knowledge.id_model = ? AND current_knowledge.id_organism = organism.id_organism AND current_knowledge.id_user = ?) AS current_knowledge
 			FROM organism
 		', $userId, $userId, $modelId, $userId);
