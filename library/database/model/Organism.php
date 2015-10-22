@@ -57,12 +57,34 @@ class Organism extends Table
 
 	public function findInDistance($organismId, $distance = 0, $count)
 	{
-		$data = $this->getDistanceTable()->where('id_organism_from = ? AND distance > ?', $organismId, $distance)->order('distance ASC')->order('random()')->limit($count)->fetchPairs(NULL, 'id_organism_to');
+		$data = $this->getConnection()->query('
+			SELECT * FROM (
+				SELECT id_organism_to
+				FROM organism_distance
+				WHERE id_organism_from = ? AND distance > ?
+				ORDER BY distance ASC
+				LIMIT 10
+			  ) candidates
+			  ORDER BY RANDOM()
+			  LIMIT ?
+		', $organismId, $distance, $count)->fetchPairs(NULL, 'id_organism_to');
+
 		if (count($data) >= $count) {
 			return $data;
 		}
 		// if not enough organisms in wanted distance is found we take the most far organisms
-		$data2 = $this->getDistanceTable()->where('id_organism_from = ? AND distance <= ?', $organismId, $distance)->order('distance DESC')->limit($count+2)->fetchPairs(NULL, 'id_organism_to');
+		$data2 = $this->getConnection()->query('
+			SELECT * FROM (
+				SELECT id_organism_to
+				FROM organism_distance
+				WHERE id_organism_from = ? AND distance <= ?
+				ORDER BY distance ASC
+				LIMIT 15
+			  ) candidates
+			  ORDER BY RANDOM()
+			  LIMIT ?
+		', $organismId, $distance, $count)->fetchPairs(NULL, 'id_organism_to');
+
 		shuffle($data2);
 		return array_merge($data, array_splice($data2, 0, $count - count($data)));
 	}
