@@ -21,8 +21,14 @@
 	</div>
 
 	{block scripts}
-		<script src="{$basePath}/js/admin/netteForms.js"></script>
-		<script src="{$basePath}/js/admin/nette.ajax.js"></script>
+		<script src="{$basePath}/src/jquery-2.1.4.js"></script>
+		<script src="{$basePath}/src/netteForms.js"></script>
+		<script src="{$basePath}/src/nette.ajax.js"></script>
+		<script>
+			$(function () {
+				$.nette.init();
+			});
+        </script>
 	{/block}
 </body>
 </html>

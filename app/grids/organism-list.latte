@@ -10,3 +10,13 @@
 	<a class="grid-edit" href="{plink Organism:edit, $primary}">Edit</a>
 	<a class="grid-delete" href="{plink Organism:delete, $primary}">Delete</a>
 {/define}
+
+
+{define col-value}
+	<td>
+		{foreach range(0,3) as $item}
+			<a class="ajax" href="{plink Organism:changePreferability, $row->id_organism, $item}">
+			{if $item === $cell}<b>{$item}</b>{else}{$item}{/if}</a>&nbsp;&nbsp;
+		{/foreach}
+	</td>
+{/define}

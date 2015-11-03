@@ -42,7 +42,7 @@ class Organism extends Table
 
 	public function getAllWithName($languageId)
 	{
-		return $this->getTable()->select('organism.*, :organism_name.name')->where(':organism_name.id_language = ?', $languageId)->order('id_organism ASC')->fetchAll();
+		return $this->getTable()->select('organism.*, :organism_name.name, :organism_commonness.value')->where(':organism_name.id_language = ?', $languageId)->order('id_organism ASC')->fetchAll();
 	}
 
 	public function findByLatinName($latinName)
@@ -228,8 +228,10 @@ class Organism extends Table
 			SELECT
 				organism.id_organism,
 				organism_difficulty.value AS organism_difficulty,
+				organism_commonness.value AS organism_commonness,
 				(SELECT COUNT(*) FROM organism_representation WHERE organism_representation.id_organism = organism.id_organism) AS representation_count
 			FROM organism
+			LEFT JOIN organism_commonness ON organism_commonness.id_organism = organism.id_organism
 			LEFT JOIN organism_difficulty ON organism_difficulty.id_organism = organism.id_organism
 			WHERE
 				(organism_difficulty.id_model = ? OR organism_difficulty.id_model IS NULL) AND

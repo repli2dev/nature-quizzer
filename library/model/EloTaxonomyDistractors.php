@@ -18,6 +18,7 @@ class EloTaxonomyDistractors extends BasicElo implements IModelFacade
 		$this->weightProbability = 10;
 		$this->weightTime = 120;
 		$this->weightCount = 10;
+		$this->weightCommonness = 1;
 
 		$this->weightCorrectAnswer = 3.4;
 		$this->weightInvalidAnswer = 0.3;

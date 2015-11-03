@@ -4,6 +4,7 @@ namespace NatureQuizzer\Presenters;
 
 use NatureQuizzer\Database\Model\Language;
 use NatureQuizzer\Database\Model\Organism;
+use NatureQuizzer\Database\Model\OrganismCommonness;
 use NatureQuizzer\Database\Utils\LanguageLookup;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
@@ -18,14 +19,17 @@ class OrganismPresenter extends BasePresenter
 
 	/** @var Organism */
 	private $organismModel;
+	/** @var OrganismCommonness */
+	private $organismCommonness;
 	/** @var Language */
 	private $languageModel;
 	/** @var LanguageLookup */
 	private $languageLookup;
 
-	public function injectBase(Organism $organismModel, Language $languageModel, LanguageLookup $languageLookup)
+	public function injectBase(Organism $organismModel, OrganismCommonness $organismCommonness, Language $languageModel, LanguageLookup $languageLookup)
 	{
 		$this->organismModel = $organismModel;
+		$this->organismCommonness = $organismCommonness;
 		$this->languageModel = $languageModel;
 		$this->languageLookup = $languageLookup;
 	}
@@ -204,8 +208,20 @@ class OrganismPresenter extends BasePresenter
 		$grid->addColumn('id_organism', 'ID');
 		$grid->addColumn('name', 'Name');
 		$grid->addColumn('latin_name', 'Latin name');
+		$grid->addColumn('value', 'Preferability');
 
 		return $grid;
+	}
+
+	public function actionChangePreferability($organism, $value)
+	{
+		// This method is quite hack as the Datagrid has limited support for ajax from inside cells
+		if (!is_numeric($organism) || !is_numeric($value)) {
+			return;
+		}
+		$this->organismCommonness->setValue($organism, $value);
+		$this->setView('default');
+		$this->getComponent('organismList')->invalidateRow($organism);
 	}
 
 }

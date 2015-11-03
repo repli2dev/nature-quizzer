@@ -7,6 +7,7 @@ use NatureQuizzer\Database\Model\Concept;
 use NatureQuizzer\Database\Model\CurrentKnowledge;
 use NatureQuizzer\Database\Model\Model;
 use NatureQuizzer\Database\Model\Organism;
+use NatureQuizzer\Database\Model\OrganismCommonness;
 use NatureQuizzer\Database\Model\OrganismDifficulty;
 use NatureQuizzer\Database\Model\PriorKnowledge;
 use NatureQuizzer\Database\Model\QuestionType;
@@ -25,6 +26,8 @@ abstract class BasicElo extends AModelFacade
 	protected $answer;
 	/** @var OrganismDifficulty */
 	protected $organismDifficulty;
+	/** @var OrganismCommonness */
+	protected $organismCommonness;
 	/** @var PriorKnowledge */
 	protected $priorKnowledge;
 	/** @var CurrentKnowledge */
@@ -36,6 +39,7 @@ abstract class BasicElo extends AModelFacade
 	protected $weightProbability;
 	protected $weightTime;
 	protected $weightCount;
+	protected $weightCommonness;
 	protected $weightInvalidAnswer;        // ELO update impact if the answer was invalid
 	protected $weightCorrectAnswer;        // ELO update impact if the answer was correct
 	protected $eloUpdateFactorA;        // ELO `K` function parameters for uncertainty function
@@ -43,12 +47,13 @@ abstract class BasicElo extends AModelFacade
 	protected $distractorCount = 3;
 
 	public function __construct(Organism $organism, CurrentLanguage $currentLanguage, Answer $answer,
-								OrganismDifficulty $organismDifficulty, PriorKnowledge $priorKnowledge,
-								CurrentKnowledge $currentKnowledge, Model $model)
+								OrganismDifficulty $organismDifficulty, OrganismCommonness $organismCommonness,
+								PriorKnowledge $priorKnowledge, CurrentKnowledge $currentKnowledge, Model $model)
 	{
 		parent::__construct($model);
 
 		$this->organism = $organism;
+		$this->organismCommonness = $organismCommonness;
 		$this->currentLanguage = $currentLanguage;
 		$this->answer = $answer;
 		$this->organismDifficulty = $organismDifficulty;
@@ -185,6 +190,7 @@ abstract class BasicElo extends AModelFacade
 		$generalData = $this->organism->getGeneralSelectionAttributes($modelId, $conceptId)->fetchAssoc('id_organism=');
 		$userData = $this->organism->getUserSelectionAttributes($userId, $modelId)->fetchAssoc('id_organism=');
 		$priorK = $this->priorKnowledge->fetch($modelId, $userId);
+		$maximalCommonness = $this->organismCommonness->getMaximum();
 
 		$scores = [];
 		$temp = [];
@@ -205,15 +211,17 @@ abstract class BasicElo extends AModelFacade
 			$score = $this->weightProbability * $this->scoreProbability($this->probabilityEstimated($eloScore, $optionsCount), $this->targetProbability);
 			$score += $this->weightTime * $this->scoreTime($u->last_answer);
 			$score += $this->weightCount * $this->scoreCount($u->total_answered);
+			$score += $this->weightCommonness * $this->scoreCommonness($o->organism_commonness, $maximalCommonness);
 			$scores[$o->id_organism] = $score;
 			$temp[$o->id_organism] =
-				(sprintf("%s: %f; estimated: %f; probability: %f; time: %f; count %f (input data > total_answered: %f; current_knowledge: %f; prior_knowledge: %f; organism_difficult: %f)\n",
+				(sprintf("%s: %f; estimated: %f; probability: %f; time: %f; count: %f; commonness: %f (input data > total_answered: %f; current_knowledge: %f; prior_knowledge: %f; organism_difficult: %f)\n",
 					$o->id_organism,
 					$score,
 					$this->probabilityEstimated($eloScore, $optionsCount),
 					$this->weightProbability * $this->scoreProbability($this->probabilityEstimated($eloScore, $optionsCount), $this->targetProbability),
 					$this->weightTime * $this->scoreTime($u->last_answer),
 					$this->weightCount * $this->scoreCount($u->total_answered),
+					$this->weightCommonness * $this->scoreCommonness($o->organism_commonness, $maximalCommonness),
 					$u->total_answered,
 					$u->current_knowledge,
 					$priorK->getValue(),
@@ -347,5 +355,10 @@ abstract class BasicElo extends AModelFacade
 	private function scoreCount($count)
 	{
 		return 1 / sqrt(1 + $count);
+	}
+
+	private function scoreCommonness($value, $maximum)
+	{
+		return $value / $maximum;
 	}
 }

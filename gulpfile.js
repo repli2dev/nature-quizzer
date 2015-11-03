@@ -3,6 +3,7 @@ var htmlbars = require('gulp-htmlbars-compiler');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var clean = require('gulp-clean');
+var flatten = require('gulp-flatten');
 // Hardcoded way to the ember-template-compilator as the versions needs to match and there is no node module in the repository
 var compiler = require('./frontend/js/externals/ember-template-compiler-2.0.0');
 
@@ -22,6 +23,7 @@ var paths = {
 		'frontend/js/netteForms.js'
 	],
 	scriptsBackend: [
+		'frontend/js/externals/jquery-2.1.4.js',
 		'frontend/js/nette.ajax.js',
 		'frontend/js/netteForms.js'
 	],
@@ -68,6 +70,7 @@ gulp.task('styles', ['styles-backend', 'styles-frontend']);
 // ====== Javascript =======
 gulp.task('scripts-backend', function() {
 	return gulp.src(paths.scriptsBackend, { "base" : "./frontend/js/" })
+		.pipe(flatten({dirname: ''}))
 		.pipe(gulp.dest(destination));
 });
 gulp.task('scripts-frontend', function() {
