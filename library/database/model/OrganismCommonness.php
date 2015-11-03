@@ -15,7 +15,7 @@ class OrganismCommonness extends Table
 		$output = $this->getConnection()->query('
 			SELECT MAX(value) FROM organism_commonness
 		')->fetchField();
-		if ($output === FALSE) {
+		if ($output === FALSE || $output == NULL) {
 			return 1; // fallback for the case where there are no data
 		} else {
 			return $output;
