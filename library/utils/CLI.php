@@ -2,11 +2,13 @@
 
 namespace NatureQuizzer\Utils;
 
+use Exception;
 use NatureQuizzer\Utils\CLI\ExecutionProblem;
 use NatureQuizzer\Utils\CLI\InvalidArguments;
 use Nette\InvalidStateException;
 use Nette\Object;
 use Nette\Utils\Strings;
+use Tracy\Debugger;
 
 class CLI extends Object
 {
@@ -73,7 +75,10 @@ class CLI extends Object
 					exit(1);
 				}
 				try {
+					$this->timer('execution');
 					call_user_func_array($callback, $args);
+					$elapsed = $this->timer('execution');
+					printf("FINISHED in %s s\n", round($elapsed));
 				} catch (InvalidArguments $ex) {
 					if ($ex->getMessage()) {
 						printf("Error: %s\n", $ex->getMessage());
@@ -92,6 +97,11 @@ class CLI extends Object
 			}
 		}
 		$this->printHelp();
+	}
+
+	protected function timer($name)
+	{
+		return Debugger::timer($name);
 	}
 
 	private function checkArgumentsCount($callback, $args)
