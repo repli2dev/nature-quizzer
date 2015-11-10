@@ -399,6 +399,9 @@ if ($command == 'import') {
 	foreach ($leftovers as $item) {
 		unlink(__DIR__ . '/../www/images/organisms/' . $item);
 	}
+} else {
+	printHelp();
+	exit(1);
 }
 
 function array_projection($array, $key) {
