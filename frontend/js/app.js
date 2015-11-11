@@ -70,6 +70,13 @@ App.RoundSummary.getSummary = function() {
 	});
 };
 
+App.ResetScroll = Ember.Mixin.create({
+	activate: function() {
+		this._super();
+		window.scrollTo(0,0);
+	}
+});
+
 App.Menu = {};
 App.Menu.toogle = function () {
 	var el = $("#top-bar");
