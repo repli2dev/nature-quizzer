@@ -3,7 +3,7 @@
 <div id="top-bar">
 	<div id="top-bar-center">
 		<div id="menu-toogle" onclick="App.Menu.toogle()">&#9776;</div>
-		<h1 id="logo">{{translate 'project_name'}}</h1>
+		{{#link-to 'index' class="logo-wrapper"}}<h1 id="logo">{{translate 'project_name'}}</h1>{{/link-to}}
 		{{#if isLogged}}
 			{{partial "userinfo"}}
 		{{/if}}

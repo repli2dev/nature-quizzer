@@ -61,8 +61,13 @@ div.cleaner {
 	color: white;
 	text-shadow: 1px 1px 1px #088724;
 	width: 150px;
-	float: left;
 	font-size: 1.5em;
+}
+.logo-wrapper {
+	float: left;
+}
+.logo-wrapper:hover {
+	background: inherit;
 }
 #logo {
 	padding-left: 60px;
