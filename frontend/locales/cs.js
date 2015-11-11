@@ -88,6 +88,7 @@ App.Translations.cs = {
 		'close': 'Zavřít',
 		'loading': 'Načítání',
 		'done': 'A zase umíte o kousek víc!',
+		'done_title': 'Vyhodnocení',
 		'continue': 'Pokračovat',
 		'choose_new_topic': 'Jiné téma',
 		'report': 'Nahlásit',

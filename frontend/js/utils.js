@@ -40,6 +40,28 @@ var Translator = Ember.Object.extend({
 	}
 });
 
+var Titler = Ember.Object.extend({
+	common: null,
+	last: null,
+
+	change: function(value) {
+		if (this.get('common') === null) {
+			this.set('common', value);
+		} else {
+			this.set('last', value);
+		}
+		var newTitle;
+		if (this.get('common') && this.get('last')) {
+			newTitle = this.get('last') + ' | ' + this.get('common');
+		} else if (this.get('last')) {
+			newTitle = this.get('last');
+		} else {
+			newTitle = this.get('common');
+		}
+		document.title = newTitle;
+	}
+});
+
 var AuthManager = Ember.Object.extend({
 
 	init: function () {

@@ -24,6 +24,11 @@ App.ApplicationRoute = Ember.Route.extend({
 		App.TranslateHelper = Ember.Helper.helper(function (params, hash) {
 			return App.Translator.translate(params[0]);
 		});
+		// Prepare Titler for composing titles
+		App.Titler = Titler.create();
+		App.TitleHelper = Ember.Helper.helper(function (params, hash) {
+			App.Titler.change(App.Translator.translate(params[0]));
+		});
 		App.Translator.change(App.Languages.default, App.Translations[App.Languages.default]);
 	},
 	actions: {
