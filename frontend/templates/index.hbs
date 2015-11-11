@@ -3,7 +3,7 @@
 	<p>{{translate 'index.choose_topic'}}:</p>
 	<div id="quick-buttons">
 		{{#each model.concepts as |concept|}}
-			{{#link-to 'play' concept.id_concept classNames="quick-button"}}{{concept.name}}{{/link-to}}
+			{{#link-to 'play' concept.id_concept concept.code_name classNames="quick-button"}}{{concept.name}}{{/link-to}}
 		{{/each}}
 		<div class="cleaner" ></div>
 	</div>

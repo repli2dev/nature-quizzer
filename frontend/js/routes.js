@@ -2,7 +2,7 @@ App.Router.map(function () {
 	this.route('about');
 	this.route('facebook-login-problem');
 	this.route('google-login-problem');
-	this.route('play', { path: '/play/:id_concept' });
+	this.route('play', { path: '/play/:id_concept/:code_name' });
 	this.route('result', { path: '/result/:id_concept' });
 	this.route('concepts');
 	this.route('user', function () {

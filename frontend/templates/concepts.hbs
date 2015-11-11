@@ -17,7 +17,7 @@
 		<h2>{{category.name}}</h2>
 		{{#each category.concepts as |concept|}}
 			<div class="concept">
-				{{#link-to 'play' concept.id_concept classNames="start-button"}}{{translate 'topics.start'}}{{/link-to}}
+				{{#link-to 'play' concept.id_concept concept.code_name classNames="start-button"}}{{translate 'topics.start'}}{{/link-to}}
 
 				<span class="concept-name">{{concept.name}}</span>
 				<span class="concept-description">{{concept.description}}</span>

@@ -3,10 +3,10 @@
 
 	<div>
 		{{#if model.mix}}
-			{{#link-to 'play' 'mix' classNames='button'}}{{translate 'quiz.continue'}}{{/link-to}}
+			{{#link-to 'play' 'mix' 'all' classNames='button'}}{{translate 'quiz.continue'}}{{/link-to}}
 		{{/if}}
 		{{#if model.id_concept}}
-			{{#link-to 'play' model.id_concept classNames='button'}}{{translate 'quiz.continue'}}{{/link-to}}
+			{{#link-to 'play' model.id_concept model.code_name classNames='button'}}{{translate 'quiz.continue'}}{{/link-to}}
 		{{/if}}
 		{{#link-to 'concepts' classNames='button'}}{{translate 'quiz.choose_new_topic'}}{{/link-to}}
 	</div>
