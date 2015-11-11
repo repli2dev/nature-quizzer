@@ -14,14 +14,16 @@
 {{#each model as |category|}}
 	<div class="group">
 		{{#if others}}
-			<h2>{{translate 'topics.others'}}</h2>
+			<h3>{{translate 'topics.others'}}</h3>
 		{{/if}}
-		<h2>{{category.name}}</h2>
+		{{#unless others}}
+			<h3>{{category.name}}</h3>
+		{{/unless}}
 		{{#each category.concepts as |concept|}}
 			<div class="concept">
 				{{#link-to 'play' concept.id_concept concept.code_name classNames="start-button"}}{{translate 'topics.start'}}{{/link-to}}
 
-				<span class="concept-name">{{concept.name}}</span>
+				<h4 class="concept-name">{{concept.name}}</h4>
 				<span class="concept-description">{{concept.description}}</span>
 				<div class="cleaner"></div>
 			</div>

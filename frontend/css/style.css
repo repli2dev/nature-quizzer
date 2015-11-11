@@ -29,6 +29,14 @@ p {
 	margin-bottom: 20px;
 }
 
+h2 {
+	font-size: 1.6em;
+}
+
+h3 {
+	font-size: 1.4em;
+}
+
 div.cleaner {
 	clear:both;
 	height:1px;
@@ -349,11 +357,13 @@ div.concept {
 	padding: 20px;
 	margin-bottom: 30px;
 }
-span.concept-name {
+h4.concept-name {
 	font-weight: bold;
 	font-size: 1.2em;
 	display: inline-block;
 	float: left;
+	margin-top: 0px;
+	margin-bottom: 10px;
 }
 span.concept-description {
 	display: inline-block;
@@ -396,6 +406,12 @@ a.quick-button:hover {
 	background: white;
 	transition: background-color .35s, color .35ms;
 	-webkit-transition: background-color .35s, color .35ms;
+}
+a.quick-button h3 {
+	margin-top: 1em;
+	margin-bottom: 1em;
+	display: block;
+	font-size: inherit;
 }
 #quick-buttons {
 	width: 60%;
@@ -603,6 +619,10 @@ div.error {
 	text-align: center;
 	font-size: 150%;
 }
+.quick-choice h2 {
+	margin-top: 0em;
+	margin-bottom: 0em;
+}
 .narrow-column {
 	width: 780px;
 	margin: auto;
@@ -628,4 +648,8 @@ div.error {
 
 [data-ember-action] {
 	cursor: pointer;
+}
+
+p.center {
+	text-align: center;
 }

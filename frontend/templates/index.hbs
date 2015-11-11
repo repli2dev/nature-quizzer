@@ -5,7 +5,7 @@
 	<p>{{translate 'index.choose_topic'}}:</p>
 	<div id="quick-buttons">
 		{{#each model.concepts as |concept|}}
-			{{#link-to 'play' concept.id_concept concept.code_name classNames="quick-button"}}{{concept.name}}{{/link-to}}
+			{{#link-to 'play' concept.id_concept concept.code_name classNames="quick-button"}}<h3>{{concept.name}}</h3>{{/link-to}}
 		{{/each}}
 		<div class="cleaner" ></div>
 	</div>
@@ -13,6 +13,11 @@
 </div>
 
 <div class="narrow-column">
+	<h2>{{translate 'index.what_is_it'}}</h2>
+	<p>{{translate 'index.description'}}</p>
+	<p>{{translate 'index.description2'}}</p>
+	<p class="center"><img src="/images/demo.png" alt="" alt="{{translate 'index.demo'}}" /></p>
+
 	<h2>{{translate 'index.how_it_works'}}</h2>
 
 		<div class="adaptive">
