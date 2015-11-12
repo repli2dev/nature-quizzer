@@ -33,6 +33,7 @@ App.ApplicationRoute = Ember.Route.extend({
 	},
 	actions: {
 		openContactModal: function (value) {
+			this.controller.shortcuts.disable();
 			this.controller.set('contactModal', true);
 			if (typeof value !== 'undefined') {
 				this.controller.set('contactContent', value);
@@ -44,6 +45,7 @@ App.ApplicationRoute = Ember.Route.extend({
 		closeContactModal: function () {
 			this.controller.set('contactModal', false);
 			this.controller.set('contactContent', '');
+			this.controller.shortcuts.enable();
 		},
 		changeLanguage: function (language) {
 			// TODO: finish switching languages and redrawing
@@ -107,9 +109,13 @@ App.PlayRoute = Ember.Route.extend({
 	},
 	shortcuts: {
 		'num1': 'handleShortcut',
+		'shift+num1t': 'handleShortcut',
 		'num2': 'handleShortcut',
+		'shift+num2t': 'handleShortcut',
 		'num3': 'handleShortcut',
+		'shift+num3t': 'handleShortcut',
 		'num4': 'handleShortcut',
+		'shift+num4t': 'handleShortcut',
 		'enter': 'handleShortcut',
 		'escape': 'handleShortcut',
 	},

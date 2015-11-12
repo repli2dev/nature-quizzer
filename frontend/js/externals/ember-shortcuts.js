@@ -17,7 +17,8 @@
 		del: 46, 'delete': 46,
 		home: 36, end: 35,
 		pageup: 33, pagedown: 34,
-		num1: 97, num2: 98, num3: 99, num4: 100,
+		num1t: 49, num2t: 50, num3t: 51, num4t: 52,	// On top row
+		num1: 97, num2: 98, num3: 99, num4: 100,	// On numeric part of keyboard
 		',': 188, '.': 190, '/': 191,
 		'`': 192, '-': 189, '=': 187,
 		';': 186, '\'': 222,

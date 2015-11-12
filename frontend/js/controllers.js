@@ -189,13 +189,13 @@ App.PlayController = Ember.Controller.extend({
 	shortcutTriggered: function (event, controller) {
 		if (event.keyCode == 27) { // Escape
 			controller.send('close');
-		} else if (event.keyCode == 97) { // Num 1
+		} else if (event.keyCode == 97 || event.keyCode == 49) { // Num 1
 			controller.send('answerByKeyboard', 1);
-		} else  if (event.keyCode == 98) { // Num 2
+		} else  if (event.keyCode == 98 || event.keyCode == 50) { // Num 2
 			controller.send('answerByKeyboard', 2);
-		} else  if (event.keyCode == 99) { // Num 3
+		} else  if (event.keyCode == 99 || event.keyCode == 51) { // Num 3
 			controller.send('answerByKeyboard', 3);
-		} else  if (event.keyCode == 100) { // Num 4
+		} else  if (event.keyCode == 100 || event.keyCode == 52) { // Num 4
 			controller.send('answerByKeyboard', 4);
 		} else if (event.keyCode == 13) { // Enter
 			if (controller.isAnswered()) {
