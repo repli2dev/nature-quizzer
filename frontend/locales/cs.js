@@ -76,7 +76,7 @@ App.Translations.cs = {
 		'all_available': 'všechny dostupné',
 		'what_is_it': 'O co jde?',
 		'description': 'Příroda, to je obrovská směs zvířat, rostlin, hub,... a určitě jste si při toulkách někdy říkali, že byste se chtěli jednotlivé organismy naučit rozpoznávat a umět pojmenovávat a od toho tu je Poznávačka přírody.',
-		'description2': 'Vyberte si téma k procvičování a dostanete k rozpoznání 10 organismů, když se vám to bude líbit dejte si určitě ještě další sérii. A nezapomeňte se registrovat ať víme co už umíte!',
+		'description2': 'Vyberte si téma k procvičování a dostanete k rozpoznání 10 organismů, když se vám to bude líbit dejte si určitě ještě další sérii. A nezapomeňte se registrovat, ať víme, co už umíte!',
 		'demo': 'Ukázka jedné otázky poznávačky',
 		'how_it_works': 'Jak to funguje?',
 		'heading_adaptive': 'Adaptabilní procvičování',
