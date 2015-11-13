@@ -50,6 +50,7 @@ class DiagnosticPresenter extends BasePresenter
 		$range = Helpers::getDatePeriod(DateTime::from('-14 days'), DateTime::from('tomorrow'));
 		$this->template->range = $range;
 
+		$this->template->globalStats = $this->organism->getGlobalStats();
 		$this->template->roundStats = $this->round->getStats();
 		$this->template->organismDistribution = $this->answer->getOrganismDistribution($this->languageLookup->getId(AdminPresenter::LANG), $this->selectedModel);
 		$this->template->userStats = $this->round->getUserStats();

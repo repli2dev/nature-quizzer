@@ -3,6 +3,17 @@
 	{include ../flashes.latte}
 	<p>This section shows overall general statistics for last 14 days.</p>
 
+	<h2>Global statistics</h2>
+	<table class="stat">
+		<tr><th>Metric</th><th>Value</th></tr>
+		<tr><td>Organism count</td><td>{$globalStats->organism_count}</td></tr>
+		<tr><td>Representation count</td><td>{$globalStats->representation_count}</td></tr>
+		<tr><td>Users count</td><td>{$globalStats->user_count}</td></tr>
+		<tr><td>Registered users count</td><td>{$globalStats->registered_count}</td></tr>
+		<tr><td>Questions exercised</td><td>{$globalStats->question_count}</td></tr>
+		<tr><td>Distinct organisms exercised</td><td>{$globalStats->exercised_organism_count}</td></tr>
+	</table>
+
 	<h2>Number of rounds &amp; unique users &amp; answers with success rate</h2>
 
 	<table class="stat">

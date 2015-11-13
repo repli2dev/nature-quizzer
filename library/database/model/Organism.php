@@ -238,4 +238,17 @@ class Organism extends Table
 				(? IS NULL OR organism.id_organism IN (SELECT id_organism FROM organism_concept WHERE id_concept = ?))
 		', $modelId, $conceptId, $conceptId);
 	}
+
+	public function getGlobalStats()
+	{
+		return $this->context->query('
+		SELECT
+			(SELECT COUNT(*) FROM organism) AS organism_count,
+			(SELECT COUNT(*) FROM organism_representation) AS representation_count,
+			(SELECT COUNT(*) FROM "user") AS user_count,
+			(SELECT COUNT(*) FROM "user" WHERE anonymous = FALSE) AS registered_count,
+			(SELECT COUNT(*) FROM answer WHERE main = TRUE) AS question_count,
+			(SELECT COUNT(DISTINCT id_organism) FROM answer WHERE main = TRUE) AS exercised_organism_count
+		')->fetch();
+	}
 }
