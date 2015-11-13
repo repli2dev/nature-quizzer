@@ -1,5 +1,6 @@
 App.Router.map(function () {
 	this.route('about');
+	this.route('offline');
 	this.route('facebook-login-problem');
 	this.route('google-login-problem');
 	this.route('play', { path: '/play/:id_concept/:code_name' });
@@ -53,7 +54,12 @@ App.ApplicationRoute = Ember.Route.extend({
 	}
 });
 App.IndexRoute = Ember.Route.extend({
-	model: App.Concept.getQuick
+	model: App.Concept.getQuick,
+	actions: {
+		error: function () {
+			this.transitionTo('offline');
+		}
+	}
 });
 
 App.ConceptsRoute = Ember.Route.extend({
@@ -62,6 +68,11 @@ App.ConceptsRoute = Ember.Route.extend({
 		if (isExiting) {
 			controller.set('invalid', null);
 			controller.set('interruption', null);
+		}
+	},
+	actions: {
+		error: function () {
+			this.transitionTo('offline');
 		}
 	}
 });
@@ -76,6 +87,14 @@ App.ResultRoute = Ember.Route.extend({
 		request.then(function(data) {
 			controller.set('questions', data);
 		});
+		request.fail(function() {
+			self.transitionToRoute('offline');
+		});
+	},
+	actions: {
+		error: function () {
+			this.transitionTo('offline');
+		}
 	}
 });
 
@@ -126,6 +145,9 @@ App.PlayRoute = Ember.Route.extend({
 			if (handler && controller) {
 				handler(event, controller);
 			}
+		},
+		error: function () {
+			this.transitionTo('offline');
 		}
 	}
 });

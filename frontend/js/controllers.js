@@ -210,7 +210,7 @@ App.PlayController = Ember.Controller.extend({
 		var request = App.Play.getQuestions(this.id_concept, this.questionMaxCount - this.questionCurrent + 1); // +1 as the questionCurrent is already incremented
 		request.then(function(data) {
 			self.set('isProcessing', false);
-			if (data.hasOwnProperty('error') || (data.hasOwnProperty('questions') && data.questions.length == 0)) {
+			if (data.hasOwnProperty('deployment') || data.hasOwnProperty('error') || (data.hasOwnProperty('questions') && data.questions.length == 0)) {
 
 				// Commented code is for fast quit, which is not so user friendly.
 				//self.transitionToRoute('concepts', {queryParams: {invalid: true, interruption: null}});
@@ -224,6 +224,9 @@ App.PlayController = Ember.Controller.extend({
 			self.set('model', null);
 			self.set('model', data);
 			App.Timetracking.start('question');
+		});
+		request.fail(function() {
+			self.transitionToRoute('offline');
 		});
 	},
 	isLastQuestion: function () {

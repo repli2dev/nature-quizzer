@@ -144,5 +144,12 @@ App.Translations.cs = {
 		'unknown': 'Došlo k neznámému selhání. Prosím, kontaktujte nás.',
 		'registration': 'Došlo k problémům s vytvářením vašeho účtu u nás. Prosím, kontaktujte nás.',
 		'unavailable': 'Přihlašování přes Google Plus je momentálně nedostupné. Prosím, kontaktujte nás.',
+	},
+	'offline': {
+		'heading': 'Pravděpodobně jste offline',
+		'title': 'Offline',
+		'description': 'Zřejmě došlo došlo k výpadku připojení k internetu nebo načtení trvalo příliš dlouho. Zkuste prosím obnovit celou stránku.',
+		'description2': 'Pokud problém přetrvá napište, prosím, e-mail na adresu:',
+		'thanks': 'Děkujeme.',
 	}
 };

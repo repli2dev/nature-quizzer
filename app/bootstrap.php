@@ -13,7 +13,13 @@ if (PHP_SAPI === 'cli') {
 }
 
 if (PHP_SAPI !== 'cli' && (file_exists(__DIR__ . '/../.deployment-in-progress') || file_exists(__DIR__ . '/../.deployment'))) {
-	include(__DIR__ . '/../www/.maintenance.php');
+	// AJAX requests needs special treatment
+	if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+		echo json_encode(['deployment' => TRUE]);
+		exit;
+	} else {
+		include(__DIR__ . '/../www/.maintenance.php');
+	}
 }
 
 $configurator->enableDebugger(__DIR__ . '/../log');
