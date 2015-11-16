@@ -14,6 +14,7 @@ class RouterFactory
 	{
 		$router = new RouteList();
 		$router[] = new Route('<presenter>/<action>[/<id>]', 'Homepage:default');
+		$router[] = new Route('sitemap.xml', 'Homepage:sitemap');
 		return $router;
 	}
 
