@@ -33,8 +33,8 @@ class HomepagePresenter extends BasePresenter
 
 
 		$sitemap->addEntry($baseLink, Sitemap::WEEKLY, 0.8);	// Landing page
-		$sitemap->addEntry($baseLink . '/#/concepts');	// Topics
-		$sitemap->addEntry($baseLink . '/#/about'); 	// About
+		$sitemap->addEntry($baseLink . '#/concepts');	// Topics
+		$sitemap->addEntry($baseLink . '#/about'); 	// About
 		$sitemap->addEntry($baseLink . '#/play/mix/all', Sitemap::ALWAYS, 0.8);	// Random mix
 		// List all topics
 		$topics = $this->concept->getAllWithInfo($this->currentLanguage->get());
