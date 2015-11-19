@@ -37,6 +37,10 @@ h3 {
 	font-size: 1.4em;
 }
 
+div.narrow-column ul {
+	line-height: 1.5;
+}
+
 div.cleaner {
 	clear:both;
 	height:1px;
