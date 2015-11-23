@@ -78,26 +78,35 @@ legend {
 	background: white;
 	margin-top: 30px;
 }
-#admin-menu {
+#admin-menu,
+#admin-submenu {
 	background: #E3E4E5;
 	display: block;
 	padding: 8px;
 }
-#admin-menu ul {
+#admin-submenu {
+	background: #f2f3f4;
+}
+#admin-menu ul,
+#admin-submenu ul {
 	list-style: none;
 	margin: 0px;
 	padding: 0px;
 }
-#admin-menu ul li {
+#admin-menu ul li,
+#admin-submenu ul li {
 	float: left;
 }
-#admin-menu ul li a {
+#admin-menu ul li a,
+#admin-submenu ul li a {
 	padding: 10px;
 }
-#admin-menu ul li a:hover {
+#admin-menu ul li a:hover,
+#admin-submenu ul li a:hover{
 	background: #dfdfdf;
 }
-#admin-menu ul li.selected {
+#admin-menu ul li.selected,
+#admin-submenu ul li.selected {
 	font-weight: bold;
 }
 #envelope {

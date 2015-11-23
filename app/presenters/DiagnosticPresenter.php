@@ -86,4 +86,20 @@ class DiagnosticPresenter extends BasePresenter
 		return $form;
 	}
 
+	public function createComponentOrganismSearch()
+	{
+		$form = new Form();
+		$form->addText('query', 'To search');
+		$form->addSubmit('submitted', 'Search');
+		$form->onSubmit[] = function(Form $form) {
+			$values = $form->getValues();
+			$temp = trim(str_replace('[', '', str_replace(']', '', $values['query'])));
+			$temp = explode(' ', $temp);
+			if (count($temp) > 0 && reset($temp) != '') {
+				$this->template->queryResult = $this->organism->getRepresentationsWithInfoByOrganisms($this->languageLookup->getId(AdminPresenter::LANG), $temp);
+			}
+		};
+		return $form;
+	}
+
 }

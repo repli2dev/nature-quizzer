@@ -13,3 +13,13 @@
 	</ul>
 	<div class="cleaner"></div>
 </div>
+{ifCurrent Diagnostic:*}
+	<div id="admin-submenu">
+		<ul>
+			{if $user->isAllowed('content')}<li {ifCurrent Diagnostic:}class="selected"{/ifCurrent}><a href="{plink Diagnostic:}">Statistics</a></li>{/if}
+			{if $user->isAllowed('content')}<li {ifCurrent Diagnostic:organism}class="selected"{/ifCurrent}><a href="{plink Diagnostic:organism}">Organism search</a></li>{/if}
+			{if $user->isAllowed('content')}<li {ifCurrent Diagnostic:representation}class="selected"{/ifCurrent}><a href="{plink Diagnostic:representation}">Representation search</a></li>{/if}
+		</ul>
+		<div class="cleaner"></div>
+	</div>
+{/ifCurrent}

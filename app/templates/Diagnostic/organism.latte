@@ -1,0 +1,19 @@
+{block content}
+	<h1 n:block=title>Organism checker</h1>
+	{include ../flashes.latte}
+
+	<p>This lets you fast search for organism by ID.</p>
+	{control organismSearch}
+
+	{if isset($queryResult)}
+		<table class="grid">
+			<tr class="grid-columns"><th>Organism ID</th><th>Organism name</th><th>Actions</th></tr>
+			<tr n:foreach="$queryResult as $row">
+				<td>{$row[0]['id_organism']}</td>
+				<td>{$row[0]['name']}</td>
+				<td><a href="{plink Organism:edit, $row[0]['id_organism']}">Go to organism</a></td>
+			</tr>
+		</table>
+	{/if}
+
+{/block}
