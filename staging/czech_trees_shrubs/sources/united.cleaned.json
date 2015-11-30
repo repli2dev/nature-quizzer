@@ -1,0 +1,742 @@
+{
+    "999708": {
+        "cs": "borovice bělokorá",
+        "en": "heldreich's pine",
+        "scientific": "pinus heldreichii"
+    },
+    "6063947": {
+        "cs": "borovice lesní",
+        "en": "scots pine",
+        "scientific": "pinus silvestris"
+    },
+    "1061737": {
+        "cs": "borovice kleč",
+        "en": "mountain pine",
+        "scientific": "pinus mugo"
+    },
+    "1061736": {
+        "cs": "borovice černá",
+        "en": "european black pine",
+        "scientific": "pinus nigra"
+    },
+    "999491": {
+        "cs": "borovice pinie",
+        "en": "stone pine",
+        "scientific": "pinus pinea"
+    },
+    "1061748": {
+        "cs": "borovice vejmutovka",
+        "en": "eastern white pine",
+        "scientific": "pinus strobus"
+    },
+    "1033602": {
+        "cs": "cedr atlaský",
+        "en": "atlas cedar",
+        "scientific": "cedrus atlantica"
+    },
+    "1033070": {
+        "cs": "jedle bělokorá",
+        "en": "silver fir",
+        "scientific": "abies alba"
+    },
+    "1033074": {
+        "cs": "jedle obrovská",
+        "en": "giant fir",
+        "scientific": "abies grandis"
+    },
+    "1033656": {
+        "cs": "jedlovec západní",
+        "en": "western hemlock",
+        "scientific": "tsuga heterophylla"
+    },
+    "1033654": {
+        "cs": "jedlovec kanadský",
+        "en": "eastern hemlock",
+        "scientific": "tsuga canadensis"
+    },
+    "1061656": {
+        "cs": "modřín evropský",
+        "en": "european larch",
+        "scientific": "larix decidua"
+    },
+    "1033621": {
+        "cs": "smrk stříbrný",
+        "en": "blue spruce",
+        "scientific": "picea pungens"
+    },
+    "1061648": {
+        "cs": "smrk ztepilý",
+        "en": "norway spruce",
+        "scientific": "picea abies"
+    },
+    "1149364": {
+        "cs": "bříza bělokorá",
+        "en": "silver birch",
+        "scientific": "betula pendula"
+    },
+    "1149353": {
+        "cs": "bříza pýřitá",
+        "en": "downy birch",
+        "scientific": "betula pubescens"
+    },
+    "1148643": {
+        "cs": "habr obecný",
+        "en": "european hornbeam",
+        "scientific": "carpinus betulus"
+    },
+    "1147599": {
+        "cs": "líska obecná",
+        "en": "hazel",
+        "scientific": "corylus avellana"
+    },
+    "1145874": {
+        "cs": "olše lepkavá",
+        "en": "black alder",
+        "scientific": "alnus glutinosa"
+    },
+    "1145865": {
+        "cs": "olše šedá",
+        "en": "grey alder",
+        "scientific": "alnus incana"
+    },
+    "1143547": {
+        "cs": "buk lesní",
+        "en": "european beech",
+        "scientific": "fagus sylvatica"
+    },
+    "1151719": {
+        "cs": "dub cer",
+        "en": "turkey oak",
+        "scientific": "quercus cerris"
+    },
+    "1151317": {
+        "cs": "dub červený",
+        "en": "northern red oak",
+        "scientific": "quercus rubra"
+    },
+    "1151259": {
+        "cs": "dub korkový",
+        "en": "cork oak",
+        "scientific": "quercus suber"
+    },
+    "1151323": {
+        "cs": "dub letní",
+        "en": "pedunculate oak",
+        "scientific": "quercus robur"
+    },
+    "1151364": {
+        "cs": "dub zimní",
+        "en": "sessile oak",
+        "scientific": "quercus petraea"
+    },
+    "1148508": {
+        "cs": "kaštanovník setý",
+        "en": "sweet chestnut",
+        "scientific": "castanea sativa"
+    },
+    "1153927": {
+        "cs": "nothofagus antarktický",
+        "en": "antarctic beech",
+        "scientific": "nothofagus antarctica"
+    },
+    "1034869": {
+        "cs": "cypřiš stálezelený",
+        "en": "mediterranean cypress",
+        "scientific": "cupressus sempervirens"
+    },
+    "1034856": {
+        "cs": "cypřiš velkoplodý",
+        "en": "monterey cypress",
+        "scientific": "cupressus macrocarpa"
+    },
+    "1034844": {
+        "cs": "cypříšek lawsonův",
+        "en": "lawson's cypress",
+        "scientific": "chamaecyparis lawsoniana"
+    },
+    "1061674": {
+        "cs": "jalovec obecný",
+        "en": "common juniper",
+        "scientific": "juniperus communis"
+    },
+    "1061664": {
+        "cs": "jalovec virginský",
+        "en": "american juniper",
+        "scientific": "juniperus virginiana"
+    },
+    "1061623": {
+        "cs": "pazerav sbíhavý",
+        "en": "california incense-cedar",
+        "scientific": "calocedrus decurrens"
+    },
+    "1034889": {
+        "cs": "zerav obrovský",
+        "en": "western redcedar",
+        "scientific": "thuja plicata"
+    },
+    "628306": {
+        "cs": "hloh jednosemenný",
+        "en": "hawthorn",
+        "scientific": "crataegus monogyna"
+    },
+    "636228": {
+        "cs": "hloh obecný",
+        "en": "hawthorn",
+        "scientific": "crataegus oxyacantha"
+    },
+    "11166180": {
+        "cs": "hrušeň planá",
+        "en": "European wild pear",
+        "scientific": "pyrus pyraster"
+    },
+    "633316": {
+        "cs": "jabloň lesní",
+        "en": "common crabapple",
+        "scientific": "malus sylvestris"
+    },
+    "629094": {
+        "cs": "jabloň domácí",
+        "en": "apple",
+        "scientific": "malus domestica"
+    },
+    "241042": {
+        "cs": "jeřáb ptačí",
+        "en": "rowan",
+        "scientific": "sorbus aucuparia"
+    },
+    "249839": {
+        "cs": "jeřáb břek",
+        "en": "wild servicetree",
+        "scientific": "sorbus torminalis"
+    },
+    "632461": {
+        "cs": "trnka obecná",
+        "en": "blackthorn",
+        "scientific": "prunus spinosa"
+    },
+    "582248": {
+        "cs": "javor babyka",
+        "en": "field maple",
+        "scientific": "acer campestre"
+    },
+    "583073": {
+        "cs": "javor klen",
+        "en": "sycamore maple",
+        "scientific": "acer pseudoplatanus"
+    },
+    "583070": {
+        "cs": "javor mléč",
+        "en": "norway maple",
+        "scientific": "acer platanoides"
+    },
+    "583072": {
+        "cs": "javor stříbrný",
+        "en": "silver maple",
+        "scientific": "acer saccharinum"
+    },
+    "591115": {
+        "cs": "břestovec jižní",
+        "en": "european nettle tree",
+        "scientific": "celtis australis"
+    },
+    "596199": {
+        "cs": "jilm drobný",
+        "en": "english elm",
+        "scientific": "ulmus procera"
+    },
+    "594916": {
+        "cs": "jilm lysý",
+        "en": "wych elm",
+        "scientific": "ulmus glabra"
+    },
+    "5721442": {
+        "cs": "jilm vaz",
+        "en": "european white elm",
+        "scientific": "ulmus laevis"
+    },
+    "631649": {
+        "cs": "broskvoň obecná",
+        "en": "peach",
+        "scientific": "prunus persica"
+    },
+    "231567": {
+        "cs": "mandloň obecná",
+        "en": "sweet almond",
+        "scientific": "prunus amygdalus"
+    },
+    "243500": {
+        "cs": "jeřáb muk",
+        "en": "common whitebeam",
+        "scientific": "sorbus aria"
+    },
+    "584812": {
+        "cs": "lípa velkolistá",
+        "en": "Large-leaved lime",
+        "scientific": "tilia platyphyllos"
+    },
+    "301091": {
+        "cs": "meruňka obecná",
+        "en": "apricot",
+        "scientific": "prunus armeniaca"
+    },
+    "301139": {
+        "cs": "švestka domácí",
+        "en": "common plum",
+        "scientific": "prunus domestica"
+    },
+    "231737": {
+        "cs": "třešeň ptačí",
+        "en": "wild cherry",
+        "scientific": "prunus avium"
+    },
+    "242597": {
+        "cs": "višeň obecná",
+        "en": "sour cherry",
+        "scientific": "prunus cerasus"
+    },
+    "594918": {
+        "cs": "fikus benjamina",
+        "en": "weeping fig",
+        "scientific": "ficus benjamina"
+    },
+    "594618": {
+        "cs": "moruše texaská",
+        "en": "osage-orange",
+        "scientific": "maclura pomifera"
+    },
+    "596202": {
+        "cs": "morušovník černý",
+        "en": "black mulberry",
+        "scientific": "morus nigra"
+    },
+    "594885": {
+        "cs": "morušovník bílý",
+        "en": "white mulberry",
+        "scientific": "morus alba"
+    },
+    "594939": {
+        "cs": "morušovník červený",
+        "en": "red mulberry",
+        "scientific": "morus rubra"
+    },
+    "594632": {
+        "cs": "smokvoň obecná",
+        "en": "common fig",
+        "scientific": "ficus carica"
+    },
+    "5656788": {
+        "cs": "jamovec širolistý",
+        "en": "green olive tree",
+        "scientific": "phillyrea latifolia"
+    },
+    "483953": {
+        "cs": "jasan manový",
+        "en": "manna ash",
+        "scientific": "fraxinus ornus"
+    },
+    "595387": {
+        "cs": "jasan ztepilý",
+        "en": "european ash",
+        "scientific": "fraxinus excelsior"
+    },
+    "579181": {
+        "cs": "olivovník evropský",
+        "en": "olive",
+        "scientific": "olea europaea"
+    },
+    "487035": {
+        "cs": "ptačí zob lesklý",
+        "en": "chinese privet",
+        "scientific": "ligustrum lucidum"
+    },
+    "594611": {
+        "cs": "ořešák černý",
+        "en": "black walnut",
+        "scientific": "juglans nigra"
+    },
+    "487229": {
+        "cs": "ořešák vlašský",
+        "en": "persian walnut",
+        "scientific": "juglans regia"
+    },
+    "5348787": {
+        "cs": "paořech jasanolistý",
+        "en": "caucasian walnut",
+        "scientific": "pterocarya pterocarpa"
+    },
+    "594855": {
+        "cs": "platan americký",
+        "en": "american sycamore",
+        "scientific": "platanus occidentalis"
+    },
+    "468381": {
+        "cs": "platan javorolistý",
+        "en": "london plane",
+        "scientific": "platanus acerifolia"
+    },
+    "596130": {
+        "cs": "platan východní",
+        "en": "oriental plane",
+        "scientific": "platanus orientalis"
+    },
+    "1034875": {
+        "cs": "metasekvoje čínská",
+        "en": "water fir",
+        "scientific": "metasequoia glyptostroboides"
+    },
+    "1034849": {
+        "cs": "sekvoje vždyzelená",
+        "en": "coast redwood",
+        "scientific": "sequoia sempervirens"
+    },
+    "323361": {
+        "cs": "sekvojovec obrovský",
+        "en": "giant sequoia",
+        "scientific": "sequoiadendron giganteum"
+    },
+    "1033691": {
+        "cs": "tis obecný",
+        "en": "english yew",
+        "scientific": "taxus baccata"
+    },
+    "594658": {
+        "cs": "ambroň západní",
+        "en": "american sweetgum",
+        "scientific": "liquidambar styraciflua"
+    },
+    "585458": {
+        "cs": "osika",
+        "en": "european aspen",
+        "scientific": "populus tremula"
+    },
+    "584175": {
+        "cs": "vrba bílá",
+        "en": "hybrid crack willow",
+        "scientific": "salix rubens"
+    },
+    "584270": {
+        "cs": "vrba jíva",
+        "en": "goat willow",
+        "scientific": "salix caprea"
+    },
+    "584190": {
+        "cs": "vrba košařská",
+        "en": "osier",
+        "scientific": "salix viminalis"
+    },
+    "480312": {
+        "cs": "vrba lýkovcová",
+        "en": "daphne willow",
+        "scientific": "salix daphnoides"
+    },
+    "584237": {
+        "cs": "vrba pětimužná",
+        "en": "bay willow",
+        "scientific": "salix pentandra"
+    },
+    "592441": {
+        "cs": "topol bílý",
+        "en": "white poplar",
+        "scientific": "populus alba"
+    },
+    "584265": {
+        "cs": "topol černý",
+        "en": "black poplar",
+        "scientific": "populus nigra"
+    },
+    "684065": {
+        "cs": "akácie",
+        "en": "silver wattle",
+        "scientific": "acacia dealbata"
+    },
+    "488729": {
+        "cs": "bez hroznatý",
+        "en": "red-berried elder",
+        "scientific": "sambucus racemosa"
+    },
+    "488731": {
+        "cs": "bez černý",
+        "en": "elder",
+        "scientific": "sambucus nigra"
+    },
+    "1034857": {
+        "cs": "blahočet chilský",
+        "en": "monkey-puzzle",
+        "scientific": "araucaria araucana"
+    },
+    "301421": {
+        "cs": "blahovičník gunnův",
+        "en": "bluegum eucalyptus",
+        "scientific": "eucalyptus globulus"
+    },
+    "486842": {
+        "cs": "cesmína ostrolistá",
+        "en": "common holly",
+        "scientific": "ilex aquifolium"
+    },
+    "582206": {
+        "cs": "pomerančovník",
+        "en": "orange",
+        "scientific": "citrus sinensis"
+    },
+    "416592": {
+        "cs": "cykas japonský",
+        "en": "sago cycad",
+        "scientific": "cycas revoluta"
+    },
+    "2905760": {
+        "cs": "dřín hlavatý",
+        "en": "bentham's cornel",
+        "scientific": "cornus capitata"
+    },
+    "582707": {
+        "cs": "dřín květnatý",
+        "en": "flowering dogwood",
+        "scientific": "cornus florida"
+    },
+    "582727": {
+        "cs": "hlošina úzkolistá",
+        "en": "oleaster",
+        "scientific": "elaeagnus angustifolia"
+    },
+    "1156278": {
+        "cs": "jinan dvoulaločný",
+        "en": "ginkgo",
+        "scientific": "ginkgo biloba"
+    },
+    "582243": {
+        "cs": "jírovec maďal",
+        "en": "european horse-chestnut",
+        "scientific": "aesculus hippocastanum"
+    },
+    "580329": {
+        "cs": "katalpa obecná",
+        "en": "southern catalpa",
+        "scientific": "catalpa bignonioides"
+    },
+    "486446": {
+        "cs": "lípa srdčitá",
+        "en": "small-leaved lime",
+        "scientific": "tilia cordata"
+    },
+    "1155834": {
+        "cs": "lyriovník tulipánokvětý",
+        "en": "tulip poplar",
+        "scientific": "liriodendron tulipifera"
+    },
+    "5614169": {
+        "cs": "pajasan žláznatý",
+        "en": "tree-of-heaven",
+        "scientific": "ailanthus altissima"
+    },
+    "583608": {
+        "cs": "planika",
+        "en": "strawberry-tree",
+        "scientific": "arbutus unedo"
+    },
+    "418096": {
+        "cs": "rohovník obecný",
+        "en": "carob",
+        "scientific": "ceratonia siliqua"
+    },
+    "487245": {
+        "cs": "svitel latnatý",
+        "en": "varnish tree",
+        "scientific": "koelreuteria paniculata"
+    },
+    "1154991": {
+        "cs": "šácholan stálezelený",
+        "en": "magnolia",
+        "scientific": "magnolia grandiflora"
+    },
+    "483960": {
+        "cs": "tomel japonský",
+        "en": "japanese persimmon",
+        "scientific": "diospyros kaki"
+    },
+    "1128696": {
+        "cs": "trachykarpus fortunův",
+        "en": "chusan palm",
+        "scientific": "trachycarpus fortunei"
+    },
+    "704089": {
+        "cs": "trnovník akát",
+        "en": "black locust",
+        "scientific": "robinia pseudoacacia"
+    },
+    "487588": {
+        "cs": "brslen evropský",
+        "en": "european spindle",
+        "scientific": "euonymus europaeus"
+    },
+    "489681": {
+        "cs": "zimostráz vždyzelený",
+        "en": "european box",
+        "scientific": "buxus sempervirens"
+    },
+    "595648": {
+        "cs": "šeřík obecný",
+        "en": "common lilac",
+        "scientific": "syringa vulgaris"
+    },
+    "486835": {
+        "cs": "vavřín vznešený",
+        "en": "bay laurel",
+        "scientific": "laurus nobilis"
+    },
+    "1154917": {
+        "cs": "šácholan hvězdovitý",
+        "en": "star magnolia",
+        "scientific": "magnolia stellata"
+    },
+    "1154971": {
+        "cs": "šácholan velkolistý",
+        "en": "bigleaf magnolia",
+        "scientific": "magnolia macrophylla"
+    },
+    "579742": {
+        "cs": "teka obrovská",
+        "en": "burma teak",
+        "scientific": "tectona grandis"
+    },
+    "489743": {
+        "cs": "bílý rybíz",
+        "en": "red currant",
+        "scientific": "ribes rubrum"
+    },
+    "583633": {
+        "cs": "brusnice borůvka",
+        "en": "bilberry",
+        "scientific": "vaccinium myrtillus"
+    },
+    "484408": {
+        "cs": "klikva bahenní",
+        "en": "cranberry",
+        "scientific": "vaccinium oxycoccos"
+    },
+    "484410": {
+        "cs": "brusnice brusinka",
+        "en": "lingonberry",
+        "scientific": "vaccinium vitis-idaea"
+    },
+    "583654": {
+        "cs": "vlochyně bahenní",
+        "en": "bog bilberry",
+        "scientific": "vaccinium uliginosum"
+    },
+    "583204": {
+        "cs": "černý rybíz",
+        "en": "black currant",
+        "scientific": "ribes nigrum"
+    },
+    "703960": {
+        "cs": "štědřenec odvislý",
+        "en": "common laburnum",
+        "scientific": "laburnum anagyroides"
+    },
+    "487476": {
+        "cs": "zlatice prostřední",
+        "en": "showy forsythia",
+        "scientific": "forsythia intermedia"
+    },
+    "579159": {
+        "cs": "zlatice převislá",
+        "en": "weeping forsythia",
+        "scientific": "forsythia suspensa"
+    },
+    "584343": {
+        "cs": "ibišek syrský",
+        "en": "common hibiscus",
+        "scientific": "hibiscus syriacus"
+    },
+    "487208": {
+        "cs": "jasmín nahokvětý",
+        "en": "winter jasmine",
+        "scientific": "jasminum nudiflorum"
+    },
+    "489744": {
+        "cs": "srstka angrešt",
+        "en": "european gooseberry",
+        "scientific": "ribes uva-crispa"
+    },
+    "488737": {
+        "cs": "zimolez obecný",
+        "en": "dwarf honeysuckle",
+        "scientific": "lonicera xylosteum"
+    },
+    "7020092": {
+        "cs": "zimolez černý",
+        "en": "black honeysuckle",
+        "scientific": "lonicera nigra"
+    },
+    "583611": {
+        "cs": "vřes obecný",
+        "en": "heather",
+        "scientific": "calluna vulgaris"
+    },
+    "3121173": {
+        "cs": "vřecovec pleťový",
+        "en": "winter heath",
+        "scientific": "erica carnea"
+    },
+    "582110": {
+        "cs": "vřesovec čtyřřadý",
+        "en": "cross-leaved heath",
+        "scientific": "erica tetralix"
+    },
+    "234403": {
+        "cs": "růže šípková",
+        "en": "dog rose",
+        "scientific": "rosa canina"
+    },
+    "579172": {
+        "cs": "ptačí zob vejčitolistý",
+        "en": "garden privet",
+        "scientific": "ligustrum ovalifolium"
+    },
+    "632532": {
+        "cs": "střemcha obecná",
+        "en": "european bird cherry",
+        "scientific": "prunus padus"
+    },
+    "485613": {
+        "cs": "krušina olšová",
+        "en": "alder buckthorn",
+        "scientific": "rhamnus frangula"
+    },
+    "488690": {
+        "cs": "kalina obecná",
+        "en": "guelder-rose",
+        "scientific": "viburnum opulus"
+    },
+    "240473": {
+        "cs": "růže sivá",
+        "en": "redleaf rose",
+        "scientific": "rosa glauca"
+    },
+    "230074": {
+        "cs": "růže vinná",
+        "en": "sweet-briar",
+        "scientific": "rosa rubiginosa"
+    },
+    "5632408": {
+        "cs": "klokoč zpeřený",
+        "en": "european bladdernut",
+        "scientific": "staphylea pinnata"
+    },
+    "582100": {
+        "cs": "lýkovec jedovatý",
+        "en": "mezereon",
+        "scientific": "daphne mezereum"
+    },
+    "631720": {
+        "cs": "myrobalán třešňový",
+        "en": "myrobalan plum",
+        "scientific": "prunus cerasifera"
+    },
+    "633332": {
+        "cs": "mišpule obecná",
+        "en": "medlar",
+        "scientific": "mespilus germanica"
+    }
+}
