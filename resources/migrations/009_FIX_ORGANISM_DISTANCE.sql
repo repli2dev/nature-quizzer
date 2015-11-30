@@ -1,3 +1,5 @@
+-- Fix problem with cross kingdom organism distance computation and make organism_itis_name accept also accepted name_usage
+
 CREATE OR REPLACE FUNCTION compute_organism_distance(o1 TEXT, o2 TEXT) RETURNS INT AS
   $BODY$
   DECLARE
@@ -34,3 +36,19 @@ CREATE OR REPLACE FUNCTION compute_organism_distance(o1 TEXT, o2 TEXT) RETURNS I
   END;
   $BODY$
 LANGUAGE plpgsql STABLE;
+
+CREATE OR REPLACE FUNCTION organism_itis_tsn(latin_name TEXT) RETURNS INT AS
+  $BODY$
+  DECLARE
+    tu itis.taxonomic_units%ROWTYPE;
+    tsn INT;
+  BEGIN
+    SELECT * INTO tu FROM itis.taxonomic_units WHERE complete_name = capitalize_first_only(latin_name) LIMIT 1;
+    tsn := tu.tsn;
+    IF tu.name_usage != 'valid' AND tu.name_usage != 'accepted' THEN
+      SELECT tsn_accepted INTO tsn FROM itis.synonym_links AS sl WHERE sl.tsn = tu.tsn;
+    END IF;
+    RETURN tsn;
+  END;
+  $BODY$
+LANGUAGE plpgsql STABLE /* assumption that mapping doesn't change during one transaction */;
