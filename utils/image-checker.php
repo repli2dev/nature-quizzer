@@ -41,8 +41,10 @@ $data = JSON::decode(file_get_contents($wholePath . '/package.json'));
 // Check
 $errors = 0;
 $temp = [];
+$referenced = [];
 foreach ($data->organism as $latinName => $organismData) {
 	foreach ($organismData->representations as $representation) {
+		$referenced[] = $representation->hash;
 		if (in_array($representation->hash, $temp)) {
 			print "Shared: " . $representation->hash. "\n";
 			$errors += 1;
@@ -54,6 +56,14 @@ foreach ($data->organism as $latinName => $organismData) {
 		}
 	}
 }
+
+foreach (Finder::findFiles('*')->from($wholePath . '/files/') as $key => $file) {
+	if (!in_array($file->getBaseName(), $referenced, TRUE)) {
+		print 'Leftover: ' . $file->getBaseName() . "\n";
+		$errors += 1;
+	}
+}
+
 if ($errors == 0) {
 	print "Everything is OK.\n";
 } else {
