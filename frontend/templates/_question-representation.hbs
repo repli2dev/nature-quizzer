@@ -1,5 +1,5 @@
 <div class="question question-choose-representation">
-	<div class="question-text">{{translate 'quiz.select_organism'}}: {{question.questionText}}</div>
+	<div class="question-text">{{question.questionText}}</div>
 	<div class="question-image-options">
 		{{#each question.options as |option|}}
 			<span class="question-image-option" title="{{option.imageRightsHolder}} ({{option.imageLicense}})" id="a-{{option.id_representation}}" {{action 'answer' option.id_representation}}>

@@ -87,7 +87,6 @@ App.Translations.cs = {
 		'text_data': 'Aplikace se snaží využít získaná data od uživatelů ke svému vlastnímu rozvoji. Aplikace se tak učí a není tedy potřeba žádného experta, aby zjistil, jak je která rostlina či zvíře těžké na naučení.',
 	},
 	'quiz': {
-		'select_organism': 'Vyberte',
 		'random_mix': 'Náhodný mix',
 		'close': 'Zavřít',
 		'loading': 'Načítání',

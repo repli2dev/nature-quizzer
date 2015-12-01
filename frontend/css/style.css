@@ -450,6 +450,12 @@ div.question {
 }
 div.question-text {
 	margin-bottom: 30px;
+	background: #f6f4f1;
+	margin-top: -10px;
+	padding: 10px;
+	margin-left: -10px;
+	margin-right: -10px;
+	font-weight: bold;
 }
 div.question-image {
 	margin-bottom: 30px;
