@@ -1,10 +1,20 @@
 <!DOCTYPE html>
-<html n:syntax="off">
+<html n:syntax="off" prefix="og: http://ogp.me/ns#">
 <head>
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 	<meta name="description" content="Poznávačka přírody: procvičte a naučte se zvířata, rostliny... za pomoci aplikace, která se přizpůsobí vašemu tempu a znalostem.">
  	<meta charset="utf-8">
+
+ 	<meta property="og:type" content="website" />
+ 	<meta property="og:image" content="<?php echo $control->link('//Homepage:'); ?>images/showcases/1.jpg"/>
+ 	<meta property="og:image" content="<?php echo $control->link('//Homepage:'); ?>images/showcases/2.jpg"/>
+ 	<meta property="og:image" content="<?php echo $control->link('//Homepage:'); ?>images/showcases/3.jpg"/>
+ 	<meta property="og:image" content="<?php echo $control->link('//Homepage:'); ?>images/showcases/4.jpg"/>
+ 	<meta property="og:image" content="<?php echo $control->link('//Homepage:'); ?>images/showcases/5.jpg"/>
+ 	<meta property="og:image" content="<?php echo $control->link('//Homepage:'); ?>images/logo.svg"/>
+
 	<title>Poznávačka přírody</title>
+
 	<link rel="stylesheet" href="/src/screen.css">
 	<link rel="shortcut icon" href="/favicon.ico">
 	<link href="/images/logo.png" rel="icon" />
