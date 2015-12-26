@@ -78,7 +78,7 @@ class Concept extends Table
 	public function getAllWithInfo($idLanguage)
 	{
 		return $this->getTable()
-			->select('concept.*, :concept_info.*')
+			->select('concept.*, :concept_info.*, (SELECT COUNT(*) FROM organism_concept WHERE id_concept = concept.id_concept) AS count')
 			->where('id_language', $idLanguage)
 			->fetchAll();
 	}

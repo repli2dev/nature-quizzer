@@ -127,6 +127,7 @@ App.Translations.cs = {
 		'interruption': 'Zkuste si vybrat jiné téma :-)',
 		'others': 'Ostatní',
 		'start': 'Řešit',
+		'items_count': 'Počet položek',
 	},
 	'facebook': {
 		'heading': 'Problém při přihlášení přes Facebooku',

@@ -72,7 +72,8 @@ class ConceptsProcessor extends Object
 				'id_concept' => $concept->id_concept,
 				'code_name' => $concept->code_name,
 				'name' => $concept->name,
-				'description' => $concept->description
+				'description' => $concept->description,
+				'items_count' => $concept->count
 			];
 		}
 		if (isset($output['groups'][''])) {

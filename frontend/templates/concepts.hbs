@@ -24,7 +24,9 @@
 				{{#link-to 'play' concept.id_concept concept.code_name classNames="start-button"}}{{translate 'topics.start'}}{{/link-to}}
 
 				<h4 class="concept-name">{{concept.name}}</h4>
-				<span class="concept-description">{{concept.description}}</span>
+				<span class="concept-description">{{concept.description}}<br>
+					{{translate 'topics.items_count'}}: {{concept.items_count}}
+				</span>
 				<div class="cleaner"></div>
 			</div>
 		{{/each}}
