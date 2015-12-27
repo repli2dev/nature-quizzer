@@ -72,8 +72,8 @@ App.Translations.cs = {
 	'index': {
 		'heading': 'Poznávačka zvířat, rostlin...',
 		'choose_topic': 'Vyberte si téma procvičování',
-		'other_topics': 'Chcete jiné téma? Zatím máme dvě, ale určitě nám napište, co byste chtěli procvičovat ;-)',
-		'all_available': 'všechny dostupné',
+		'other_topics': 'Chcete jiné téma? Vyberte si ze',
+		'all_available': 'všech dostupných',
 		'what_is_it': 'O co jde?',
 		'description': 'Příroda, to je obrovská směs zvířat, rostlin, hub... a určitě jste si při toulkách někdy říkali, že byste se chtěli jednotlivé organismy naučit rozpoznávat a umět pojmenovávat a od toho tu je Poznávačka přírody.',
 		'description2': 'Vyberte si téma procvičování a dostanete k rozpoznání 10 organismů. Když se vám to bude líbit, dejte si určitě ještě další sérii. A nezapomeňte se registrovat, ať víme, co už umíte!',
@@ -122,7 +122,7 @@ App.Translations.cs = {
 	'topics': {
 		'heading': 'Témata',
 		'description': 'Vyberte si jaké téma, respektive oblast přírody se chcete začít učit a stiskněte',
-		'description2': 'Momentálně máme k procvičování připravena dvě témata, napište nám, co byste chtěli procvičovat dále ;-)',
+		'description2': 'Momentálně máme k procvičování připravena tyto témata, napište nám, co byste chtěli procvičovat dále ;-)',
 		'invalid': 'Omlouváme se, ale toto téma je momentálně neprovozuschopné. Zkuste to, prosím, později. Pokud problém přetrvává, napište nám. Díky.',
 		'interruption': 'Zkuste si vybrat jiné téma :-)',
 		'others': 'Ostatní',
