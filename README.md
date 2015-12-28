@@ -107,6 +107,7 @@ way of server-rendered webpages.
 
 The structure copies typical structure of Nette framework applications.
 
+```
 ├── app
 │   ├── config									Configuration(s) of the application, should be publicly available!
 │   ├── grids
@@ -155,7 +156,7 @@ The structure copies typical structure of Nette framework applications.
     │   ├── organisms							Images of organisms's representations.
     │   └── showcases							Images for Open Graph API (used when sharing page via Facebook).
     └── src										Gulp compiled javascripts.
-
+```
 
 Developing
 ==========
