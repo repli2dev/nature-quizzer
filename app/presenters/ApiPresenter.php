@@ -12,6 +12,7 @@ use NatureQuizzer\Processors\SummaryProcessor;
 use NatureQuizzer\Processors\UserProcessor;
 use NatureQuizzer\RequestProcessorException;
 use Nette\Application\AbortException;
+use Nette\InvalidArgumentException;
 use Tracy\Debugger;
 use Tracy\ILogger;
 
@@ -114,6 +115,8 @@ class ApiPresenter extends BasePresenter
 			$this->terminate();
 		} catch (AbortException $ex) {
 			throw $ex; // This is Nette application stuff, needs to be rethrowed
+		} catch (InvalidArgumentException $ex) {
+			$this->sendErrorJSON(1, 'Empty request');
 		} catch (Exception $ex) {
 			Debugger::log($ex, Debugger::CRITICAL);
 		}

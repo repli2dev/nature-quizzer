@@ -8,6 +8,7 @@ use NatureQuizzer\Model\Utils\UserAnswerFactory;
 use NatureQuizzer\Runtime\CurrentClient;
 use NatureQuizzer\Runtime\CurrentRound;
 use NatureQuizzer\Runtime\CurrentUser;
+use Nette\InvalidArgumentException;
 use Nette\Object;
 use Tracy\Debugger;
 
@@ -40,6 +41,10 @@ class AnswerProcessor extends Object
 
 	public function save($data)
 	{
+		// Prevent empty requests to proceed
+		if (count($data) == 0 || !isset($data['round'])) {
+			throw new InvalidArgumentException();
+		}
 		$roundHash = $data['round'];
 
 		$userId = $this->currentUser->get();
