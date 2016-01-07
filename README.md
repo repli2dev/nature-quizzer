@@ -1,10 +1,8 @@
-Nature Quizzer
---------------
+# Nature Quizzer
 
 Simple web-based adaptive learning system for teaching users biological concepts such as plants, animals,...
 
-Dependencies
-============
+## Dependencies
 
 General:
 
@@ -13,8 +11,7 @@ General:
  - Node.js and its dependencies captured in `package.json`
  - Composer and its dependencies captured in `composer.json`
 
-Installing
-==========
+##  Installing
 
 0. Update to proper selected GIT branch/tag.
    master branch = development
@@ -81,16 +78,14 @@ $ php utils/update-organism-distances.php
 For convenience there is a `deploy.php` script which does some of this steps in order to make things easy
 (except importing data), especially for update.
 
-Data packages
-=============
+## Data packages
 
 Prepared data packages for import are located in standalone repository:
 https://github.com/repli2dev/nature-quizzer-packages
 
 For creating new topic see /staging/HOWTO.md.
 
-Running
-=======
+## Running
 
 Use Apache or PHP embedded server to serve `www` directory with `index.php` as index file:
 
@@ -98,8 +93,7 @@ Use Apache or PHP embedded server to serve `www` directory with `index.php` as i
 php -S localhost:8000 -t <project path>/www
 ```
 
-Structure
-=========
+## Structure
 
 The application is divided into client-side application (in browser only) and API providing only the data.
 The front page of client-side application is served from server. The administration is also implemented in classic
@@ -158,8 +152,7 @@ The structure copies typical structure of Nette framework applications.
     └── src										Gulp compiled javascripts.
 ```
 
-Developing
-==========
+## Developing
 
 When doing changes in any JS/CSS/templates/locales ensure to run `gulp` in development mode
 (for rebuilding everything and watch for changes):
@@ -168,24 +161,20 @@ When doing changes in any JS/CSS/templates/locales ensure to run `gulp` in devel
 $ gulp development
 ```
 
-Client-side application
------------------------
+### Client-side application
 
 The sources are located in /frontend folder. The application uses typical Ember.js stack. 
 
-API
----
+### API
 
 API requests goes throw /api/<request> which are operated by /app/presenters/ApiPresenter.php which delegates work to
 /library/processors/...
 
-Administration
---------------
+### Administration
 
 Administration is standard Nette server-side (rendered) application living in /app folder.
 
-Student model and Instructional Policy
---------------------------------------
+### Student model and Instructional Policy
 
 The cornerstone of this adaptive system is located in /library/model/ folder (NatureQuizzer\Model namespace).
 
@@ -201,8 +190,7 @@ its creation which is used in subsequent user uses of the application.
 
 Warning: when changing student model, beware of interconnection with /utils/basic-elo.php script, which should behave consistently.
 
-Database migration
------------------
+### Database migration
 
 As it is highly probable that there will be changes in database schema, the database migration tool was implemented.
 The migrations itself are in /resources/migrations. They must follow the 007_NAME.sql syntax with three digit number
@@ -213,8 +201,7 @@ Migration are performed when using /utils/updatedb.php or automatically when usi
 Successfully executed migrations are stored into database table `meta_migrations`. When at least of them is unsuccessful,
 all of currently new are rollbacked. In that case manual fix of the migration files is needed.
 
-Package manager
----------------
+### Package manager
 
 As the content needs some constant care the package manager was implemented. It can take care about importing:
 
@@ -233,14 +220,12 @@ of unused data items (and files)
 
 For more details about packages, see /staging/HOWTO.md.
 
-Basic ELO
----------
+### Basic ELO
 
 When changing parameters of the student model ensure that that the model is recalculate.
 There is tool in /utils/basic-elo.php.
 
-Backuping database
-------------------
+### Backuping database
 
 For convenience simple backup tool was introduced. The backup tool located in /utils/backup.php can create backup of
 database only or even with representations, restore option is also available.
