@@ -1,5 +1,6 @@
 App.Router.map(function () {
 	this.route('about');
+	this.route('terms');
 	this.route('offline');
 	this.route('facebook-login-problem');
 	this.route('google-login-problem');
@@ -193,6 +194,12 @@ App.UserLogoutRoute = Ember.Route.extend({
 });
 
 App.AboutRoute = Ember.Route.extend(App.ResetScroll, {
+	activate: function() {
+		this._super.apply(this, arguments);
+	}
+});
+
+App.TermsRoute = Ember.Route.extend(App.ResetScroll, {
 	activate: function() {
 		this._super.apply(this, arguments);
 	}

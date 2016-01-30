@@ -151,5 +151,18 @@ App.Translations.cs = {
 		'description': 'Zřejmě došlo došlo k výpadku připojení k internetu nebo načtení trvalo příliš dlouho. Zkuste prosím obnovit celou stránku.',
 		'description2': 'Pokud problém přetrvá napište, prosím, e-mail na adresu:',
 		'thanks': 'Děkujeme.',
+	},
+	'terms': {
+		'heading': 'Podmínky použití',
+		'about':'Výukový systém Poznávačka přírody nabízí volně dostupné výukové materiály pro poznávání druhů organismů komukoliv, kdo souhlasí s následujícími podmínkami. Pokud s nimi nesouhlasíte, systém nepoužítejte. Provozovatel systému je Jan Drábek',
+		'materials':'Materiály jsou sestavovány poloautomatizovaně s maximální pozorností na správnost obsahu, přesto však může obsahovat chyby. Nelze tedy poskytnout stoprocentní garanci korektnosti obsahu. Dále si vyhrazujeme právo na změny obsahu a funkcionality.',
+		'quality':'Poskytovatel poskytuje výukový systém tak jak je, bez jakékoliv garance kvality služeb. Poskytovatel také nenese zodpovědnost za chyby vzniklé v důsledku zásahu třetích osob a špatného použití výukového systému.',
+		'fair-use':'Uživatelé jsou povinni zdržovat se jakéhokoliv nevhodného jednání, které by mohlo narušit fungování systému či poškodit jeho fungování pro ostatní uživatele (např.: přetěžování serveru, záměrně chybná dat). Poskytovatel si vyhrazuje právo zabránit konkrétním uživatelům v používání tohoto systému.',
+		'privacy':'Systém ukládá data o uživatelích a jejich odpovědích na testové otázky (v případě neregistrovaných uživatelů jsou data ukládána za využití souborů „cookies“). Tato data jsou využívána pro vylepšení funkcionality systému a pro vědecké účely. Části dat mohou být zveřejněny pro účely vědecké komunity. Jakékoliv analýzy, výstupy analýz či zveřejňování dat pracuje výhradně s anonymizovanými daty, ze kterých není možné zpětně rekonstruovat identitu jednotlivých uživatelů.',
+		'experiments':'V systému mohou probíhat výzkumné experimenty spočívající v drobných úpravách chování systému pro jednotlivé uživatele.',
+		'cookies':'Stránky využívají služby Google Analytics pro analýzu návštěvnosti. Služba Google Analytics využívá soubory „cookies“.',
+		'':'',
+		'':'',
+		'':'',
 	}
 };
