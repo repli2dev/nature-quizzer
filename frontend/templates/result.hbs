@@ -1,9 +1,17 @@
 {{title 'quiz.done_title'}}
 
 <div class="narrow-column">
-	<h2>{{translate 'quiz.done'}}</h2>
+	<h2 class="left-floated-heading">{{translate 'quiz.done'}}</h2>
 
-	<div>
+	{{#if isAnonymous}}
+		<div class="login-prompt">
+			<p>{{translate 'register1'}}<br>{{translate 'register2'}}</p>
+			<p><b>{{translate 'register3'}}</b></p>
+			{{partial "external-logins"}}
+		</div>
+	{{/if}}
+
+	<div class="continue-prompt">
 		{{#if model.mix}}
 			{{#link-to 'play' 'mix' 'all' classNames='button'}}{{translate 'quiz.continue'}}{{/link-to}}
 		{{/if}}

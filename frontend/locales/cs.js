@@ -23,6 +23,9 @@ App.Translations.cs = {
 	'via_google': 'přes Google',
 	'loading': 'Probíhá načítání, vyčkejte prosím',
 	'processing': 'Váš požadavek je právě zpracováván. Vyčkejte prosím.',
+	'register1': 'Chcete procvičovat efektivněji?',
+	'register2': 'Nechcete příště začínat úplně od začátku?',
+	'register3': 'Stačí se přihlásit nebo zaregistrovat.',
 	'projects' : {
 		'tutor': 'Problem Solving Tutor',
 		'geography': 'Slepé mapy',
@@ -161,8 +164,5 @@ App.Translations.cs = {
 		'privacy':'Systém ukládá data o uživatelích a jejich odpovědích na testové otázky (v případě neregistrovaných uživatelů jsou data ukládána za využití souborů „cookies“). Tato data jsou využívána pro vylepšení funkcionality systému a pro vědecké účely. Části dat mohou být zveřejněny pro účely vědecké komunity. Jakékoliv analýzy, výstupy analýz či zveřejňování dat pracuje výhradně s anonymizovanými daty, ze kterých není možné zpětně rekonstruovat identitu jednotlivých uživatelů.',
 		'experiments':'V systému mohou probíhat výzkumné experimenty spočívající v drobných úpravách chování systému pro jednotlivé uživatele.',
 		'cookies':'Stránky využívají služby Google Analytics pro analýzu návštěvnosti. Služba Google Analytics využívá soubory „cookies“.',
-		'':'',
-		'':'',
-		'':'',
 	}
 };

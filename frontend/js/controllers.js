@@ -18,6 +18,9 @@ App.ApplicationController = Ember.Controller.extend({
 });
 
 App.ResultController = Ember.Controller.extend({
+	facebookLoginLink: App.External.FACEBOOK_LOGIN_URL,
+	googleLoginLink: App.External.GOOGLE_LOGIN_URL,
+
 	questions: null,
 	successRate: function() {
 		var questions = this.get('questions');
@@ -25,7 +28,11 @@ App.ResultController = Ember.Controller.extend({
 			return Math.round((questions.success_rate / questions.count)*100);
 		}
 		return 0;
-	}.property('this.questions')
+	}.property('this.questions'),
+
+	isAnonymous: function () {
+		return App.AuthManager.isAnonymous();
+	}.property('App.AuthManager.data'),
 });
 
 App.ConceptsController = Ember.Controller.extend({

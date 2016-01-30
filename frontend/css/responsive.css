@@ -30,6 +30,11 @@
 		clear: left;
 		margin-bottom: 30px;
 	}
+	.login-prompt {
+		clear: left;
+		margin-bottom: 20px;
+		float: left;
+	}
 }
 
 @media only screen and (max-width: 800px) {
@@ -44,11 +49,14 @@
 	}
 
 	.narrow-column {
-		width: 100%;
+		width: 95%;
 	}
 
 	.window-info progress[value] {
 		width: 150px;
+	}
+	.responsive-image {
+		width: 90%;
 	}
 }
 

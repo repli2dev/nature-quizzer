@@ -663,3 +663,27 @@ div.error {
 p.center {
 	text-align: center;
 }
+.login-prompt {
+	float: right;
+	background: #F7DB5E;
+	padding-top: 0px;
+	padding-right: 10px;
+	padding-left: 20px;
+	padding-bottom: 0px;
+
+	margin-bottom: 10px;
+}
+.login-prompt a.button:hover {
+	background: #A1891F;
+	transition: background-color .35s;
+	-webkit-transition: background-color .35s;
+}
+.login-prompt div#external-logins {
+	margin-bottom: 20px;
+}
+.continue-prompt {
+	clear: left;
+}
+.left-floated-heading {
+	float: left;
+}
