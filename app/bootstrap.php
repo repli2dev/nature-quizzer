@@ -1,6 +1,7 @@
 <?php
 
 use NatureQuizzer\Logging\FileLogger;
+use Nette\Application\Routers\Route;
 use Nette\Configurator;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -63,6 +64,12 @@ if ($configurator->isDebugMode()) {
 $configurator->addConfig(__DIR__ . '/config/config.local.neon');
 
 $container = $configurator->createContainer();
+
+// force ssl
+$httpRequest = $container->getByType('Nette\\Http\\Request');
+if ($httpRequest->getUrl()->getScheme() == 'https') {
+	Route::$defaultFlags = Route::SECURED;
+}
 
 // Set search_path in database
 $container->getByType('Nette\Database\Connection')->onConnect[] = function($conn) {
