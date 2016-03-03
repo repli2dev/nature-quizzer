@@ -1,3 +1,12 @@
+App.Router.reopen({
+	notifyGoogleAnalytics: function() {
+		return ga('send', 'pageview', {
+			'page': this.get('url'),
+			'title': this.get('url')
+		});
+	}.on('didTransition')
+});
+
 App.Router.map(function () {
 	this.route('about');
 	this.route('terms');
