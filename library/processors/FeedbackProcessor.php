@@ -2,6 +2,8 @@
 namespace NatureQuizzer\Processors;
 
 use NatureQuizzer\Runtime\CurrentClient;
+use NatureQuizzer\Runtime\CurrentUser;
+use NatureQuizzer\Utils\Helpers;
 use Nette\DI\Container;
 use Nette\Forms\Form;
 use Nette\Http\Request;
@@ -16,16 +18,19 @@ class FeedbackProcessor extends Object
 	private $mailer;
 	/** @var CurrentClient */
 	private $currentClient;
+	/** @var CurrentUser */
+	private $currentUser;
 	/** @var Request */
 	private $request;
 
 	private $mails;
 
-	public function __construct(IMailer $mailer, CurrentClient $currentClient, Request $request, Container $container)
+	public function __construct(IMailer $mailer, CurrentClient $currentClient, CurrentUser $currentUser, Request $request, Container $container)
 	{
 		$this->mailer = $mailer;
 		$this->currentClient = $currentClient;
 		$this->request = $request;
+		$this->currentUser = $currentUser;
 
 		$params = $container->getParameters();
 		if (isset($params['mails'])) {
@@ -53,6 +58,14 @@ class FeedbackProcessor extends Object
 			}
 			$message->addTo($this->mails['feedback']);
 			$message->setBody($data['text']);
+			// Add debug information
+			$message->setHeader('X-Client-Info', '"' . Helpers::implodeKeyValue($this->currentClient->get()) . '"');
+			if ($this->currentUser->isInitialized()) {
+				$message->setHeader('X-User-Anonymous', ($this->currentUser->isAnonymous()) ? 'true' : 'false');
+				$message->setHeader('X-User-Id', $this->currentUser->get());
+			} else {
+				$message->setHeader('X-User', 'unavailable');
+			}
 			$this->mailer->send($message);
 			$output['result'] = 'contact.message_sent';
 			$output['status'] = 'success';

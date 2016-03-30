@@ -42,4 +42,13 @@ class Helpers
 		}
 	}
 
+	public static function implodeKeyValue($input, $itemGlue = ';', $assignGlue = '=')
+	{
+		return implode($itemGlue, array_map(
+			function ($v, $k) { return sprintf("%s=%s", $k, $v); },
+			$input,
+			array_keys($input)
+		));
+	}
+
 }
