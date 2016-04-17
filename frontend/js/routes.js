@@ -1,4 +1,5 @@
 App.Router.reopen({
+	location: 'auto',
 	notifyGoogleAnalytics: function() {
 		return ga('send', 'pageview', {
 			'page': this.get('url'),
@@ -7,6 +8,7 @@ App.Router.reopen({
 	}.on('didTransition')
 });
 
+// Do not forget to update HomepagePresenter too!
 App.Router.map(function () {
 	this.route('about');
 	this.route('terms');

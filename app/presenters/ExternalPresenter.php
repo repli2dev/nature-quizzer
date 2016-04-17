@@ -40,25 +40,25 @@ class ExternalPresenter extends BasePresenter
 			}
 			Debugger::log($ex, ILogger::EXCEPTION);
 			if ($ex->getCode() === Facebook::NOT_AVAILABLE) {
-				$this->redirect('Homepage:default#/facebook-login-problem?type=4');
+				$this->redirect('Homepage:facebookLoginProblem', 4);
 			} else {
-				$this->redirect('Homepage:default#/facebook-login-problem?type=1');
+				$this->redirect('Homepage:facebookLoginProblem', 1);
 			}
 			$this->terminate();
 		}
 		if ($result == NULL) {
 			Debugger::log('Obtaining of Facebook session failed for unknown reason.', ILogger::EXCEPTION);
-			$this->redirect('Homepage:default#/facebook-login-problem?type=2');
+			$this->redirect('Homepage:facebookLoginProblem', 2);
 			$this->terminate();
 		}
 		try {
 			$this->userProcessor->loginViaFacebook($result);
 		} catch (Exception $ex) {
 			Debugger::log($ex, ILogger::EXCEPTION);
-			$this->redirect('Homepage:default#/facebook-login-problem?type=3');
+			$this->redirect('Homepage:facebookLoginProblem', 3);
 			$this->terminate();
 		}
-		$this->redirect('Homepage:default#/');
+		$this->redirect('Homepage:default');
 		$this->terminate();
 	}
 
@@ -73,25 +73,25 @@ class ExternalPresenter extends BasePresenter
 			}
 			Debugger::log($ex, ILogger::EXCEPTION);
 			if ($ex->getCode() === Google::NOT_AVAILABLE) {
-				$this->redirect('Homepage:default#/google-login-problem?type=4');
+				$this->redirect('Homepage:googleLoginProblem', 4);
 			} else {
-				$this->redirect('Homepage:default#/google-login-problem?type=1');
+				$this->redirect('Homepage:googleLoginProblem', 1);
 			}
 			$this->terminate();
 		}
 		if ($result == NULL) {
 			Debugger::log('Obtaining of Google session failed for unknown reason.', ILogger::EXCEPTION);
-			$this->redirect('Homepage:default#/google-login-problem?type=2');
+			$this->redirect('Homepage:googleLoginProblem', 2);
 			$this->terminate();
 		}
 		try {
 			$this->userProcessor->loginViaGoogle($result);
 		} catch (Exception $ex) {
 			Debugger::log($ex, ILogger::EXCEPTION);
-			$this->redirect('Homepage:default#/google-login-problem?type=3');
+			$this->redirect('Homepage:googleLoginProblem', 3);
 			$this->terminate();
 		}
-		$this->redirect('Homepage:default#/');
+		$this->redirect('Homepage:default');
 		$this->terminate();
 	}
 
