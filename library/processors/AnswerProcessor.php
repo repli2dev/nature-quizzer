@@ -42,13 +42,14 @@ class AnswerProcessor extends Object
 	public function save($data)
 	{
 		// Prevent empty requests to proceed
-		if (count($data) == 0 || !isset($data['round'])) {
+		if (count($data) == 0 || !isset($data['round']) || !isset($data['conceptId'])) {
 			throw new InvalidArgumentException();
 		}
 		$roundHash = $data['round'];
+		$conceptId = $data['conceptId'];
 
 		$userId = $this->currentUser->get();
-		$roundId = $this->currentRound->get($roundHash, $userId, $this->prepareClientInfo($data));
+		$roundId = $this->currentRound->get($roundHash, $userId, $this->prepareClientInfo($data), $conceptId);
 
 		$userAnswer = $this->userAnswerFactory->create($this->modelFacade->getId(), $this->modelFacade->getPersistenceId(), $roundId, $data);
 		if (!$userAnswer->isValid()) { // Data are invalid, log it and go away

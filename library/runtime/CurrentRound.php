@@ -22,13 +22,14 @@ class CurrentRound extends Object
 		$this->round = $round;
 	}
 
-	public function get($identificationNow, $userId, $clientInfo)
+	public function get($identificationNow, $userId, $clientInfo, $conceptId)
 	{
 		$identificationPrevious = $this->getLastIdentification();
 		if (!$identificationPrevious || $identificationPrevious != $identificationNow) {
 			$round = $this->round->insert([
 				'id_user' => $userId,
-				'client' => Json::encode($clientInfo)
+				'client' => Json::encode($clientInfo),
+				'id_concept' => ($conceptId === 'mix') ? null : $conceptId,
 			]);
 			$this->setRoundId($round->getPrimary());
 			$this->setLastIdentification($identificationNow);

@@ -297,6 +297,7 @@ App.PlayController = Ember.Controller.extend({
 		}
 		var output = {};
 		$.extend(output, App.Utils.getClientInfo());
+		output.conceptId = this.id_concept;
 		output.round = this.roundIdentification;
 		output.questionType = type;
 		output.answers = answers;
