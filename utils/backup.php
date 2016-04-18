@@ -160,7 +160,7 @@ class Backup extends Object
 		}
 
 		printf ("Restoring database...\n");
-		$command = sprintf('gzcat %s | PGPASSWORD=%s psql -h %s -U %s %s',
+		$command = sprintf('gzip -c -d %s | PGPASSWORD=%s psql -h %s -U %s %s',
 			$databaseFile,
 			escapeshellarg($credentials['password']),
 			escapeshellarg($credentials['host']),
