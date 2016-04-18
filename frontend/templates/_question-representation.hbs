@@ -1,12 +1,13 @@
 <div class="question question-choose-representation">
 	<div class="question-text">{{question.questionText}}</div>
 	<div class="question-image-options">
-		{{#each question.options as |option|}}
+		{{#each question.options as |option index|}}
 			<span class="question-image-option" title="{{option.imageRightsHolder}} ({{option.imageLicense}})" id="a-{{option.id_representation}}" {{action 'answer' option.id_representation}}>
-						{{{option.image}}}
+				{{{option.image}}}
+				<span class="keyboard-shortcut"><span>{{increment index}}</span></span>
 				<span class="dead-end"><span>&#x2715;</span></span>
-						<span class="continue"><span>&rarr;</span></span>
-					</span>
+				<span class="continue"><span>&rarr;</span></span>
+			</span>
 			<span class="dummy-cleaner"></span>
 		{{/each}}
 	</div>

@@ -540,6 +540,7 @@ span.correct {
 	animation: correct-shine 600ms linear;
 }
 
+span.keyboard-shortcut,
 span.dead-end,
 span.continue {
 	display: inline-block;
@@ -554,6 +555,12 @@ span.continue {
 	text-align: center;
 	border-bottom-right-radius: 5px;
 	border-top-right-radius: 5px;
+}
+span.keyboard-shortcut {
+	visibility: visible;
+	opacity: 0.75;
+	font-weight: 100;
+	font-size: 85%;
 }
 span.wrong span.dead-end {
 	visibility: visible;
@@ -579,7 +586,20 @@ span.correct span.continue {
 	top: 44%;
 	right: 10px;
 }
+.question-image-option span.keyboard-shortcut {
+	top: auto;
+	bottom: 3px;
+	opacity: 1;
+	background: #f6f4f1;
+	color: black;
+	border-radius: 0;
+	border-top-left-radius: 10px;
+}
+.question-image-option:hover span.keyboard-shortcut {
+	background: #9e9c99;
+}
 
+.question-text-option span.keyboard-shortcut span,
 .question-text-option span.dead-end span,
 .question-text-option span.continue span {
 	position: absolute;

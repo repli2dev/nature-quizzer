@@ -43,6 +43,10 @@ App.ApplicationRoute = Ember.Route.extend({
 			App.Titler.change(App.Translator.translate(params[0]));
 		});
 		App.Translator.change(App.Languages.default, App.Translations[App.Languages.default]);
+		// Prepare increment helper
+		App.IncrementHelper = Ember.Helper.helper(function (params) {
+			return params[0] + 1
+		});
 	},
 	actions: {
 		openContactModal: function (value) {
