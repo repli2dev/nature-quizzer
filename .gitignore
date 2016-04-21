@@ -13,3 +13,5 @@ www/src/
 www/images/organisms
 www/images/concepts
 node_modules/
+exports/*
+!.keep

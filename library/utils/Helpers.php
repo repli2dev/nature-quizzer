@@ -4,6 +4,8 @@ namespace NatureQuizzer\Utils;
 use DateInterval;
 use DatePeriod;
 use DateTime;
+use Nette\DI\Config\Adapters\NeonAdapter;
+use Nette\InvalidStateException;
 use Nette\Utils\Html;
 use Nette\Utils\Strings;
 
@@ -49,6 +51,24 @@ class Helpers
 			$input,
 			array_keys($input)
 		));
+	}
+
+	public static function getConnectionParametersFromConfig($configPath)
+	{
+		$neon = new NeonAdapter();
+		$params = $neon->load($configPath);
+		$database = $params['nette']['database'];
+		preg_match('/^pgsql:host=(.*?);dbname=(.*?)$/', $database['dsn'], $matches);
+		if (count($matches) != 3) {
+			throw new InvalidStateException('Invalid configuration cannot parse database and host');
+		}
+
+		return [
+			'host' => $matches[1],
+			'database' => $matches[2],
+			'username' => $database['user'],
+			'password' => $database['password']
+		];
 	}
 
 }

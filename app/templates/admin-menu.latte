@@ -7,6 +7,7 @@
 		{if $user->isAllowed('content')}<li {ifCurrent Organism:*}class="selected"{/ifCurrent}><a href="{plink Organism:}">Organisms</a></li>{/if}
 		{if $user->isAllowed('content')}<li {ifCurrent Model:*}class="selected"{/ifCurrent}><a href="{plink Model:}">Models</a></li>{/if}
 		{if $user->isAllowed('content')}<li {ifCurrent Diagnostic:*}class="selected"{/ifCurrent}><a href="{plink Diagnostic:}">Diagnostic</a></li>{/if}
+		{if $user->isAllowed('exports')}<li {ifCurrent Export:*}class="selected"{/ifCurrent}><a href="{plink Export:}">Exports</a></li>{/if}
 
 		{if $user->isAllowed('commons')}<li {ifCurrent Admin:password}class="selected"{/ifCurrent}><a href="{plink Admin:password}">Change password</a></li>{/if}
 		{if $user->isAllowed('commons')}<li><a href="{plink Admin:logout}">Logout</a></li>{/if}

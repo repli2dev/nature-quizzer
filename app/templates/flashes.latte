@@ -1,1 +1,1 @@
-<div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
+<div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message|noEscape}</div>

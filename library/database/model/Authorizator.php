@@ -23,6 +23,7 @@ class Authorizator extends Object implements IAuthorizator {
 		$this->acl->addResource("users");
 		$this->acl->addResource("content");
 		$this->acl->addResource("statistics");
+		$this->acl->addResource("exports");
 
 		// Adding of user's role
 		$this->acl->addRole(self::ROLE_USER);

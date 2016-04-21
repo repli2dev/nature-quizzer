@@ -1,0 +1,11 @@
+{redefine table-open-tag}
+	<table class="grid">
+{/redefine}
+
+{define global-actions}
+	<a class="grid-add" href="{plink Export:add}">Create new export (can take a while)</a>
+{/define}
+
+{define row-actions}
+	<a class="grid-edit" href="{plink Export:download, $primary}">Download</a>
+{/define}

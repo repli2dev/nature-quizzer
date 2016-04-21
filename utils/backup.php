@@ -61,20 +61,11 @@ class Backup extends Object
 
 	private function getConnectionParameters()
 	{
-		$neon = new NeonAdapter();
-		$params = $neon->load(__DIR__ . '/../app/config/config.local.neon');
-		$database = $params['nette']['database'];
-		preg_match('/^pgsql:host=(.*?);dbname=(.*?)$/', $database['dsn'], $matches);
-		if (count($matches) != 3) {
+		try {
+			return Helpers::getConnectionParametersFromConfig(__DIR__ . '/../app/config/config.local.neon');
+		} catch (Exception $ex) {
 			throw new ExecutionProblem('Invalid configuration cannot parse database and host');
 		}
-
-		return [
-			'host' => $matches[1],
-			'database' => $matches[2],
-			'username' => $database['user'],
-			'password' => $database['password']
-		];
 	}
 
 	private function dumpDatabase($backupDir)
