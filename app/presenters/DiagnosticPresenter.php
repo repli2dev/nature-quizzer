@@ -10,6 +10,7 @@ use NatureQuizzer\Database\Utils\LanguageLookup;
 use NatureQuizzer\Utils\Helpers;
 use Nette\Application\UI\Form;
 use Nette\Utils\DateTime;
+use Nette\Utils\Validators;
 
 
 class DiagnosticPresenter extends BasePresenter
@@ -79,6 +80,7 @@ class DiagnosticPresenter extends BasePresenter
 			$values = $form->getValues();
 			$temp = trim(str_replace('[', '', str_replace(']', '', $values['query'])));
 			$temp = explode(' ', $temp);
+			$temp = array_filter($temp, function ($value) { return Validators::isNumericInt($value); });
 			if (count($temp) > 0 && reset($temp) != '') {
 				$this->template->queryResult = $this->organism->getRepresentationsByIds($temp);
 			}
@@ -95,6 +97,7 @@ class DiagnosticPresenter extends BasePresenter
 			$values = $form->getValues();
 			$temp = trim(str_replace('[', '', str_replace(']', '', $values['query'])));
 			$temp = explode(' ', $temp);
+			$temp = array_filter($temp, function ($value) { return Validators::isNumericInt($value); });
 			if (count($temp) > 0 && reset($temp) != '') {
 				$this->template->queryResult = $this->organism->getRepresentationsWithInfoByOrganisms($this->languageLookup->getId(AdminPresenter::LANG), $temp);
 			}
