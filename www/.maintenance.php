@@ -31,7 +31,7 @@ header('Retry-After: 900'); // 15 minutes in seconds
 	<h1>Dočasně mimo provoz</h1>
 
 <p>Na stránce právě probíhá údržba nebo pro vás nasazujeme novou verzi.</p>
-<p>Zkusím to, prosím, později :-)</p>
+<p>Zkuste to, prosím, později :-)</p>
 </body>
 </html>
 <?php
