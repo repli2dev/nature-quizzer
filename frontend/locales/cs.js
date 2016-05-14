@@ -104,6 +104,8 @@ App.Translations.cs = {
 		'report_comment': 'Váš komentář',
 		'failure': 'Ups. Došlo k selhání při ukládání odpovědi. Kvíz nemusí fungovat dle očekávání. Věříme, že systém své selhání ohlásil, přesto nám raději napište. Díky!',
 		'success_rate': 'Úspěšnost',
+		'open_image': 'Kliknutím zobrazíte obrázek.',
+		'close_image': 'Kliknutím schováte obrázek.',
 	},
 	'about': {
 		'heading_team': 'Kdo za tím stojí',

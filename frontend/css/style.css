@@ -424,6 +424,12 @@ a.quick-button h3 {
 span.quiz-item-name {
 	display: block;
 	margin-bottom: 5px;
+	font-weight: bold;
+}
+span.quiz-item-name-incorrect {
+	display: block;
+	margin-bottom: 5px;
+	text-decoration: line-through;
 }
 div.quiz-item {
 	padding: 10px;
@@ -435,6 +441,19 @@ div.quiz-item {
 	border-radius: 5px;
 	background: #f6f4f1;
 	text-align: center;
+}
+div.quiz-item-images {
+	position: relative;
+}
+div.quiz-item-overlay {
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+div.quiz-item-overlay img {
+	border: 10px solid #9e9c99;
+	border-radius: 5px;
 }
 div.quiz-item.true {
 	background: #59CA4D;

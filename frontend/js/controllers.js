@@ -33,6 +33,18 @@ App.ResultController = Ember.Controller.extend({
 	isAnonymous: function () {
 		return App.AuthManager.isAnonymous();
 	}.property('App.AuthManager.data'),
+	actions: {
+		closeWrongImage: function (item) {
+			$('#quiz-item-overlay-' + item).each(function (index, element) {
+				element.innerHTML = '';
+			});
+		},
+		showWrongImage: function (item, image) {
+			$('#quiz-item-overlay-' + item).each(function (index, element) {
+				element.innerHTML = image;
+			});
+		}
+	}
 });
 
 App.ConceptsController = Ember.Controller.extend({

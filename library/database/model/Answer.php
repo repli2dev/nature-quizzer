@@ -37,15 +37,19 @@ class Answer extends Table
 	{
 		return $this->context->query('
 			SELECT
+			 answer.question_seq_num,
+			 answer.main,
 			 answer.id_organism,
-			 answer.id_representation,
+			 answer.id_representation IS NULL AS general_representation,
+			 -- When id_representation not available (not provided due to question type or this representation was removed) we select first one.
+			 COALESCE(answer.id_representation, (SELECT id_representation FROM organism_representation WHERE id_organism = answer.id_organism ORDER BY id_representation LIMIT 1)) AS id_representation,
 			 (SELECT bool_and(correct) FROM answer AS distractor WHERE distractor.id_round = answer.id_round AND answer.question_seq_num = distractor.question_seq_num AND distractor.main = FALSE) AS correct,
 			 organism_name.name
 			FROM answer
 			JOIN organism_name ON answer.id_organism = organism_name.id_organism AND organism_name.id_language = ?
-			WHERE answer.main = TRUE AND answer.id_round = (SELECT id_round FROM round WHERE id_user = ? ORDER BY id_round DESC LIMIT 1)
+			WHERE answer.id_round = (SELECT id_round FROM round WHERE id_user = ? ORDER BY id_round DESC LIMIT 1)
 			ORDER BY answer.question_seq_num ASC
-		', $languageId, $userId)->fetchAll();
+		', $languageId, $userId)->fetchAssoc('question_seq_num[]');
 	}
 
 	public function getStats()
