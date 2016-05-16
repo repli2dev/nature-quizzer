@@ -2,6 +2,9 @@
 namespace NatureQuizzer\Processors;
 
 use NatureQuizzer\Database\Model\Answer;
+use NatureQuizzer\Database\Model\Concept;
+use NatureQuizzer\Database\Model\CurrentKnowledge;
+use NatureQuizzer\Database\Model\Organism;
 use NatureQuizzer\Runtime\CurrentLanguage;
 use NatureQuizzer\Runtime\CurrentUser;
 use NatureQuizzer\Utils\Helpers;
@@ -9,18 +12,26 @@ use Nette\Object;
 
 class SummaryProcessor extends Object
 {
+	const STRONG_KNOWLEDGE = 1.70;
+
+	/** @var CurrentKnowledge */
+	private $currentKnowledge;
 	/** @var CurrentLanguage */
 	private $currentLanguage;
 	/** @var CurrentUser */
 	private $currentUser;
 	/** @var Answer */
 	private $answer;
+	/** @var Organism */
+	private $organism;
 
-	public function __construct(CurrentUser $currentUser, CurrentLanguage $currentLanguage, Answer $answer)
+	public function __construct(CurrentUser $currentUser, CurrentLanguage $currentLanguage, Answer $answer, CurrentKnowledge $currentKnowledge, Organism $organism)
 	{
+		$this->currentKnowledge = $currentKnowledge;
 		$this->currentUser = $currentUser;
 		$this->currentLanguage = $currentLanguage;
 		$this->answer = $answer;
+		$this->organism = $organism;
 	}
 
 	public function get()
@@ -55,10 +66,21 @@ class SummaryProcessor extends Object
 			}
 			$output[] = $question;
 		}
+		// Append statistic information about learning coverage
+		$statistics = [];
+		if (count($data) > 0) {
+			$item = (object) reset($data)[0];
+			$statistics = [
+				'answered' => $this->currentKnowledge->getEntriesCount($item->id_persistence_model, $this->currentUser->get(), $item->id_concept),
+				'strong' => $this->currentKnowledge->getEntriesCount($item->id_persistence_model, $this->currentUser->get(), $item->id_concept, static::STRONG_KNOWLEDGE),
+				'available' => $this->organism->countFromConcept($item->id_concept),
+			];
+		}
 		return [
 			'count' => count($output),
 			'success_rate' => count($output) - count($incorrect),
-			'answered' => $output
+			'answered' => $output,
+			'statistics' => $statistics
 		];
 	}
 }

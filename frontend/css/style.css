@@ -272,7 +272,7 @@ progress.quiz-success-rate[value] {
 	appearance: none;
 
 	background-color: #F9858B;
-	margin-bottom: 30px;
+	margin-bottom: 0px;
 	border: none;
 
 	width: 100%;
@@ -750,4 +750,32 @@ p.center {
 }
 .left-floated-heading {
 	float: left;
+}
+
+.knowledge-meter {
+	background: white;
+	height: 20px;
+}
+.knowledge-meter span {
+	display: inline-block;
+	height: 20px;
+	float: left;
+}
+.knowledge-meter .strong {
+	background: #59CA4D;
+}
+.knowledge-meter .answered {
+	background: #F7DB5E;
+}
+
+.statistics-success-rate {
+	float: left;
+	width: 380px;
+}
+.statistics-success-rate p,
+.statistics-knowledge p {
+	margin-bottom: 10px;
+}
+.statistics-knowledge {
+	margin-bottom: 40px;
 }

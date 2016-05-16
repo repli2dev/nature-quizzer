@@ -29,6 +29,21 @@ App.ResultController = Ember.Controller.extend({
 		}
 		return 0;
 	}.property('this.questions'),
+	strongBarWidth: function () {
+		var questions = this.get('questions');
+		if (questions != null && questions.hasOwnProperty('statistics') && questions.statistics.hasOwnProperty('strong') && questions.statistics.hasOwnProperty('available')) {
+			return Math.round((questions.statistics.strong / questions.statistics.available)*100);
+		}
+		return 0;
+	}.property('this.questions'),
+
+	weakBarWidth: function () {
+		var questions = this.get('questions');
+		if (questions != null && questions.hasOwnProperty('statistics') && questions.statistics.hasOwnProperty('answered') && questions.statistics.hasOwnProperty('strong') && questions.statistics.hasOwnProperty('available')) {
+			return Math.round(((questions.statistics.answered - questions.statistics.strong) / questions.statistics.available)*100);
+		}
+		return 0;
+	}.property('this.questions'),
 
 	isAnonymous: function () {
 		return App.AuthManager.isAnonymous();

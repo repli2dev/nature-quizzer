@@ -109,6 +109,15 @@ class Organism extends Table
 		return $this->getBelongingTable()->where('id_concept', $conceptId)->fetchAll();
 	}
 
+	public function countFromConcept($conceptId = null)
+	{
+		$query = $this->getBelongingTable();
+		if ($conceptId) {
+			$query->where('id_concept = ?', (int)$conceptId);
+		}
+		return $query->count();
+	}
+
 	public function addBelonging($organismId, $conceptId)
 	{
 		if (!$conceptId) throw new InvalidArgumentException('No concept id given.');

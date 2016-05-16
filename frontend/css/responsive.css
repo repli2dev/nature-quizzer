@@ -35,6 +35,9 @@
 		margin-bottom: 20px;
 		float: left;
 	}
+	.statistics-success-rate {
+		width: 100%;
+	}
 }
 
 @media only screen and (max-width: 800px) {

@@ -40,4 +40,19 @@ class CurrentKnowledge extends Table
 			}
 		}
 	}
+
+	public function getEntriesCount($model, $userId, $conceptId = null, $threshold = null)
+	{
+		$query = $this->getTable()
+			->where('id_model = ?', $model)
+			->where('id_user = ?', $userId);
+
+		if ($threshold) {
+			$query->where('value > ?', (double) $threshold);
+		}
+		if ($conceptId) {
+			$query->where('organism:organism_concept.id_concept = ?', $conceptId);
+		}
+		return $query->count();
+	}
 }

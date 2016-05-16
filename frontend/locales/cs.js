@@ -106,6 +106,11 @@ App.Translations.cs = {
 		'success_rate': 'Úspěšnost',
 		'open_image': 'Kliknutím zobrazíte obrázek.',
 		'close_image': 'Kliknutím schováte obrázek.',
+		'statistics': 'Váš postup v tomto tématu',
+		'answered': 'Zodpovězeno alespoň jedenkrát',
+		'learned': 'Počet naučených položek',
+		'available': 'Počet položek v tomto tématu',
+		'available_total': 'Počet položek',
 	},
 	'about': {
 		'heading_team': 'Kdo za tím stojí',

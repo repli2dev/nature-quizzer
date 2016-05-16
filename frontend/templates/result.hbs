@@ -22,8 +22,30 @@
 	</div>
 
 	{{#if questions.count}}
-		<p>{{translate 'quiz.success_rate'}}:&nbsp;{{successRate}}&nbsp;%</p>
-		<progress class="quiz-success-rate" value="{{questions.success_rate}}" max="{{questions.count}}"></progress>
+		<div class="statistics-success-rate">
+			<p>{{translate 'quiz.success_rate'}}:&nbsp;{{successRate}}&nbsp;%</p>
+			<progress class="quiz-success-rate" value="{{questions.success_rate}}" max="{{questions.count}}"></progress>
+		</div>
+		<div class="cleaner">&nbsp;</div>
+		{{#if questions.statistics}}
+			<div class="statistics-knowledge">
+				<h3>{{translate 'quiz.statistics'}}</h3>
+				<p>
+					{{translate 'quiz.answered'}}: {{questions.statistics.answered}}<br>
+					{{translate 'quiz.learned'}}: {{questions.statistics.strong}}<br>
+					{{#if model.id_concept}}
+						{{translate 'quiz.available'}}: {{questions.statistics.available}}
+					{{else}}
+						{{translate 'quiz.available_total'}}: {{questions.statistics.available}}
+					{{/if}}
+				</p>
+
+				<div class="knowledge-meter">
+					<span style="width: {{strongBarWidth}}%" class="strong"></span>
+					<span style="width: {{weakBarWidth}}%" class="answered"></span>
+				</div>
+			</div>
+		{{/if}}
 		<div class="cleaner">&nbsp;</div>
 
 		{{#each questions.answered as |item|}}
