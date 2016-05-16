@@ -38,9 +38,25 @@
 }
 
 @media only screen and (max-width: 800px) {
+	div#content-center {
+		padding: 10px;
+	}
+	.quick-choice {
+		margin: -10px;
+		margin-bottom: inherit;
+	}
 	div.question-text-options {
-		margin: 0px;
+		margin: 0;
 		clear: left;
+	}
+	div.question-images {
+		width: 100%;
+	}
+	div.question-images > div:nth-of-type(1) {
+		float: left;
+	}
+	div.question-images > div:nth-of-type(2) {
+		float: right;
 	}
 	div.question-image {
 		margin: auto;
@@ -49,7 +65,8 @@
 	}
 
 	.narrow-column {
-		width: 95%;
+		width: 99%;
+		padding: 0;
 	}
 
 	.window-info progress[value] {
@@ -60,10 +77,29 @@
 	}
 }
 
+@media only screen and (max-width: 680px) {
+	div.question-images > div:nth-of-type(2) {
+		float: left;
+		clear: left;
+	}
+}
+
 @media only screen and (max-width: 500px) {
 	#top-bar h1 {
 		width: 0px;
 		overflow: hidden;
+	}
+}
+@media only screen and (max-width: 400px) {
+	.button.facebook,
+	.button.google {
+		clear: both;
+		margin-bottom: 10px;
+	}
+	.window {
+		left: 0;
+		right: 0;
+		top: 0 !important;
 	}
 }
 

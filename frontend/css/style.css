@@ -247,6 +247,7 @@ a.report {
 	right:10px;
 	max-width: 900px;
 	border: 3px solid #A1891F;
+	min-width: 350px;
 }
 .window-header {
 	padding: 10px;
@@ -471,7 +472,7 @@ div.quiz-item.false {
 div.question {
 	padding: 10px;
 	font-size: 150%;
-	min-width: 340px;
+	min-width: 280px;
 }
 div.question-text {
 	margin-bottom: 30px;
