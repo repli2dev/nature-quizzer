@@ -53,6 +53,7 @@ class HomepagePresenter extends BasePresenter
 	}
 
 	// Needed action due to history API
+	public function actionOffline() { $this->setView('default'); }
 	public function actionAbout() { $this->setView('default'); }
 	public function actionTerms() { $this->setView('default'); }
 	public function actionFacebookLoginProblem($type = null) { $this->setView('default'); }

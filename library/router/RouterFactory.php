@@ -15,6 +15,7 @@ class RouterFactory
 		$router = new RouteList();
 		$router[] = new Route('/sitemap.xml', 'Homepage:sitemap');
 		// This part is needed due to the history API to load the proper page when coming to the precise URL
+		$router[] = new Route('/offline','Homepage:offline');
 		$router[] = new Route('/about','Homepage:about');
 		$router[] = new Route('/terms','Homepage:terms');
 		$router[] = new Route('/facebook-login-problem','Homepage:facebookLoginProblem');
