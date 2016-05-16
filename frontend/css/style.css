@@ -299,14 +299,14 @@ progress.quiz-success-rate[value]::-moz-progress-bar {
 	width: 250px;
 	height: 20px;
 
-	color: #59CA4D;
+	color: #A1891F;
 	background-color: white;
 	border-radius: 5px;
 	transition: width 0.6s ease;
 }
 
 .window-info progress[value]::-webkit-progress-value {
-	background-color: #59CA4D;
+	background-color: #A1891F;
 	border-radius: 5px;
 	transition: width 0.6s ease;
 }
@@ -315,7 +315,7 @@ progress.quiz-success-rate[value]::-moz-progress-bar {
 	border-radius: 5px;
 }
 .window-info progress[value]::-moz-progress-bar {
-	background-color: #59CA4D;
+	background-color: #A1891F;
 	border-radius: 5px;
 	transition: width 0.6s ease;
 }
@@ -449,6 +449,7 @@ div.quiz-item {
 }
 div.quiz-item-images {
 	position: relative;
+	padding: 0 10px;
 }
 div.quiz-item-overlay {
 	position: absolute;
@@ -457,7 +458,7 @@ div.quiz-item-overlay {
 	margin: auto;
 }
 div.quiz-item-overlay img {
-	border: 10px solid #9e9c99;
+	border: 8px solid #d43f3a;
 	border-radius: 5px;
 }
 div.quiz-item.true {
@@ -481,14 +482,21 @@ div.question-text {
 	margin-right: -10px;
 	font-weight: bold;
 }
-div.question-image {
+div.question-images {
 	margin-bottom: 30px;
 	float: left;
 	width: 300px;
 	border-radius: 5px;
 }
-div.question-image img {
+div.question-images img {
 	border-radius: 5px;
+}
+div.question-incorrect-image img {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+	border: 8px solid #F9858B;
 }
 div.question-text-options {
 	margin-left: 320px;
@@ -566,7 +574,8 @@ span.correct {
 
 span.keyboard-shortcut,
 span.dead-end,
-span.continue {
+span.continue,
+span.show-hint {
 	display: inline-block;
 	visibility: hidden;
 	opacity: 0;
@@ -590,6 +599,16 @@ span.wrong span.dead-end {
 	visibility: visible;
 	opacity: 1;
 	background: #F9858B;
+	transition: opacity 0.3s;
+}
+div.question-answered span.wrong span.show-hint {
+	visibility: visible;
+	opacity: 1;
+	left: 0;
+	width: auto;
+	background: url("../images/eye.png") no-repeat right center;
+	margin-right: 40px;
+	border-radius: 0;
 	transition: opacity 0.3s;
 }
 span.correct:hover span.continue {

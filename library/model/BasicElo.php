@@ -113,7 +113,14 @@ abstract class BasicElo extends AModelFacade
 			'questionImageLicense' => $organism->license,
 		];
 		$options = [];
-		$options[] = ['id_organism' => $organism->id_organism, 'text' => $organism->name, 'correct' => TRUE];
+		$options[] = [
+			'id_organism' => $organism->id_organism,
+			'text' => $organism->name,
+			'correct' => TRUE,
+			'image' => Helpers::getRepresentationImage($organism->id_representation),
+			'imageRightsHolder' => $organism->rights_holder,
+			'imageLicense' => $organism->license,
+		];
 		foreach ($questionDistractors as $distractorId) {
 			if (!isset($data[$distractorId])) {
 				Debugger::log('Missing data for distractor organism: [' . $distractorId . ']', ILogger::WARNING);
@@ -121,7 +128,14 @@ abstract class BasicElo extends AModelFacade
 			}
 			// We are interested only in the name, so we can ignore other representation and take the first one.
 			$otherOrganism = ArrayHash::from($data[$distractorId][0]);
-			$options[] = ['id_organism' => $otherOrganism->id_organism, 'text' => $otherOrganism->name, 'correct' => FALSE];
+			$options[] = [
+				'id_organism' => $otherOrganism->id_organism,
+				'text' => $otherOrganism->name,
+				'correct' => FALSE,
+				'image' => Helpers::getRepresentationImage($otherOrganism->id_representation),
+				'imageRightsHolder' => $otherOrganism->rights_holder,
+				'imageLicense' => $otherOrganism->license,
+			];
 		}
 		shuffle($options);
 		$question['options'] = $options;

@@ -41,7 +41,11 @@ App.ResultController = Ember.Controller.extend({
 		},
 		showWrongImage: function (item, image) {
 			$('#quiz-item-overlay-' + item).each(function (index, element) {
-				element.innerHTML = image;
+				if (element.innerHTML == image) {
+					element.innerHTML = null;
+				} else {
+					element.innerHTML = image;
+				}
 			});
 		}
 	}
@@ -161,6 +165,7 @@ App.PlayController = Ember.Controller.extend({
 	progressValue: function() { return this.questionCurrent - 1;}.property('this.questionCurrent'),
 	progressMax: function() { return this.questionMaxCount;}.property('this.questionMaxCount'),
 	question: function() { return this.get('model').questions[0]; }.property('this.model'), // Workaround for some weird #with macro problems
+	incorrectOption: null, // User triggered incorrect option to be shown side by side with the original picture
 	isChooseRepresentationQuestion: function () {
 		var model = this.get('model');
 		if (model != null && model.hasOwnProperty('questions')) {
@@ -254,10 +259,14 @@ App.PlayController = Ember.Controller.extend({
 	isAnswered: function() {
 		return (this.answered);
 	},
+	isQuestionFinished: function() { // The same as isAnswered just binded to the variable for usage in template
+		return (this.answered);
+	}.property('this.answered'),
 	markAnswered: function() {
 		this.set('answered', true);
 	},
 	reset: function() {
+		this.set('incorrectOption', null);
 		this.set('answered', false);
 		this.set('markedAnswers', []);
 	},
@@ -387,8 +396,21 @@ App.PlayController = Ember.Controller.extend({
 			} else {
 				this.transitionToRoute('result', this.get('id_concept'));
 			}
+			this.reset();
 
 		},
+		showHint: function (index) {
+			var options = this.model.questions[0].options;
+			if (!(index in options)) {
+				return;
+			}
+			var selectedOption = options[index];
+			var previousInccorectOption = this.get('incorrectOption');
+			if (previousInccorectOption === selectedOption) {
+				selectedOption = null;
+			}
+			this.set('incorrectOption', selectedOption);
+		}
 	}
 });
 
