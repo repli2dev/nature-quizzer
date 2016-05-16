@@ -426,10 +426,15 @@ span.quiz-item-name {
 	margin-bottom: 5px;
 	font-weight: bold;
 }
+div.quiz-item-names {
+	text-align: left;
+}
 span.quiz-item-name-incorrect {
 	display: block;
 	margin-bottom: 5px;
 	text-decoration: line-through;
+	background: url('../images/eye.png') no-repeat 2px center;
+	padding-left: 26px;
 }
 div.quiz-item {
 	padding: 10px;

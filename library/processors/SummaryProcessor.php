@@ -27,14 +27,15 @@ class SummaryProcessor extends Object
 	{
 		$data = $this->answer->findFromLastRound($this->currentUser->get(), $this->currentLanguage->get());
 		$output = [];
-		$correct = 0;
+		$incorrect = [];
 		foreach ($data as $questionNumber => $options) {
 			$question = [];
 			$question['question_number'] = $questionNumber;
-			$question['overall_correct'] = false;
+			$question['overall_correct'] = true;
 			$question['relevant_options'] = [];
 			foreach ($options as $row) {
 				$row = (object) $row;
+				// Include only relevant options (incorrect or main)
 				if (!($row->main || $row->correct == false)) {
 					continue;
 				}
@@ -47,16 +48,16 @@ class SummaryProcessor extends Object
 					'correct' => $row->correct,
 					'main' => $row->main,
 				];
-				if ($row->main && $row->correct) {
-					$question['overall_correct'] = true;
-					$correct += 1;
+				if (!$row->main) {
+					$question['overall_correct'] = false;
+					$incorrect[$questionNumber] = true;
 				}
 			}
 			$output[] = $question;
 		}
 		return [
 			'count' => count($output),
-			'success_rate' => $correct,
+			'success_rate' => count($output) - count($incorrect),
 			'answered' => $output
 		];
 	}

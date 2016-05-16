@@ -31,17 +31,21 @@
 				{{! Render the main question (organism) first }}
 				{{#each item.relevant_options as |option|}}
 					{{#if option.main}}
-						<span class="quiz-item-name" {{action "closeWrongImage" item.question_number}} title="{{translate 'quiz.close_image'}}">{{item.question_number}}. {{option.name}}</span>
-						{{! Show list of all wrong options.}}
-						{{#each item.relevant_options as |option|}}
-							{{#unless option.main}}
-								{{#if option.image}}
-									<span class="quiz-item-name-incorrect" {{action "showWrongImage" item.question_number option.image}} title="{{translate 'quiz.open_image'}}">{{option.name}}</span>
-								{{else}}
-									<span class="quiz-item-name-incorrect">{{option.name}}</span>
-								{{/if}}
-							{{/unless}}
-						{{/each}}
+						<div class="quiz-item-names">
+							<span class="quiz-item-name" {{action "closeWrongImage" item.question_number}} title="{{translate 'quiz.close_image'}}">{{item.question_number}}. {{option.name}}</span>
+							{{! Show list of all wrong options.}}
+							{{#each item.relevant_options as |option|}}
+								{{#unless option.main}}
+									{{#unless option.correct}}
+										{{#if option.image}}
+											<span class="quiz-item-name-incorrect" {{action "showWrongImage" item.question_number option.image}} title="{{translate 'quiz.open_image'}}">{{option.name}}</span>
+										{{else}}
+											<span class="quiz-item-name-incorrect">{{option.name}}</span>
+										{{/if}}
+									{{/unless}}
+								{{/unless}}
+							{{/each}}
+						</div>
 						<div class="quiz-item-images">
 							<div class="quiz-item-overlay" id="quiz-item-overlay-{{item.question_number}}" title="{{translate 'quiz.close_image'}}" {{action "closeWrongImage" item.question_number}}></div>
 							{{! Now the picture of correct organism. }}
