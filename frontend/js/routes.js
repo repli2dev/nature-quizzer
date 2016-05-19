@@ -143,13 +143,14 @@ App.PlayRoute = Ember.Route.extend({
 		App.Timetracking.start('question');
 	},
 	shortcuts: {
-		'num1': 'handleShortcut',
+		'plus': 'handleShortcut', // (Chrome) + (= 1) on czech keyboard
+		'num1t': 'handleShortcut',
 		'shift+num1t': 'handleShortcut',
-		'num2': 'handleShortcut',
+		'num2t': 'handleShortcut',
 		'shift+num2t': 'handleShortcut',
-		'num3': 'handleShortcut',
+		'num3t': 'handleShortcut',
 		'shift+num3t': 'handleShortcut',
-		'num4': 'handleShortcut',
+		'num4t': 'handleShortcut',
 		'shift+num4t': 'handleShortcut',
 		'enter': 'handleShortcut',
 		'escape': 'handleShortcut',

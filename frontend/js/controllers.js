@@ -228,7 +228,7 @@ App.PlayController = Ember.Controller.extend({
 	shortcutTriggered: function (event, controller) {
 		if (event.keyCode == 27) { // Escape
 			controller.send('close');
-		} else if (event.keyCode == 97 || event.keyCode == 49) { // Num 1
+		} else if (event.keyCode == 97 || event.keyCode == 49 || event.keyCode == 187) { // Num 1 (and +)
 			controller.send('answerByKeyboard', 1);
 		} else  if (event.keyCode == 98 || event.keyCode == 50) { // Num 2
 			controller.send('answerByKeyboard', 2);
