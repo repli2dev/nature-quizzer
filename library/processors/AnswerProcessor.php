@@ -8,6 +8,7 @@ use NatureQuizzer\Model\Utils\UserAnswerFactory;
 use NatureQuizzer\Runtime\CurrentClient;
 use NatureQuizzer\Runtime\CurrentRound;
 use NatureQuizzer\Runtime\CurrentUser;
+use Nette\Database\UniqueConstraintViolationException;
 use Nette\InvalidArgumentException;
 use Nette\Object;
 use Tracy\Debugger;
@@ -57,8 +58,12 @@ class AnswerProcessor extends Object
 			Debugger::log($userAnswer, Debugger::EXCEPTION);
 			return;
 		}
-
-		$this->answer->insert($userAnswer->toRows());
+		try {
+			$this->answer->insert($userAnswer->toRows());
+		} catch (UniqueConstraintViolationException $ex) {
+			Debugger::log('Attempted to insert duplicite answer.', Debugger::WARNING);
+			Debugger::log($userAnswer, Debugger::WARNING);
+		}
 		$this->modelFacade->answer($userId, $userAnswer);
 	}
 
