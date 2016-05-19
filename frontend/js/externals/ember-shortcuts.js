@@ -90,7 +90,7 @@
 			return true;
 		}
 
-		return function dispatchShortcut(event) {
+		return function dispatchShortcut(event) {;
 			var kc = normalize(event.keyCode);
 
 			PRESSED[kc] = true;
