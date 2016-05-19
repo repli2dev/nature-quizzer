@@ -457,6 +457,7 @@ div.quiz-item-overlay {
 	left: 0;
 	right: 0;
 	margin: auto;
+	z-index: 5;
 }
 div.quiz-item-overlay img {
 	border: 8px solid #d43f3a;
@@ -576,7 +577,8 @@ span.correct {
 span.keyboard-shortcut,
 span.dead-end,
 span.continue,
-span.show-hint {
+span.show-hint,
+span.show-name {
 	display: inline-block;
 	visibility: hidden;
 	opacity: 0;
@@ -609,6 +611,19 @@ div.question-answered span.wrong span.show-hint {
 	width: auto;
 	background: url("../images/eye.png") no-repeat right center;
 	margin-right: 40px;
+	border-radius: 0;
+	transition: opacity 0.3s;
+}
+div.question-answered span.wrong span.show-name {
+	visibility: visible;
+	opacity: 1;
+	left: 0;
+	top: inherit;
+	bottom: 5px;
+	width: auto;
+	background: #F9858B;
+	font-weight: normal;
+	z-index: 2;
 	border-radius: 0;
 	transition: opacity 0.3s;
 }

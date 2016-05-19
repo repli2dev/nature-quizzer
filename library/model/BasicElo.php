@@ -155,7 +155,8 @@ abstract class BasicElo extends AModelFacade
 			'image' => Helpers::getRepresentationImage($organism->id_representation),
 			'imageRightsHolder' => $organism->rights_holder,
 			'imageLicense' => $organism->license,
-			'correct' => TRUE
+			'correct' => TRUE,
+			'name' => $organism->name,
 		];
 		foreach ($questionDistractors as $distractorId) {
 			if (!isset($data[$distractorId])) {
@@ -168,7 +169,8 @@ abstract class BasicElo extends AModelFacade
 				'image' => Helpers::getRepresentationImage($otherOrganism->id_representation),
 				'imageRightsHolder' => $otherOrganism->rights_holder,
 				'imageLicense' => $otherOrganism->license,
-				'correct' => FALSE
+				'correct' => FALSE,
+				'name' => $otherOrganism->name
 			];
 		}
 		shuffle($options);

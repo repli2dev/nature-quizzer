@@ -1,10 +1,13 @@
-<div class="question question-choose-representation">
+<div class="question question-choose-representation {{if isQuestionFinished 'question-answered'}}">
 	<div class="question-text">{{question.questionText}}</div>
 	<div class="question-image-options">
 		{{#each question.options as |option index|}}
 			<span class="question-image-option" title="{{option.imageRightsHolder}} ({{option.imageLicense}})" id="a-{{option.id_representation}}" {{action 'answer' option.id_representation}}>
 				{{{option.image}}}
 				<span class="keyboard-shortcut"><span>{{increment index}}</span></span>
+				{{#if isQuestionFinished}}
+					<span class="show-name">{{option.name}}</span>
+				{{/if}}
 				<span class="dead-end"><span>&#x2715;</span></span>
 				<span class="continue"><span>&rarr;</span></span>
 			</span>
