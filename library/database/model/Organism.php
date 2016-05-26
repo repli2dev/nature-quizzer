@@ -62,11 +62,10 @@ class Organism extends Table
 				SELECT id_organism_to
 				FROM organism_distance
 				WHERE id_organism_from = ? AND distance > ?
-				ORDER BY distance ASC
-				LIMIT 10
+				ORDER BY distance, RANDOM() ASC
+				LIMIT ?
 			  ) candidates
 			  ORDER BY RANDOM()
-			  LIMIT ?
 		', $organismId, $distance, $count)->fetchPairs(NULL, 'id_organism_to');
 
 		if (count($data) >= $count) {
@@ -78,11 +77,10 @@ class Organism extends Table
 				SELECT id_organism_to
 				FROM organism_distance
 				WHERE id_organism_from = ? AND distance <= ?
-				ORDER BY distance ASC
-				LIMIT 15
-			  ) candidates
-			  ORDER BY RANDOM()
-			  LIMIT ?
+				ORDER BY distance DESC, RANDOM()
+				LIMIT ?
+			) candidates
+			ORDER BY RANDOM()
 		', $organismId, $distance, $count)->fetchPairs(NULL, 'id_organism_to');
 
 		shuffle($data2);
