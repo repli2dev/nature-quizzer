@@ -78,7 +78,7 @@ abstract class BasicElo extends AModelFacade
 			if (!isset ($data[$organismId])) {
 				continue; // TBD: prober handling
 			}
-			$questionType = (rand(0, 1) == 1) ? QuestionType::CHOOSE_NAME : QuestionType::CHOOSE_REPRESENTATION;
+			$questionType = (rand(0, 100) >= 60) ? QuestionType::CHOOSE_NAME : QuestionType::CHOOSE_REPRESENTATION;
 			$questionDistractors = $distractorsIds[$seqId];
 			if ($questionType === QuestionType::CHOOSE_NAME) {
 				$questions[] = $this->prepareChooseNameQuestion($data, $organismId, $questionDistractors);
