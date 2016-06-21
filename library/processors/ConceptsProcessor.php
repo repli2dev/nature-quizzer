@@ -28,13 +28,13 @@ class ConceptsProcessor extends Object
 	public function get($conceptId)
 	{
 		if (!$conceptId) {
-			new RequestProcessorException('Concept cannot be empty.', 1000);
+			throw new RequestProcessorException('Concept cannot be empty.', 1000);
 		}
 		$output = [];
 		if (Validators::isNumericInt($conceptId)) {
 			$concept = $this->concept->getWithInfo($conceptId, $this->currentLanguage->get());
 			if ($concept === FALSE) {
-				new RequestProcessorException('No such concept.', 1001);
+				throw new RequestProcessorException('No such concept.', 1001);
 			}
 			$output = [
 				'mix' => false,
@@ -53,7 +53,7 @@ class ConceptsProcessor extends Object
 	{
 		$concepts = $this->concept->getAllWithInfo($this->currentLanguage->get());
 		if ($concepts === NULL) {
-			new RequestProcessorException('No concepts found.', 2000);
+			throw new RequestProcessorException('No concepts found.', 2000);
 		}
 		$groups = $this->group->getAllWithInfo($this->currentLanguage->get());
 
@@ -87,7 +87,7 @@ class ConceptsProcessor extends Object
 	{
 		$concepts = $this->concept->getQuickWithInfo($this->currentLanguage->get());
 		if ($concepts === NULL) {
-			new RequestProcessorException('No concepts found.', 2000);
+			throw new RequestProcessorException('No concepts found.', 2000);
 		}
 
 		$output = ['concepts' => []];
