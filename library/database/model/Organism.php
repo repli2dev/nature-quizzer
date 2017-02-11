@@ -221,11 +221,17 @@ class Organism extends Table
 		return $this->context->query('
 			SELECT
 				organism.id_organism,
-				(SELECT COUNT(id_answer) FROM answer JOIN round ON round.id_round = answer.id_round WHERE id_user = ? AND answer.id_organism = organism.id_organism AND answer.main = TRUE) AS total_answered,
-				(SELECT MAX(answer.inserted) FROM answer JOIN round ON round.id_round = answer.id_round WHERE id_user = ? AND answer.id_organism = organism.id_organism AND answer.main = TRUE) AS last_answer,
+				COUNT(user_answers.id_answer) AS total_answered,
+				MAX(user_answers.inserted) AS last_answer,
 				(SELECT current_knowledge.value FROM current_knowledge WHERE current_knowledge.id_model = ? AND current_knowledge.id_organism = organism.id_organism AND current_knowledge.id_user = ?) AS current_knowledge
 			FROM organism
-		', $userId, $userId, $modelId, $userId);
+			LEFT JOIN (
+				SELECT id_answer, answer.id_organism, round.id_user, answer.inserted FROM answer
+				JOIN round ON round.id_round = answer.id_round
+				WHERE answer.main = true AND round.id_user = ?
+			) user_answers ON user_answers.id_organism = organism.id_organism
+			GROUP BY organism.id_organism
+		', $modelId, $userId, $userId);
 	}
 
 	public function getGeneralSelectionAttributes($modelId, $conceptId = NULL)
