@@ -161,13 +161,15 @@ class Backup extends Object
 		if (system($command) === FALSE) {
 			throw new ExecutionProblem('Restoration of database dump have failed.');
 		}
-		printf ("Restoring representations...\n");
-		$oldDir = realpath(__DIR__ . '/../www/images') . '/organisms';
-		$command = sprintf('tar zxvf %s -C %s', $representationFile, $oldDir);
-		if (system($command) === FALSE) {
-			throw new ExecutionProblem('Restoration of representations have failed. Cannot untar backup.');
+		if ($restoreRepresentations) {
+			printf("Restoring representations...\n");
+			$oldDir = realpath(__DIR__ . '/../www/images') . '/organisms';
+			$command = sprintf('tar zxvf %s -C %s', $representationFile, $oldDir);
+			if (system($command) === FALSE) {
+				throw new ExecutionProblem('Restoration of representations have failed. Cannot untar backup.');
+			}
+			printf("WARNING: Now you may want to run garbage collection on representations.\n");
 		}
-		printf("WARNING: Now you may want to run garbage collection on representations.\n");
 	}
 
 	public function database($destination)
