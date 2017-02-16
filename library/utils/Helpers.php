@@ -13,7 +13,7 @@ class Helpers
 {
 	public static function getRepresentationImage($representationId)
 	{
-		return Html::el('img')->src('/images/organisms/' . $representationId)->style('max-height: 300px; max-width: 300px')->render();
+		return Html::el('img')->src('/images/organisms/' . $representationId)->style('min-height: 100px; min-width: 100px; max-height: 300px; max-width: 300px')->render();
 	}
 
 	/**
