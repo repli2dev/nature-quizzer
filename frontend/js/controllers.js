@@ -346,11 +346,11 @@ App.PlayController = Ember.Controller.extend({
 	},
 
 	actions: {
-		answer: function (selectedValue) {
+		answer: function (selectedValue, triggeredByKeyboard) {
 			// Check if the answering of this question was already finished
 			// YES -> delegate to 'next' action
 			// NO -> let user choose different answer
-			if (this.isAnswered()) {
+			if (this.isAnswered() && !triggeredByKeyboard) {
 				this.send('next', selectedValue);
 				return;
 			}
@@ -384,7 +384,7 @@ App.PlayController = Ember.Controller.extend({
 			} else {
 				value = selectedOption.id_representation;
 			}
-			this.send('answer', value);
+			this.send('answer', value, true);
 		},
 		next: function (selectedValue) {
 			// If this was last question we proceed to 'result' screen
