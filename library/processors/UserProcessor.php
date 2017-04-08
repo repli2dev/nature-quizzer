@@ -189,10 +189,12 @@ class UserProcessor extends Object
 		try {
 			$identity = $this->userModel->prepareIdentity($user, UserModel::USER_ROLE);
 			$this->user->login($identity);
-			$this->reownStuff($oldIdentity, $this->user->getIdentity());
+			if ($oldIdentity) {
+				$this->reownStuff($oldIdentity, $this->user->getIdentity());
+			}
 		} catch (Exception $ex) {
 			Debugger::log($ex);
-			throw new Exception('Login by identity should not fail.');
+			throw new Exception('Login by identity should not fail.', 0, $ex);
 		}
 	}
 
@@ -235,10 +237,12 @@ class UserProcessor extends Object
 		try {
 			$identity = $this->userModel->prepareIdentity($user, UserModel::USER_ROLE);
 			$this->user->login($identity);
-			$this->reownStuff($oldIdentity, $this->user->getIdentity());
+			if ($oldIdentity) {
+				$this->reownStuff($oldIdentity, $this->user->getIdentity());
+			}
 		} catch (Exception $ex) {
 			Debugger::log($ex);
-			throw new Exception('Login by identity should not fail.');
+			throw new Exception('Login by identity should not fail.', 0, $ex);
 		}
 	}
 

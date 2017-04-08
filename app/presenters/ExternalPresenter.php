@@ -30,7 +30,11 @@ class ExternalPresenter extends BasePresenter
 
 	public function actionFb()
 	{
-		Debugger::enable(Debugger::PRODUCTION); // Suppress Tracy bar as it is causing problems with redirect
+		// Force session to start in order to make direct access (without any previous interactions with page work)
+		$this->session->start();
+
+		// Suppress Tracy bar as it is causing problems with redirect
+		Debugger::enable(Debugger::PRODUCTION);
 		$result = NULL;
 		try {
 			$result = $this->facebook->authenticate($this->link('//this'));
