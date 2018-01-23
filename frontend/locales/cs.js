@@ -171,5 +171,6 @@ App.Translations.cs = {
 		'privacy':'Systém ukládá data o uživatelích a jejich odpovědích na testové otázky (v případě neregistrovaných uživatelů jsou data ukládána za využití souborů „cookies“). Tato data jsou využívána pro vylepšení funkcionality systému a pro vědecké účely. Části dat mohou být zveřejněny pro účely vědecké komunity. Jakékoliv analýzy, výstupy analýz či zveřejňování dat pracuje výhradně s anonymizovanými daty, ze kterých není možné zpětně rekonstruovat identitu jednotlivých uživatelů.',
 		'experiments':'V systému mohou probíhat výzkumné experimenty spočívající v drobných úpravách chování systému pro jednotlivé uživatele.',
 		'cookies':'Stránky využívají služby Google Analytics pro analýzu návštěvnosti. Služba Google Analytics využívá soubory „cookies“.',
+		'externals':'Při přihlašování přes Google+/Facebook dotazujeme unikátní řetězec spojený s vašim účtem, abychom mohli najít již existující účet a případně vaše celé jméno a e-mailovou adresu, abychom mohli vytvořit nový.',
 	}
 };
