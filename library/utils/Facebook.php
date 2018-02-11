@@ -51,7 +51,7 @@ class Facebook
 			$this->facebookSession = new FacebookSession([
 				'app_id' =>$this->appId,
 				'app_secret' => $this->appSecret,
-				'default_graph_version' => 'v2.2',
+				'default_graph_version' => 'v2.12',
 			]);
 			$this->initialized = TRUE;
 		}
@@ -78,7 +78,7 @@ class Facebook
 		$helper = $this->facebookSession->getRedirectLoginHelper();
 		$session = NULL;
 		try {
-			$accessToken = $helper->getAccessToken();
+			$accessToken = $helper->getAccessToken($redirectUrl);
 		} catch(FacebookResponseException $ex) {
 			throw new Exception('Something on Facebook failed when performing request.', self::FACEBOOK_ERROR, $ex);
 		} catch(FacebookSDKException $ex) {
