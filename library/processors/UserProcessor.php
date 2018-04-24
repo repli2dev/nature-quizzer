@@ -168,7 +168,7 @@ class UserProcessor extends Object
 			if (!$userId || !Validators::isEmail($userInfo['email'])) {
 				$userId = $this->userModel->insert([
 					'name' => $userInfo['name'],
-					'email' => Strings::lower($userInfo['email']),
+					'email' => Validators::isEmail($userInfo['email']) ? Strings::lower($userInfo['email']) : null,
 					'inserted' => new DateTime(),
 					'anonymous' => FALSE,
 					'id_model' => $this->userModel->getModel($this->user->getId())
@@ -216,7 +216,7 @@ class UserProcessor extends Object
 			if (!$userId || !Validators::isEmail($userInfo['email'])) {
 				$userId = $this->userModel->insert([
 					'name' => $userInfo['name'],
-					'email' => Strings::lower($userInfo['email']),
+					'email' => Validators::isEmail($userInfo['email']) ? Strings::lower($userInfo['email']) : null,
 					'inserted' => new DateTime(),
 					'anonymous' => FALSE,
 					'id_model' => $this->userModel->getModel($this->user->getId())
