@@ -17,6 +17,7 @@ use Nette\Security\Passwords;
 use Nette\Security\User;
 use Nette\Utils\DateTime;
 use Nette\Utils\Strings;
+use Nette\Utils\Validators;
 use Tracy\Debugger;
 
 class UserProcessor extends Object
@@ -164,7 +165,7 @@ class UserProcessor extends Object
 			// Check if there is an account with the same e-mail
 			$userId = $this->userModel->findByEmail(Strings::lower($userInfo['email']));
 			// Register new user if not found
-			if (!$userId) {
+			if (!$userId || !Validators::isEmail($userInfo['email'])) {
 				$userId = $this->userModel->insert([
 					'name' => $userInfo['name'],
 					'email' => Strings::lower($userInfo['email']),
@@ -212,7 +213,7 @@ class UserProcessor extends Object
 			// Check if there is an account with the same e-mail
 			$userId = $this->userModel->findByEmail(Strings::lower($userInfo['email']));
 			// Register new user if not found
-			if (!$userId) {
+			if (!$userId || !Validators::isEmail($userInfo['email'])) {
 				$userId = $this->userModel->insert([
 					'name' => $userInfo['name'],
 					'email' => Strings::lower($userInfo['email']),
