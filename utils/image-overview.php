@@ -30,7 +30,7 @@ if (!is_dir($wholePath . '/files/')) {
 
 $output = '';
 foreach (Finder::findFiles('*')->from($wholePath . '/files/') as $key => $file) {
-	$output .= sprintf('%s<br><img src="%s"><br><br>', $file->getBaseName(), $key);
+	$output .= sprintf('%s<br><img src="file://%s"><br><br>', $file->getBaseName(), $key);
 }
 
 $body = '<!DOCTYPE html>
