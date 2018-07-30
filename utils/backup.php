@@ -87,7 +87,6 @@ class Backup extends Object
 			escapeshellarg($credentials['database']),
 			$backupDir . '/' . self::DATABASE_FILE
 		);
-		dump($command);
 		if (system($command) === FALSE) {
 			throw new ExecutionProblem('Execution of database dump have failed.');
 		}
