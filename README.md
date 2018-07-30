@@ -53,10 +53,11 @@ $ cd <project path>
 $ vim app/config/config.local.neon
 ```
 
-6. Create database and import ``sources/itis.sql.gz`` from ``nature-quizzer-packages`` repository.
+6. Create database and import ``sources/col.sql.gz`` from ``nature-quizzer-packages`` repository into `col` schema.
  
 ```
-$ psql -U postgres -d nature-quizzer < itis.sql
+$ psql -U <user> -d nature-quizzer < col.sql
+$ psql -U <user> -d nature-quizzer < col.customizations.sql
 ```
 
 7. To install basic database schema run prepared migrations:
@@ -74,6 +75,9 @@ $ php utils/updatedb.php
 ```
 $ php utils/update-organism-distances.php 
 ```
+
+Also check than all available organisms has any entry in `organism_distance` table, otherwise the system will be behave
+unexpectedly.
 
 For convenience there is a `deploy.php` script which does some of this steps in order to make things easy
 (except importing data), especially for update.
@@ -230,3 +234,27 @@ There is tool in /utils/basic-elo.php.
 For convenience simple backup tool was introduced. The backup tool located in /utils/backup.php can create backup of
 database only or even with representations, restore option is also available.
 The stored backup is stored into one compressed file in folder according to production instance.
+
+### Catalogue of Life
+
+In earlier versions there was a ITIS taxonomy, however with adding mushrooms replacement was needed.
+Catalogue of Life was selected, however it was too large, so data were exported with this query:
+
+```sql
+CREATE TABLE taxon_exported AS SELECT
+	"taxonID",
+	"taxonomicStatus", 
+	"acceptedNameUsageID",
+	"parentNameUsageID",
+	COALESCE(NULLIF(CONCAT_WS(' ', "genericName", "specificEpithet", "infraspecificEpithet"), ''), "scientificName") AS "completeName", 
+	"scientificName",
+	"genericName", 
+	"specificEpithet",
+	"infraspecificEpithet"
+FROM "taxon"
+```
+
+After export add indexes on `taxonID`, `acceptedNameUsageID`, `parentNameUsageID` and `genericName`, also 
+create foreign key on `acceptedNameUsageID` and `parentNameUsageID` to `taxonID`.
+
+When exporting the result into SQL file, do not forget to create schema `col` if it doesn't exist and strip owner information.

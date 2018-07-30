@@ -7,20 +7,20 @@ CREATE OR REPLACE FUNCTION compute_organism_distance(o1 TEXT, o2 TEXT) RETURNS I
     differing BIGINT[];
   BEGIN
     -- Find path for o1
-    WITH RECURSIVE rec(tsn, parent_tsn, level) AS (
-      SELECT tsn, parent_tsn, 0 FROM itis.taxonomic_units WHERE tsn = organism_itis_tsn(o1)
+    WITH RECURSIVE rec("taxonID", "parentNameUsageID", level) AS (
+      SELECT "taxonID", "parentNameUsageID", 0 FROM col.taxon_exported WHERE "taxonID" = organism_taxon_id(o1)
       UNION ALL
-      SELECT tu.tsn, tu.parent_tsn, (r.level + 1) FROM rec AS r JOIN itis.taxonomic_units AS tu ON tu.tsn = r.parent_tsn AND r.parent_tsn != 0
+      SELECT tu."taxonID", tu."parentNameUsageID", (r.level + 1) FROM rec AS r JOIN col.taxon_exported AS tu ON tu."taxonID" = r."parentNameUsageID"
     )
-    SELECT ARRAY_AGG(rec.tsn) INTO o1_path FROM rec;
+    SELECT ARRAY_AGG(rec."taxonID") INTO o1_path FROM rec;
 
     -- Find path for o2
-    WITH RECURSIVE rec(tsn, parent_tsn, level) AS (
-      SELECT tsn, parent_tsn, 0 FROM itis.taxonomic_units WHERE tsn = organism_itis_tsn(o2)
+    WITH RECURSIVE rec("taxonID", "parentNameUsageID", level) AS (
+      SELECT "taxonID", "parentNameUsageID", 0 FROM col.taxon_exported WHERE "taxonID" = organism_taxon_id(o2)
       UNION ALL
-      SELECT tu.tsn, tu.parent_tsn, (r.level + 1) FROM rec AS r JOIN itis.taxonomic_units AS tu ON tu.tsn = r.parent_tsn AND r.parent_tsn != 0
+      SELECT tu."taxonID", tu."parentNameUsageID", (r.level + 1) FROM rec AS r JOIN col.taxon_exported AS tu ON tu."taxonID" = r."parentNameUsageID"
     )
-    SELECT ARRAY_AGG(rec.tsn) INTO o2_path FROM rec;
+    SELECT ARRAY_AGG(rec."taxonID") INTO o2_path FROM rec;
 
     -- Check if there is overlap of paths (if not, then the organisms are in different kingdoms)
     shared := array_intersection(o1_path, o2_path);

@@ -2,10 +2,10 @@ CREATE OR REPLACE FUNCTION organism_tree(latin_name TEXT) RETURNS TABLE(tsn INT,
   $BODY$
   BEGIN
     RETURN QUERY
-    WITH RECURSIVE rec(tsn, parent_tsn, level) AS (
-      SELECT tuu.tsn, tuu.parent_tsn, 0 FROM itis.taxonomic_units as tuu WHERE tuu.tsn = organism_itis_tsn(latin_name)
+    WITH RECURSIVE rec("taxonID", "parentNameUsageID", level) AS (
+      SELECT "taxonID", "parentNameUsageID", 0 FROM col.taxon_exported WHERE "taxonID" = organism_taxon_id(latin_name)
       UNION ALL
-      SELECT tu.tsn, tu.parent_tsn, (r.level + 1) FROM rec AS r JOIN itis.taxonomic_units AS tu ON tu.tsn = r.parent_tsn AND r.parent_tsn != 0
+      SELECT tu."taxonID", tu."parentNameUsageID", (r.level + 1) FROM rec AS r JOIN col.taxon_exported AS tu ON tu."taxonID" = r."parentNameUsageID"
     )
     SELECT * FROM rec;
   END;
