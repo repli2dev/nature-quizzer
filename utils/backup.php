@@ -17,6 +17,8 @@ include_once __DIR__ . "/../app/bootstrap.php";
 class Backup extends Object
 {
 
+	const PSQL_PATH = 'psql-path';
+
 	const DATABASE_FILE = 'database.gz';
 	const REPRESENTATION_FILE = 'representations.tar.gz';
 
@@ -25,9 +27,13 @@ class Backup extends Object
 
 	private $transactionName;
 
-	public function __construct(Container $container)
+	/** @var CLI */
+	private $CLI;
+
+	public function __construct(Container $container, CLI $CLI)
 	{
 		$this->container = $container;
+		$this->CLI = $CLI;
 	}
 
 	private function prepareDestination($destination) {
@@ -73,13 +79,15 @@ class Backup extends Object
 		$credentials = $this->getConnectionParameters();
 
 		// Produce compressed but SQL compliant output without owners, privileges and ACLs (which can be not transferable)
-		$command = sprintf('PGPASSWORD=%s pg_dump -Fp -Z7 --no-privileges --no-acl --no-owner -h %s -U %s %s > %s',
+		$command = sprintf('PGPASSWORD=%s %spg_dump -Fp -Z7 --no-privileges --no-acl --no-owner -h %s -U %s %s > %s',
 			escapeshellarg($credentials['password']),
+			($this->CLI->hasOption(Backup::PSQL_PATH) ? $this->CLI->getOption(Backup::PSQL_PATH) : ''),
 			escapeshellarg($credentials['host']),
 			escapeshellarg($credentials['username']),
 			escapeshellarg($credentials['database']),
 			$backupDir . '/' . self::DATABASE_FILE
 		);
+		dump($command);
 		if (system($command) === FALSE) {
 			throw new ExecutionProblem('Execution of database dump have failed.');
 		}
@@ -151,9 +159,10 @@ class Backup extends Object
 		}
 
 		printf ("Restoring database...\n");
-		$command = sprintf('gzip -c -d %s | PGPASSWORD=%s psql -h %s -U %s %s',
+		$command = sprintf('gzip -c -d %s | PGPASSWORD=%s %spsql -h %s -U %s %s',
 			$databaseFile,
 			escapeshellarg($credentials['password']),
+			($this->CLI->hasOption(Backup::PSQL_PATH) ? $this->CLI->getOption(Backup::PSQL_PATH) : ''),
 			escapeshellarg($credentials['host']),
 			escapeshellarg($credentials['username']),
 			escapeshellarg($credentials['database'])
@@ -186,11 +195,12 @@ class Backup extends Object
 	}
 }
 
-$backup = new Backup($container);
-
 $cli = new CLI($argv);
+$backup = new Backup($container, $cli);
+
 $cli->setName('Nature Quizzer Backup tool');
 $cli->addCommand('database', 'DESTINATION', 'Backup database only.', $backup->database);
 $cli->addCommand('complete', 'DESTINATION', 'Backup database and relevant files.', $backup->complete);
 $cli->addCommand('restore', 'SOURCE', 'Restore from given backup.', $backup->restore);
+$cli->addOption(Backup::PSQL_PATH, 'Path where psql binary can be found (i.e. /opt/local/lib/postgresql96/bin/)', true);
 $cli->execute();

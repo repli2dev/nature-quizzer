@@ -2,6 +2,7 @@
 
 namespace NatureQuizzer\Utils;
 
+use function array_values;
 use Exception;
 use NatureQuizzer\Utils\CLI\ExecutionProblem;
 use NatureQuizzer\Utils\CLI\InvalidArguments;
@@ -17,7 +18,10 @@ class CLI extends Object
 	private $name;
 
 	private $commands = [];
+	private $options = [];
 	private $callbacks = [];
+
+	private $usedOptions = [];
 
 	public function __construct($argv)
 	{
@@ -36,6 +40,11 @@ class CLI extends Object
 		$this->name = $name;
 	}
 
+	public function addOption($name, $description, $value = false)
+	{
+		$this->options[$name] = [$description, $value];
+	}
+
 	public function addCommand($name, $args, $description, $callback)
 	{
 		$this->commands[$name] = [$args, $description];
@@ -51,6 +60,11 @@ class CLI extends Object
 			list($args, $description) = $infos;
 			printf("\tphp %s %s %s\t\t%s\n", $this->getFilename(), $name, $args, $description);
 		}
+		printf("Options:\n");
+		foreach ($this->options as $name => $infos) {
+			list($description, $value) = $infos;
+			printf("\t%s%s%s\t\t%s\n", Strings::length($name) > 1 ? '--' : '-', $name, ($value ? ' <V>' : ''), $description);
+		}
 
 	}
 
@@ -59,12 +73,35 @@ class CLI extends Object
 		return basename($this->argv[0]);
 	}
 
+	private function extractOptions()
+	{
+		$this->usedOptions = [];
+		foreach ($this->argv as $key => $value) {
+			foreach ($this->options as $name => $infos) {
+				list($description, $hasValue) = $infos;
+				$fullname = (Strings::length($name) > 1 ? '--' : '-') . $name;
+				if (Strings::startsWith($value, $fullname)) {
+					if ($hasValue && !isset($this->argv[$key + 1])) {
+						printf("Error: Invalid option value.\n");
+						$this->printHelp();
+						exit(1);
+					}
+					$this->usedOptions[$name] = ($hasValue) ? $this->argv[$key + 1] : true;
+					unset($this->argv[$key]);
+					unset($this->argv[$key + 1]);
+				}
+			}
+		}
+		$this->argv = array_values($this->argv); // reindex
+	}
+
 	public function execute()
 	{
 		if (!isset($this->argv[1])) {
 			$this->printHelp();
 			return;
 		}
+		$this->extractOptions();
 		$command = $this->argv[1];
 		foreach ($this->callbacks as $name => $callback) {
 			if ($command === $name) {
@@ -97,6 +134,16 @@ class CLI extends Object
 			}
 		}
 		$this->printHelp();
+	}
+
+	public function hasOption($name)
+	{
+		return isset($this->usedOptions[$name]);
+	}
+
+	public function getOption($name)
+	{
+		return !isset($this->usedOptions[$name]) ? null : $this->usedOptions[$name];
 	}
 
 	protected function timer($name)
