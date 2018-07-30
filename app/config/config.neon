@@ -12,10 +12,10 @@ parameters:
 		clientId:
 		clientSecret:
 	mails:
-		feedback: jan.drabek@mail.muni.cz
+		feedback: me@jandrabek.cz
 
 tracy:
-	email: jan.drabek@mail.muni.cz
+	email: me@jandrabek.cz
 
 php:
 	date.timezone: Europe/Prague
