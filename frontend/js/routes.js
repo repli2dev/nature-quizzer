@@ -16,6 +16,7 @@ App.Router.map(function () {
 	this.route('facebook-login-problem');
 	this.route('google-login-problem');
 	this.route('play', { path: '/play/:id_concept/:code_name' });
+	this.route('view', { path: '/view/:id_concept/:code_name' });
 	this.route('result', { path: '/result/:id_concept' });
 	this.route('concepts');
 	this.route('user', function () {
@@ -114,6 +115,12 @@ App.ResultRoute = Ember.Route.extend({
 	}
 });
 
+App.ViewRoute = Ember.Route.extend({
+	model: function (params) {
+		return App.Concept.getDetail(params.id_concept);
+	}
+});
+
 App.PlayRoute = Ember.Route.extend({
 	shortcutHandler: null,
 	controller: null,
@@ -121,6 +128,16 @@ App.PlayRoute = Ember.Route.extend({
 		return App.Play.getQuestions(params.id_concept);
 	},
 	setupController: function (controller, model) {
+		if (typeof(Storage) === "undefined" || localStorage.getItem('terms') !== "true") {
+			var state = confirm(App.Translator.translate('terms_confirm'));
+			if (!state) {
+				controller.transitionToRoute('concepts', {queryParams: {invalid: null, interruption: null}});
+				return;
+			}
+			if (typeof(Storage) !== "undefined") {
+				localStorage.setItem('terms', true);
+			}
+		}
 		this.set('shortcutHandler', controller.shortcutTriggered);
 		this.set('controller', controller);
 		// Check if the request went OK and that there are some data at all

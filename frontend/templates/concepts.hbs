@@ -24,8 +24,15 @@
 				{{#link-to 'play' concept.id_concept concept.code_name classNames="start-button"}}{{translate 'topics.start'}}{{/link-to}}
 
 				<h4 class="concept-name">{{concept.name}}</h4>
+				{{#if concept.warning}}
+					<span class="concept-description">
+						{{#link-to 'terms' classNames="warning aligned"}}{{translate 'topics.warning'}}{{/link-to}}
+					</span>
+				{{/if}}
+				<div class="cleaner"></div>
 				<span class="concept-description">{{concept.description}}<br>
 					{{translate 'topics.items_count'}}: {{concept.items_count}}
+					{{#link-to 'view' concept.id_concept concept.code_name}}{{translate 'topics.view'}}{{/link-to}}
 				</span>
 				<div class="cleaner"></div>
 			</div>

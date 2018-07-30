@@ -143,7 +143,9 @@ App.Translations.cs = {
 		'interruption': 'Zkuste si vybrat jiné téma :-)',
 		'others': 'Ostatní',
 		'start': 'Řešit',
+		'view': 'Prohlédnout',
 		'items_count': 'Počet položek',
+		'warning': 'Přečtěte si varování ohledně spolehlivosti obsahu!',
 	},
 	'facebook': {
 		'heading': 'Problém při přihlášení přes Facebooku',
@@ -179,5 +181,9 @@ App.Translations.cs = {
 		'experiments':'V systému mohou probíhat výzkumné experimenty spočívající v drobných úpravách chování systému pro jednotlivé uživatele.',
 		'cookies':'Stránky využívají služby Google Analytics pro analýzu návštěvnosti. Služba Google Analytics využívá soubory „cookies“.',
 		'externals':'Při přihlašování přes Google+/Facebook dotazujeme unikátní řetězec spojený s vašim účtem, abychom mohli najít již existující účet a případně vaše celé jméno a e-mailovou adresu, abychom mohli vytvořit nový.',
+	},
+	'terms_confirm': 'Souhlasím s podmínkami použití a jsem si vědom omezení plynoucí z učení skrze automatizovaný systém.',
+	'view': {
+		'items_count': 'Počet položek',
 	}
 };

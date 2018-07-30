@@ -60,6 +60,22 @@ class ApiPresenter extends BasePresenter
 		}
 	}
 
+	public function actionConceptDetail($conceptId)
+	{
+		try {
+			$output = $this->conceptsProcessor->getDetail($conceptId);
+			$this->sendJson($output);
+		} catch (RequestProcessorException $ex) {
+			Debugger::log($ex, ILogger::WARNING); // These exceptions are due to malformed requests
+			$this->sendErrorJSON($ex->getCode(), $ex->getMessage());
+		} catch (AbortException $ex) {
+			throw $ex; // This is Nette application stuff, needs to be rethrowed
+		} catch (Exception $ex) {
+			Debugger::log($ex, Debugger::CRITICAL);
+			$this->sendErrorJSON(0, 'Unknown error');
+		}
+	}
+
 	public function actionConcepts()
 	{
 		try {

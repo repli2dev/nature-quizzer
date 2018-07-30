@@ -17,6 +17,7 @@ App.Concept = {};
 App.Concept.ALL_URL = '/api/concepts';
 App.Concept.QUICK_URL = '/api/quick';
 App.Concept.URL = '/api/concept?conceptId=__CONCEPT__';
+App.Concept.DETAIL_URL = '/api/concept-detail?conceptId=__CONCEPT__';
 
 App.Concept.getAll = function() {
 	return $.getJSON(App.Concept.ALL_URL).then(function (data) {
@@ -38,6 +39,13 @@ App.Concept.get = function(conceptId) {
 	});
 };
 
+App.Concept.getDetail = function(conceptId) {
+	var url = App.Concept.DETAIL_URL;
+	url = url.replace('__CONCEPT__', conceptId);
+	return $.getJSON(url).then(function (data) {
+		return data;
+	});
+};
 
 App.Play = {};
 App.Play.DEFAULT_COUNT = 10;

@@ -16,6 +16,11 @@ class Helpers
 		return Html::el('img')->src('/images/organisms/' . $representationId)->style('min-height: 100px; min-width: 100px; max-height: 300px; max-width: 300px')->render();
 	}
 
+	public static function getRepresentationImageRaw($representationId)
+	{
+		return '/images/organisms/' . $representationId;
+	}
+
 	/**
 	 * Returns an array of time intervals (default is days) between given dates
 	 * @param DateTime $start

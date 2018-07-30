@@ -156,6 +156,7 @@ class ConceptPresenter extends BasePresenter
 		$form->addSelect('id_group', 'Group', $this->groupModel->getPairs())
 			->setPrompt('No group');
 		$form->addCheckbox('quick', 'Favourite');
+		$form->addCheckbox('warning', 'Warning');
 
 		$form->setCurrentGroup(null);
 
@@ -185,6 +186,7 @@ class ConceptPresenter extends BasePresenter
 		$grid->addColumn('id_concept', 'ID');
 		$grid->addColumn('code_name', 'Code name');
 		$grid->addColumn('quick', 'Favourite');
+		$grid->addColumn('warning', 'Warning');
 
 		return $grid;
 	}

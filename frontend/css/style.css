@@ -23,6 +23,9 @@ a:hover {
 	color: white;
 	border-radius: 4px;
 }
+a.aligned {
+	margin: -2px;
+}
 
 p {
 	line-height: 1.5;
@@ -793,4 +796,37 @@ p.center {
 }
 .statistics-knowledge {
 	margin-bottom: 40px;
+}
+.warning {
+	color: red;
+}
+
+div.concept-detail div.organism-detail {
+	display: block;
+	position: relative;
+	background: #f6f4f1;
+	padding: 10px;
+	border-radius: 5px;
+	cursor: pointer;
+	color: gray;
+	float: left;
+	min-width: 320px;
+	margin-bottom: 30px;
+	text-align: center;
+	margin-right: 30px;
+}
+
+div.concept-detail :nth-child(2n+1) {
+	clear: both;
+}
+
+div.concept-detail span.organism-label {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	text-align: center;
+	background: #f6f4f1;
+	padding: 5px;
+	font-size: 150%;
 }

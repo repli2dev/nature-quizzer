@@ -46,6 +46,7 @@ class HomepagePresenter extends BasePresenter
 		$topics = $this->concept->getAllWithInfo($this->currentLanguage->get());
 		foreach ($topics as $topic) {
 			$sitemap->addEntry($baseLink . 'play/' . $topic->id_concept . '/' . $topic->code_name, Sitemap::ALWAYS, 0.9);
+			$sitemap->addEntry($baseLink . 'view/' . $topic->id_concept . '/' . $topic->code_name, Sitemap::ALWAYS, 0.9);
 		}
 
 		$content = $sitemap->compile();
@@ -59,6 +60,7 @@ class HomepagePresenter extends BasePresenter
 	public function actionFacebookLoginProblem($type = null) { $this->setView('default'); }
 	public function actionGoogleLoginProblem($type = null) { $this->setView('default'); }
 	public function actionPlay($conceptId, $codeName) { $this->setView('default'); }
+	public function actionView($conceptId, $codeName) { $this->setView('default'); }
 	public function actionResult($conceptId) { $this->setView('default'); }
 	public function actionConcepts() { $this->setView('default'); }
 	public function actionUserLogin() { $this->setView('default'); }

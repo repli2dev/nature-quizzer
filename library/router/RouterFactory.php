@@ -21,6 +21,7 @@ class RouterFactory
 		$router[] = new Route('/facebook-login-problem','Homepage:facebookLoginProblem');
 		$router[] = new Route('/google-login-problem','Homepage:googleLoginProblem');
 		$router[] = new Route('/play/<conceptId>[/<codeName>]','Homepage:play');
+		$router[] = new Route('/view/<conceptId>[/<codeName>]','Homepage:view');
 		$router[] = new Route('/result/<conceptId>','Homepage:result');
 		$router[] = new Route('/concepts','Homepage:concepts');
 		$router[] = new Route('/user/login','Homepage:userLogin');

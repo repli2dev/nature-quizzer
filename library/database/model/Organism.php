@@ -206,6 +206,26 @@ class Organism extends Table
 		)->fetchAssoc('id_organism[]');
 	}
 
+	public function getFirstRepresentationsWithInfoByConcept($languageId, $conceptId)
+	{
+		return $this->context->query('
+			SELECT DISTINCT ON (id_organism) 
+				id_organism,
+				organism_name.name,
+				organism_representation.id_representation,
+				rights_holder,
+				license
+			FROM organism_representation
+			JOIN organism_concept USING (id_organism)
+			LEFT JOIN organism_name USING (id_organism)
+			WHERE id_language = ? AND id_concept = ?
+			ORDER BY id_organism ASC, id_representation ASC
+		',
+			$languageId,
+			$conceptId
+		)->fetchAll();
+	}
+
 	private function getInfoTable()
 	{
 		return $this->context->table('organism_name');

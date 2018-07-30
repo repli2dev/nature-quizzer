@@ -3,9 +3,11 @@ namespace NatureQuizzer\Processors;
 
 use NatureQuizzer\Database\Model\Concept;
 use NatureQuizzer\Database\Model\Group;
+use NatureQuizzer\Database\Model\Organism;
 use NatureQuizzer\RequestProcessorException;
 use NatureQuizzer\Runtime\CurrentLanguage;
 use NatureQuizzer\Runtime\CurrentUser;
+use NatureQuizzer\Utils\Helpers;
 use Nette\Object;
 use Nette\Utils\Validators;
 
@@ -19,10 +21,12 @@ class ConceptsProcessor extends Object
 	private $concept;
 	/** @var Group */
 	private $group;
+	/** @var Organism */
+	private $organism;
 
-	public function __construct(CurrentUser $currentUser, CurrentLanguage $currentLanguage, Concept $concept, Group $group)
+	public function __construct(CurrentUser $currentUser, CurrentLanguage $currentLanguage, Concept $concept, Group $group, Organism $organism)
 	{
-		list ($this->currentUser, $this->currentLanguage, $this->concept, $this->group) = func_get_args();
+		list ($this->currentUser, $this->currentLanguage, $this->concept, $this->group, $this->organism) = func_get_args();
 	}
 
 	public function get($conceptId)
@@ -41,7 +45,8 @@ class ConceptsProcessor extends Object
 				'id_concept' => $concept->id_concept,
 				'code_name' => $concept->code_name,
 				'name' => $concept->name,
-				'description' => $concept->description
+				'description' => $concept->description,
+				'warning' => $concept->warning,
 			];
 		} else {
 			$output['mix'] = TRUE;
@@ -73,7 +78,8 @@ class ConceptsProcessor extends Object
 				'code_name' => $concept->code_name,
 				'name' => $concept->name,
 				'description' => $concept->description,
-				'items_count' => $concept->count
+				'items_count' => $concept->count,
+				'warning' => $concept->warning,
 			];
 		}
 		if (isset($output['groups'][''])) {
@@ -97,7 +103,40 @@ class ConceptsProcessor extends Object
 				'id_concept' => $concept->id_concept,
 				'code_name' => $concept->code_name,
 				'name' => $concept->name,
-				'description' => $concept->description
+				'description' => $concept->description,
+				'warning' => $concept->warning,
+			];
+		}
+		return $output;
+	}
+
+	public function getDetail($conceptId)
+	{
+		if (!$conceptId || !Validators::isNumericInt($conceptId)) {
+			throw new RequestProcessorException('Concept cannot be empty.', 1000);
+		}
+		$concept = $this->concept->getWithInfo($conceptId, $this->currentLanguage->get());
+		$organisms = $this->organism->getFirstRepresentationsWithInfoByConcept($this->currentLanguage->get(), $conceptId);
+		if ($concept === FALSE) {
+			throw new RequestProcessorException('No such concept.', 1001);
+		}
+		$output = [
+			'mix' => false,
+			'id_concept' => $concept->id_concept,
+			'code_name' => $concept->code_name,
+			'name' => $concept->name,
+			'description' => $concept->description,
+			'warning' => $concept->warning,
+			'organisms' => [],
+			'items_count' => count($organisms),
+		];
+		foreach ($organisms as $organism) {
+			$output['organisms'][] = [
+				'name' => $organism->name,
+				'image' => Helpers::getRepresentationImage($organism->id_representation),
+				'imageRaw' => Helpers::getRepresentationImageRaw($organism->id_representation),
+				'imageRightsHolder' => $organism->rights_holder,
+				'imageLicense' => $organism->license,
 			];
 		}
 		return $output;

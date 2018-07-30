@@ -1,0 +1,23 @@
+{{title model.name}}
+
+<div class="narrow-column">
+	<h2>{{model.name}}</h2>
+
+	{{#if model.warning}}
+		<div class="concept-description">
+			{{#link-to 'terms' classNames="warning aligned"}}{{translate 'topics.warning'}}{{/link-to}}
+		</div>
+	{{/if}}
+
+	<p>{{translate 'view.items_count'}}: {{model.items_count}}</p>
+
+	<div class="concept-detail">
+		{{#each model.organisms as |item|}}
+			<div class="organism-detail" title="{{item.imageRightsHolder}} ({{item.imageLicense}})">
+				<a href="{{item.imageRaw}}" target="_blank" rel="noopener">{{{item.image}}}</a>
+				<span class="organism-label">{{item.name}}</span>
+			</div>
+		{{/each}}
+		<div class="cleaner">&nbsp;</div>
+	</div>
+</div>
