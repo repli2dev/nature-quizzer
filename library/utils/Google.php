@@ -102,8 +102,7 @@ class Google
 				$client->authenticate($code);
 				// Get your access and refresh tokens, which are both contained in the
 				// following response, which is in a JSON structure:
-				$oAuthToken = json_decode($client->getAccessToken());
-				$data = $client->verifyIdToken($oAuthToken->id_token);
+				$data = $client->verifyIdToken($client->getAccessToken()['id_token']);
 
 				$plus = new Google_Service_Plus($client);
 				$person = $plus->people->get('me');
@@ -114,8 +113,8 @@ class Google
 				// Get other data and continue with login
 				$output = [
 					'name' => $person->getDisplayName(),
-					'email' => $data->getAttributes()['payload']['email'],
-					'id' => $data->getUserId()
+					'email' => $data['email'],
+					'id' => $data['sub'],
 				];
 				return $output;
 			} catch (Exception $ex) {
