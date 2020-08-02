@@ -8,10 +8,12 @@ use NatureQuizzer\Database\Model\Organism;
 use NatureQuizzer\Runtime\CurrentLanguage;
 use NatureQuizzer\Runtime\CurrentUser;
 use NatureQuizzer\Utils\Helpers;
-use Nette\Object;
+use Nette\SmartObject;
 
-class SummaryProcessor extends Object
+class SummaryProcessor
 {
+	use SmartObject;
+
 	const STRONG_KNOWLEDGE = 1.70;
 
 	/** @var CurrentKnowledge */

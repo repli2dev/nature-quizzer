@@ -10,11 +10,13 @@ use NatureQuizzer\Runtime\CurrentRound;
 use NatureQuizzer\Runtime\CurrentUser;
 use Nette\Database\UniqueConstraintViolationException;
 use Nette\InvalidArgumentException;
-use Nette\Object;
+use Nette\SmartObject;
 use Tracy\Debugger;
 
-class AnswerProcessor extends Object
+class AnswerProcessor
 {
+	use SmartObject;
+
 	/** @var CurrentUser */
 	private $currentUser;
 	/** @var CurrentClient */

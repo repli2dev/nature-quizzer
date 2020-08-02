@@ -9,7 +9,7 @@ namespace NatureQuizzer\Utils;
 use Nette\Application\IResponse;
 use Nette\Http\IResponse as IHttpResponse;
 use Nette\Http\IRequest;
-use Nette\Object;
+use Nette\SmartObject;
 
 
 /**
@@ -18,8 +18,10 @@ use Nette\Object;
  * @property-read array|\stdClass $payload
  * @property-read string $contentType
  */
-class XmlResponse extends Object implements IResponse
+class XmlResponse implements IResponse
 {
+	use SmartObject;
+
 	/** @var string */
 	private $payload;
 

@@ -43,7 +43,7 @@ class ModelPresenter extends BasePresenter
 	{
 		$form = $this->prepareForm();
 		$form->addSubmit('send', 'Update model setting');
-		$form->onSuccess[] = $this->editFormSucceeded;
+		$form->onSuccess[] = [$this, 'editFormSucceeded'];
 		return $form;
 	}
 

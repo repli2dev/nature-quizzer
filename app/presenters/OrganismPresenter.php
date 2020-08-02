@@ -68,7 +68,7 @@ class OrganismPresenter extends BasePresenter
 	{
 		$form = $this->prepareForm();
 		$form->addSubmit('send', 'Add organism');
-		$form->onSuccess[] = $this->addFormSucceeded;
+		$form->onSuccess[] = [$this, 'addFormSucceeded'];
 		return $form;
 	}
 
@@ -90,7 +90,7 @@ class OrganismPresenter extends BasePresenter
 	{
 		$form = $this->prepareForm();
 		$form->addSubmit('send', 'Update organism');
-		$form->onSuccess[] = $this->editFormSucceeded;
+		$form->onSuccess[] = [$this, 'editFormSucceeded'];
 		return $form;
 	}
 
@@ -113,7 +113,7 @@ class OrganismPresenter extends BasePresenter
 		$form = new Form();
 		$form->addSubmit('yes', 'Yes');
 		$form->addSubmit('no', 'No');
-		$form->onSuccess[] = $this->deleteFormSucceeded;
+		$form->onSuccess[] = [$this, 'deleteFormSucceeded'];
 		return $form;
 	}
 
@@ -161,7 +161,7 @@ class OrganismPresenter extends BasePresenter
 
 		$form->setCurrentGroup(null);
 		$form->addSubmit('send', 'Add');
-		$form->onSuccess[] = $this->addRepresentationFormSucceeded;
+		$form->onSuccess[] = [$this, 'addRepresentationFormSucceeded'];
 		return $form;
 	}
 
@@ -221,7 +221,7 @@ class OrganismPresenter extends BasePresenter
 		}
 		$this->organismCommonness->setValue($organism, $value);
 		$this->setView('default');
-		$this->getComponent('organismList')->invalidateRow($organism);
+		$this->getComponent('organismList')->redrawRow($organism);
 	}
 
 }

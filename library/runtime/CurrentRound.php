@@ -4,11 +4,13 @@ namespace NatureQuizzer\Runtime;
 use NatureQuizzer\Database\Model\Round;
 use Nette\Http\Session;
 use Nette\Http\SessionSection;
-use Nette\Object;
+use Nette\SmartObject;
 use Nette\Utils\Json;
 
-class CurrentRound extends Object
+class CurrentRound
 {
+	use SmartObject;
+
 	const SECTION_NAME = 'CurrentRound';
 
 	/** @var SessionSection */

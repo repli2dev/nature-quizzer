@@ -9,19 +9,21 @@ use NatureQuizzer\Database\Model\Model as SettingModel;
 use NatureQuizzer\Database\Model\User as UserModel;
 use NatureQuizzer\Runtime\CurrentUser;
 use Nette\Forms\Form;
-use Nette\Object;
 use Nette\Security\AuthenticationException;
 use Nette\Security\IAuthenticator;
 use Nette\Security\Identity;
 use Nette\Security\Passwords;
 use Nette\Security\User;
+use Nette\SmartObject;
 use Nette\Utils\DateTime;
 use Nette\Utils\Strings;
 use Nette\Utils\Validators;
 use Tracy\Debugger;
 
-class UserProcessor extends Object
+class UserProcessor
 {
+	use SmartObject;
+
 	/** @var User */
 	private $user;
 

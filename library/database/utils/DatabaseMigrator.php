@@ -4,7 +4,7 @@ namespace NatureQuizzer\Database\Utils;
 use Exception;
 use Nette\Database\Context;
 use Nette\Database\SqlLiteral;
-use Nette\Object;
+use Nette\SmartObject;
 use Nette\Utils\Finder;
 use PDOException;
 
@@ -13,8 +13,9 @@ use PDOException;
  * 1. Sort SQL scripts from given path by name (prefix them with 001 to ensure correct order).
  * 2. Perform all scripts which are not present in database table migrations. All migrations are done in one transaction.
  */
-final class DatabaseMigrator extends Object
+final class DatabaseMigrator
 {
+	use SmartObject;
 
 	const MIGRATION_TABLE_NAME = "meta_migrations";
 

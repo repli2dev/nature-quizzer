@@ -2,11 +2,13 @@
 namespace NatureQuizzer\Runtime;
 
 use Nette\Http\Request;
-use Nette\Object;
+use Nette\SmartObject;
 use UAParser\Parser;
 
-class CurrentClient extends Object
+class CurrentClient
 {
+	use SmartObject;
+
 	/** @var Request */
 	private $request;
 	/** @var Parser */

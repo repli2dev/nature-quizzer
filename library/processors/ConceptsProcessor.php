@@ -8,11 +8,13 @@ use NatureQuizzer\RequestProcessorException;
 use NatureQuizzer\Runtime\CurrentLanguage;
 use NatureQuizzer\Runtime\CurrentUser;
 use NatureQuizzer\Utils\Helpers;
-use Nette\Object;
+use Nette\SmartObject;
 use Nette\Utils\Validators;
 
-class ConceptsProcessor extends Object
+class ConceptsProcessor
 {
+	use SmartObject;
+
 	/** @var CurrentUser */
 	private $currentUser;
 	/** @var CurrentLanguage */

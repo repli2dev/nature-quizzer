@@ -56,7 +56,7 @@ class GroupPresenter extends BasePresenter
 	{
 		$form = $this->prepareForm();
 		$form->addSubmit('send', 'Add group');
-		$form->onSuccess[] = $this->addFormSucceeded;
+		$form->onSuccess[] = [$this, 'addFormSucceeded'];
 		return $form;
 	}
 
@@ -82,7 +82,7 @@ class GroupPresenter extends BasePresenter
 	{
 		$form = $this->prepareForm();
 		$form->addSubmit('send', 'Update group');
-		$form->onSuccess[] = $this->editFormSucceeded;
+		$form->onSuccess[] = [$this, 'editFormSucceeded'];
 		return $form;
 	}
 
@@ -109,7 +109,7 @@ class GroupPresenter extends BasePresenter
 		$form = new Form();
 		$form->addSubmit('yes', 'Yes');
 		$form->addSubmit('no', 'No');
-		$form->onSuccess[] = $this->deleteFormSucceeded;
+		$form->onSuccess[] = [$this, 'deleteFormSucceeded'];
 		return $form;
 	}
 

@@ -1,12 +1,13 @@
 parameters:
 
-nette:
-	debugger:
-		bar: [JanDrabek\MailPanel\MailPanel]
+tracy:
+	bar:
+		- Nextras\MailPanel\MailPanel(%tempDir%/mail-panel-latte)
 
 services:
 	nette.mailer:
-		class: JanDrabek\MailPanel\SessionMailer
+		class: Nette\Mail\IMailer
+		factory: Nextras\MailPanel\FileMailer(%tempDir%/mail-panel-mails)
 
 extensions:
 	debugger.session: Kdyby\SessionPanel\DI\SessionPanelExtension

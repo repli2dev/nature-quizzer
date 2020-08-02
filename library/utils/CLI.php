@@ -2,17 +2,19 @@
 
 namespace NatureQuizzer\Utils;
 
+use Nette\SmartObject;
 use function array_values;
 use Exception;
 use NatureQuizzer\Utils\CLI\ExecutionProblem;
 use NatureQuizzer\Utils\CLI\InvalidArguments;
 use Nette\InvalidStateException;
-use Nette\Object;
 use Nette\Utils\Strings;
 use Tracy\Debugger;
 
-class CLI extends Object
+class CLI
 {
+	use SmartObject;
+
 	private $argv;
 
 	private $name;

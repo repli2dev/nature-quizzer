@@ -3,11 +3,13 @@
 namespace NatureQuizzer\Utils;
 
 use Latte\Engine;
-use Nette\Object;
+use Nette\SmartObject;
 use stdClass;
 
-class Sitemap extends Object
+class Sitemap
 {
+	use SmartObject;
+
 	const ALWAYS = 'always',
 		  HOURLY = 'hourly',
 		  DAILY = 'daily',

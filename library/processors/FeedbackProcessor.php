@@ -9,10 +9,11 @@ use Nette\Forms\Form;
 use Nette\Http\Request;
 use Nette\Mail\IMailer;
 use Nette\Mail\Message;
-use Nette\Object;
+use Nette\SmartObject;
 
-class FeedbackProcessor extends Object
+class FeedbackProcessor
 {
+	use SmartObject;
 
 	/** @var IMailer */
 	private $mailer;

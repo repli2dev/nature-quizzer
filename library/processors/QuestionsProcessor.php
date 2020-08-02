@@ -10,12 +10,14 @@ use NatureQuizzer\Model\ModelFacadeFactory;
 use NatureQuizzer\RequestProcessorException;
 use NatureQuizzer\Runtime\CurrentLanguage;
 use NatureQuizzer\Runtime\CurrentUser;
-use Nette\Object;
+use Nette\SmartObject;
 use Nette\Utils\Html;
 use Nette\Utils\Validators;
 
-class QuestionsProcessor extends Object
+class QuestionsProcessor
 {
+	use SmartObject;
+
 	/** @var CurrentUser */
 	private $currentUser;
 	/** @var CurrentLanguage */

@@ -8,13 +8,15 @@ use NatureQuizzer\Utils\CLI;
 use NatureQuizzer\Utils\CLI\ExecutionProblem;
 use NatureQuizzer\Utils\Helpers;
 use Nette\DI\Container;
-use Nette\Object;
+use Nette\SmartObject;
 use Nette\Utils\FileSystem;
 
 include_once __DIR__ . "/../app/bootstrap.php";
 
-class Export extends Object
+class Export
 {
+	use SmartObject;
+
 	/** @var Container */
 	private $container;
 

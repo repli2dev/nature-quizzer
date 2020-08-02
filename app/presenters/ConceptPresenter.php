@@ -81,7 +81,7 @@ class ConceptPresenter extends BasePresenter
 	{
 		$form = $this->prepareForm();
 		$form->addSubmit('send', 'Add concept');
-		$form->onSuccess[] = $this->addFormSucceeded;
+		$form->onSuccess[] = [$this, 'addFormSucceeded'];
 		return $form;
 	}
 
@@ -107,7 +107,7 @@ class ConceptPresenter extends BasePresenter
 	{
 		$form = $this->prepareForm();
 		$form->addSubmit('send', 'Update concept');
-		$form->onSuccess[] = $this->editFormSucceeded;
+		$form->onSuccess[] = [$this, 'editFormSucceeded'];
 		return $form;
 	}
 
@@ -134,7 +134,7 @@ class ConceptPresenter extends BasePresenter
 		$form = new Form();
 		$form->addSubmit('yes', 'Yes');
 		$form->addSubmit('no', 'No');
-		$form->onSuccess[] = $this->deleteFormSucceeded;
+		$form->onSuccess[] = [$this, 'deleteFormSucceeded'];
 		return $form;
 	}
 
@@ -200,7 +200,7 @@ class ConceptPresenter extends BasePresenter
 			$container->addCheckbox($row->id_organism, $row->latin_name);
 		}
 		$form->addSubmit('send', 'Update');
-		$form->onSuccess[] = $this->organismsSucceeded;
+		$form->onSuccess[] = [$this, 'organismsSucceeded'];
 		return $form;
 	}
 

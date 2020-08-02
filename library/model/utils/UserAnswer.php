@@ -1,14 +1,16 @@
 <?php
 namespace NatureQuizzer\Model\Utils;
 use NatureQuizzer\Database\Model\QuestionType;
-use Nette\Object;
+use Nette\SmartObject;
 use Nette\Utils\Json;
 
 /**
  * Wrapper class to encapsulate user's answer data
  */
-class UserAnswer extends Object
+class UserAnswer
 {
+	use SmartObject;
+
 	public $hasErrors = false;
 
 	public $id_model;

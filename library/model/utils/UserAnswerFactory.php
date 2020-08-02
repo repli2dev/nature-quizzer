@@ -1,7 +1,7 @@
 <?php
 namespace NatureQuizzer\Model\Utils;
 use NatureQuizzer\Database\Model\Organism;
-use Nette\Object;
+use Nette\SmartObject;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Json;
 use Tracy\Debugger;
@@ -9,8 +9,10 @@ use Tracy\Debugger;
 /**
  * Factory class to instantiate, properly initialize and validate user answer
  */
-class UserAnswerFactory extends Object
+class UserAnswerFactory
 {
+	use SmartObject;
+
 	/** @var Organism */
 	private $organism;
 

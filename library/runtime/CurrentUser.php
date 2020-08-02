@@ -4,11 +4,13 @@ namespace NatureQuizzer\Runtime;
 use NatureQuizzer\Database\Model\Authorizator;
 use NatureQuizzer\Database\Model\Model as ModelModel;
 use NatureQuizzer\Database\Model\User as UserModel;
-use Nette\Object;
 use Nette\Security\User;
+use Nette\SmartObject;
 
-class CurrentUser extends Object
+class CurrentUser
 {
+	use SmartObject;
+
 	/** @var User */
 	private $user;
 	/** @var UserModel */

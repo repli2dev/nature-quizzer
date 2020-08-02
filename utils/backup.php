@@ -10,12 +10,13 @@ use NatureQuizzer\Utils\Helpers;
 use Nette\Database\Connection;
 use Nette\DI\Config\Adapters\NeonAdapter;
 use Nette\DI\Container;
-use Nette\Object;
+use Nette\SmartObject;
 
 include_once __DIR__ . "/../app/bootstrap.php";
 
-class Backup extends Object
+class Backup
 {
+	use SmartObject;
 
 	const PSQL_PATH = 'psql-path';
 

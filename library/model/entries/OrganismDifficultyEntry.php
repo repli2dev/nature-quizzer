@@ -2,14 +2,15 @@
 namespace NatureQuizzer\Model;
 
 use NatureQuizzer\Model\IValueEntry;
-use Nette\Object;
+use Nette\SmartObject;
 
 /**
  * "POJO" which encapsulate difficulty of organism.
  * @package NatureQuizzer\Model
  */
-class OrganismDifficultyEntry extends Object implements IValueEntry
+class OrganismDifficultyEntry implements IValueEntry
 {
+	use SmartObject;
 
 	private $organism;
 	private $value;

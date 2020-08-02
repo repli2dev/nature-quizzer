@@ -6,10 +6,12 @@ use Nette\Application\IRouter;
 use Nette\Application\Routers\Route;
 use Nette\Application\Routers\RouteList;
 use Nette\Caching\Storages\FileStorage;
-use Nette\Object;
+use Nette\SmartObject;
 
-class FileLogger extends Object
+class FileLogger
 {
+	use SmartObject;
+
 	private static $instance;
 	private $handle;
 

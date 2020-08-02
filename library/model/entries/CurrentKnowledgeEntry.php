@@ -2,14 +2,15 @@
 namespace NatureQuizzer\Model;
 
 use NatureQuizzer\Model\IValueEntry;
-use Nette\Object;
+use Nette\SmartObject;
 
 /**
  * "POJO" which encapsulate current knowledge value of user of organism.
  * @package NatureQuizzer\Model
  */
-class CurrentKnowledgeEntry extends Object implements IValueEntry
+class CurrentKnowledgeEntry implements IValueEntry
 {
+	use SmartObject;
 
 	private $organism;
 	private $value;

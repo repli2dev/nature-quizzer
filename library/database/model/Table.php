@@ -5,11 +5,12 @@ namespace NatureQuizzer\Database\Model;
 use Closure;
 use Nette\Database\Context;
 use Nette\Database\Table\Selection;
-use Nette\Object;
+use Nette\SmartObject;
 use PDOException;
 
-abstract class Table extends Object
+abstract class Table
 {
+	use SmartObject;
 
 	protected $tableName; // Can override name based on class name
 
@@ -81,7 +82,7 @@ abstract class Table extends Object
 	private function fromCamelCase($str)
 	{
 		$str[0] = strtolower($str[0]);
-		$func = create_function('$c', 'return "_" . Nette\Utils\Strings::lower($c[1]);');
+		$func = function($c) { return "_" . \Nette\Utils\Strings::lower($c[1]); };
 		return preg_replace_callback('/([A-Z])/', $func, $str);
 	}
 

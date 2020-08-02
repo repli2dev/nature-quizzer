@@ -29,16 +29,13 @@ php:
 	# zlib.output_compression: yes
 
 
-nette:
-	application:
-		errorPresenter: Error
-		mapping:
-			*: NatureQuizzer\*Module\Presenters\*Presenter
-	session:
-		expiration: 0
-	latte:
-		macros:
-			- Nextras\Latte\Macros\RedefineMacro::install
+application:
+	errorPresenter: Error
+	mapping:
+		*: NatureQuizzer\*Module\Presenters\*Presenter
+
+session:
+	expiration: 0
 
 services:
 	- NatureQuizzer\Database\Model\Admin

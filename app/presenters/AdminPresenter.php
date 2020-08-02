@@ -93,7 +93,7 @@ class AdminPresenter extends BasePresenter
 			->setRequired('Please enter your new password again for check.')
 			->addRule(\Nette\Forms\Form::EQUAL, 'New passwords has to match.', $form['new']);
 		$form->addSubmit('send', 'Change password');
-		$form->onSuccess[] = $this->changeFormSucceeded;
+		$form->onSuccess[] = [$this, 'changeFormSucceeded'];
 		return $form;
 	}
 
@@ -123,7 +123,7 @@ class AdminPresenter extends BasePresenter
 
 		$form->addSubmit('send', 'Login');
 
-		$form->onSuccess[] = $this->loginFormSucceeded;
+		$form->onSuccess[] = [$this, 'loginFormSucceeded'];
 		return $form;
 	}
 
@@ -143,7 +143,7 @@ class AdminPresenter extends BasePresenter
 		$form = $this->prepareForm();
 		$form['password']->setRequired('Enter the password.');
 		$form->addSubmit('send', 'Add user');
-		$form->onSuccess[] = $this->addFormSucceeded;
+		$form->onSuccess[] = [$this, 'addFormSucceeded'];
 		return $form;
 	}
 
@@ -164,7 +164,7 @@ class AdminPresenter extends BasePresenter
 		$form = $this->prepareForm();
 		$form['password']->setOption('description', '(only when changes)');
 		$form->addSubmit('send', 'Update user');
-		$form->onSuccess[] = $this->editFormSucceeded;
+		$form->onSuccess[] = [$this, 'editFormSucceeded'];
 		return $form;
 	}
 
@@ -189,7 +189,7 @@ class AdminPresenter extends BasePresenter
 		$form = new Form();
 		$form->addSubmit('yes', 'Yes');
 		$form->addSubmit('no', 'No');
-		$form->onSuccess[] = $this->deleteFormSucceeded;
+		$form->onSuccess[] = [$this, 'deleteFormSucceeded'];
 		return $form;
 	}
 
