@@ -65,12 +65,6 @@ $configurator->addConfig(__DIR__ . '/config/config.local.neon');
 
 $container = $configurator->createContainer();
 
-// force ssl
-$httpRequest = $container->getByType('Nette\\Http\\Request');
-if ($httpRequest->getUrl()->getScheme() == 'https') {
-	Route::$defaultFlags = Route::SECURED;
-}
-
 // Set search_path in database
 $container->getByType('Nette\Database\Connection')->onConnect[] = function($conn) {
 	$conn->query('SET search_path TO "web_nature_quizzer"');
