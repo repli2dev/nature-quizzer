@@ -11,7 +11,7 @@ use NatureQuizzer\Runtime\CurrentUser;
 use Nette\Forms\Form;
 use Nette\Security\AuthenticationException;
 use Nette\Security\IAuthenticator;
-use Nette\Security\Identity;
+use Nette\Security\IIdentity;
 use Nette\Security\Passwords;
 use Nette\Security\User;
 use Nette\SmartObject;
@@ -41,8 +41,11 @@ class UserProcessor
 	/** @var Round */
 	private $round;
 
+	/** @var Passwords */
+	private $passwords;
+
 	public function __construct(User $user, UserModel $userModel, SettingModel $settingModel, Round $round,
-								PriorKnowledge $priorKnowledge, CurrentKnowledge $currentKnowledge, CurrentUser $currentUser)
+								PriorKnowledge $priorKnowledge, CurrentKnowledge $currentKnowledge, CurrentUser $currentUser, Passwords $passwords)
 	{
 		$this->user = $user;
 		$this->userModel = $userModel;
@@ -51,6 +54,7 @@ class UserProcessor
 		$this->priorKnowledge = $priorKnowledge;
 		$this->currentKnowledge = $currentKnowledge;
 		$this->round = $round;
+		$this->passwords = $passwords;
 	}
 
 	public function profile()
@@ -117,9 +121,9 @@ class UserProcessor
 			$this->userModel->insert([
 				'name' => $data['name'],
 				'email' => Strings::lower($data['email']),
-				'password' => Passwords::hash($data['password']),
+				'password' => $this->passwords->hash($data['password']),
 				'inserted' => new DateTime(),
-				'anonymous' => FALSE,
+				'anonymous' => 'false',
 				'id_model' => $this->userModel->getModel($oldIdentity->getId())
 			]);
 			try {
@@ -172,7 +176,7 @@ class UserProcessor
 					'name' => $userInfo['name'],
 					'email' => Validators::isEmail($userInfo['email']) ? Strings::lower($userInfo['email']) : null,
 					'inserted' => new DateTime(),
-					'anonymous' => FALSE,
+					'anonymous' => 'false',
 					'id_model' => $this->userModel->getModel($this->user->getId())
 				]);
 			}
@@ -220,7 +224,7 @@ class UserProcessor
 					'name' => $userInfo['name'],
 					'email' => Validators::isEmail($userInfo['email']) ? Strings::lower($userInfo['email']) : null,
 					'inserted' => new DateTime(),
-					'anonymous' => FALSE,
+					'anonymous' => 'false',
 					'id_model' => $this->userModel->getModel($this->user->getId())
 				]);
 			}
@@ -249,7 +253,7 @@ class UserProcessor
 		}
 	}
 
-	private function reownStuff(Identity $oldIdentity, Identity $newIdentity)
+	private function reownStuff(IIdentity $oldIdentity, IIdentity $newIdentity)
 	{
 		// TODO: rethink this behaviour, seems to be a bit weird (with different model the migrated data will be not ever used etc.)
 		$this->round->reownRounds($oldIdentity->getId(), $newIdentity->getId());
@@ -278,7 +282,7 @@ class UserProcessor
 			->addRule(Form::EMAIL, 'user.wrong_email_format')
 			->addRule(function ($item) {
 				$data = $this->userModel->findByEmail(Strings::lower($item->getValue()));
-				return $data === FALSE;
+				return $data === NULL;
 			}, 'user.email_taken');
 		$form->addText('password')
 			->addRule(Form::FILLED, 'user.empty_password');

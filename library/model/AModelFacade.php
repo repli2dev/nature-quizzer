@@ -21,7 +21,7 @@ abstract class AModelFacade implements IModelFacade
 	{
 		if (!$this->modelId) {
 			$row = $this->model->getModelByName($this->getName());
-			if ($row === FALSE) {
+			if ($row === NULL) {
 				throw new InvalidStateException('Cannot find model with name: [' . $this->getName() . ']');
 			}
 			$this->modelId = $row->id_model;
@@ -38,7 +38,7 @@ abstract class AModelFacade implements IModelFacade
 	{
 		if (!$this->persistenceModelId) {
 			$row = $this->model->getModelByName($name);
-			if ($row === FALSE) {
+			if ($row === NULL) {
 				throw new InvalidStateException('Cannot find model with name: [' . $name . ']');
 			}
 			$this->persistenceModelId = $row->id_model;

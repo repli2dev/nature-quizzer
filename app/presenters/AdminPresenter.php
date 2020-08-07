@@ -22,9 +22,13 @@ class AdminPresenter extends BasePresenter
 	/** @var Admin */
 	private $userManager;
 
-	public function injectBase(Admin $userManager)
+	/** @var Passwords */
+	private $passwords;
+
+	public function injectBase(Admin $userManager, Passwords $passwords)
 	{
 		$this->userManager = $userManager;
+		$this->passwords = $passwords;
 	}
 
 	public function startup()
@@ -53,7 +57,7 @@ class AdminPresenter extends BasePresenter
 	{
 		$this->perm('admins');
 		$data = $this->userManager->get($id);
-		if($data === FALSE) {
+		if($data === NULL) {
 			throw new BadRequestException();
 		}
 		$this->getComponent('editForm')->setDefaults($data);
@@ -64,7 +68,7 @@ class AdminPresenter extends BasePresenter
 	{
 		$this->perm('admins');
 		$data = $this->userManager->get($id);
-		if($data === FALSE) {
+		if($data === NULL) {
 			throw new BadRequestException();
 		}
 		$this->template->data = $data;
@@ -100,11 +104,11 @@ class AdminPresenter extends BasePresenter
 
 	public function changeFormSucceeded($form, $values) {
 		$user = $this->userManager->get($this->user->getId());
-		if(!Passwords::verify($values->old, $user->password)) {
+		if(!$this->passwords->verify($values->old, $user->password)) {
 			$form->addError('Old password is wrong, please try again.');
 			return;
 		}
-		$data = ['password' => Passwords::hash($values->new)];
+		$data = ['password' => $this->passwords->hash($values->new)];
 		$this->userManager->update($this->user->getId(), $data);
 		$this->flashMessage('Password has been successfully changed.', 'success');
 		$this->redirect('this');
@@ -148,7 +152,7 @@ class AdminPresenter extends BasePresenter
 	}
 
 	public function addFormSucceeded(Form $form, $values) {
-		$values['password'] = Passwords::hash($values['password']);
+		$values['password'] = $this->passwords->hash($values['password']);
 
 		try {
 			$this->userManager->insert($values);
@@ -173,7 +177,7 @@ class AdminPresenter extends BasePresenter
 		if(empty($values['password'])) {
 			unset($values['password']);
 		} else {
-			$values['password'] = Passwords::hash($values['password']);
+			$values['password'] = $this->passwords->hash($values['password']);
 		}
 		try {
 			$this->userManager->update($this->getParameter('id'), $values);

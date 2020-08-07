@@ -39,7 +39,7 @@ class ConceptsProcessor
 		$output = [];
 		if (Validators::isNumericInt($conceptId)) {
 			$concept = $this->concept->getWithInfo($conceptId, $this->currentLanguage->get());
-			if ($concept === FALSE) {
+			if ($concept === NULL) {
 				throw new RequestProcessorException('No such concept.', 1001);
 			}
 			$output = [
@@ -119,7 +119,7 @@ class ConceptsProcessor
 		}
 		$concept = $this->concept->getWithInfo($conceptId, $this->currentLanguage->get());
 		$organisms = $this->organism->getFirstRepresentationsWithInfoByConcept($this->currentLanguage->get(), $conceptId);
-		if ($concept === FALSE) {
+		if ($concept === NULL) {
 			throw new RequestProcessorException('No such concept.', 1001);
 		}
 		$output = [

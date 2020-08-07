@@ -41,7 +41,8 @@ class Authorizator implements IAuthorizator {
 		$this->acl->deny(self::ROLE_USER);
 	}
 
-	public function isAllowed($role = self::ALL, $resource = self::ALL, $privilege = self::ALL) {
+	public function isAllowed($role = self::ALL, $resource = self::ALL, $privilege = self::ALL): bool
+	{
 		if(!$this->acl->hasResource($resource)) {
 			return self::DENY;
 		}

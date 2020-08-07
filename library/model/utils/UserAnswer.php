@@ -102,7 +102,10 @@ class UserAnswer
 		];
 		$output = [];
 		foreach ($this->options as $option) {
-			$output[] = array_merge($common, iterator_to_array($option));
+			$temp = array_merge($common, iterator_to_array($option));
+			$temp['correct'] = $temp['correct'] ? 'true' : 'false';
+			$temp['main'] = $temp['main'] ? 'true' : 'false';
+			$output[] = $temp;
 		}
 		return $output;
 	}

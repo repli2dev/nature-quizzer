@@ -68,7 +68,7 @@ if ($command == 'list') {
 
 
 		$modelRow = $model->getModelByName($name);
-		if ($modelRow === FALSE) {
+		if ($modelRow === NULL) {
 			printf("No such model: %sy\n", $name);
 			exit(1);
 		}
@@ -95,7 +95,7 @@ if ($command == 'list') {
 	$model = $container->getByType('NatureQuizzer\\Database\\Model\\Model');
 
 	$modelRow = $model->getModelByName($destination);
-	if ($modelRow === FALSE) {
+	if ($modelRow === NULL) {
 		printf("No such model: %sy\n", $name);
 		exit(1);
 	}
@@ -103,7 +103,7 @@ if ($command == 'list') {
 	$sourceIds = [];
 	foreach ($sources as $sourceName) {
 		$modelRow = $model->getModelByName($sourceName);
-		if ($modelRow === FALSE) {
+		if ($modelRow === NULL) {
 			printf("No such model: %sy\n", $name);
 			exit(1);
 		}

@@ -41,7 +41,7 @@ class UserAnswerFactory
 			if (isset($answer['id_representation'])) {
 				$representationId = $answer['id_representation'];
 				$row = $this->organism->getOrganismByRepresentation($answer['id_representation']);
-				if ($row === FALSE) {
+				if ($row === NULL) {
 					Debugger::log(sprintf('Cannot find id_organism for id_representation [%s]', $answer['id_representation']), Debugger::EXCEPTION);
 					$error = true;
 					continue;

@@ -81,7 +81,7 @@ class DiagnosticPresenter extends BasePresenter
 			$temp = trim(str_replace('[', '', str_replace(']', '', $values['query'])));
 			$temp = explode(' ', $temp);
 			$temp = array_filter($temp, function ($value) { return Validators::isNumericInt($value); });
-			if (count($temp) > 0 && reset($temp) != '') {
+			if (is_array($temp) && count($temp) > 0 && reset($temp) != '') {
 				$this->template->queryResult = $this->organism->getRepresentationsByIds($temp);
 			}
 		};
@@ -98,7 +98,7 @@ class DiagnosticPresenter extends BasePresenter
 			$temp = trim(str_replace('[', '', str_replace(']', '', $values['query'])));
 			$temp = explode(' ', $temp);
 			$temp = array_filter($temp, function ($value) { return Validators::isNumericInt($value); });
-			if (count($temp) > 0 && reset($temp) != '') {
+			if (is_array($temp) && count($temp) > 0 && reset($temp) != '') {
 				$this->template->queryResult = $this->organism->getRepresentationsWithInfoByOrganisms($this->languageLookup->getId(AdminPresenter::LANG), $temp);
 			}
 		};

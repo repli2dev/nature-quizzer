@@ -5,6 +5,7 @@ namespace NatureQuizzer\Database\Model;
 use Closure;
 use Nette\Database\Context;
 use Nette\Database\Table\Selection;
+use Nette\Security\Passwords;
 use Nette\SmartObject;
 use PDOException;
 
@@ -17,9 +18,13 @@ abstract class Table
 	/** @var Context */
 	protected $context;
 
-	public function __construct(Context $context)
+	/** @var Passwords */
+	protected $passwords;
+
+	public function __construct(Context $context, Passwords $passwords)
 	{
 		$this->context = $context;
+		$this->passwords = $passwords;
 	}
 
 	public function insert($data)
@@ -76,7 +81,7 @@ abstract class Table
 
 	/**
 	 * Returns table_name from TableName
-	 * @param $str Input string in camel case
+	 * @param $str string Input string in camel case
 	 * @return mixed Output string in underscore syntax
 	 */
 	private function fromCamelCase($str)

@@ -9,6 +9,7 @@ use Nette\NotImplementedException;
 use Nette\Security\AuthenticationException;
 use Nette\Security\IAuthenticator;
 use Nette\Security\Identity;
+use Nette\Security\IIdentity;
 use Nette\Security\Passwords;
 
 class User extends Table implements IAuthenticator
@@ -26,7 +27,7 @@ class User extends Table implements IAuthenticator
 	const EXTERNAL_FACEBOOK = 'facebook';
 	const EXTERNAL_GOOGLE = 'google';
 
-	public function authenticate(array $credentials)
+	public function authenticate(array $credentials): IIdentity
 	{
 		if (isset($credentials[self::ID])) {
 			$row = $this->findAnonymousById($credentials[self::ID]);
@@ -36,10 +37,10 @@ class User extends Table implements IAuthenticator
 			return $this->prepareIdentity($row, self::GUEST_ROLE);
 		} elseif (isset($credentials[self::USERNAME])) {
 			$row = $this->findByEmail($credentials[self::USERNAME]);
-			if ($row === FALSE) {
+			if ($row === NULL) {
 				throw new AuthenticationException('No such user with e-mail [' .$credentials[self::USERNAME]. '].', self::IDENTITY_NOT_FOUND);
 			}
-			if (!Passwords::verify($credentials[self::PASSWORD], $row->password)) {
+			if (!$row->password || !$this->passwords->verify($credentials[self::PASSWORD], $row->password)) {
 				throw new AuthenticationException('Wrong password', self::INVALID_CREDENTIAL);
 			}
 			return $this->prepareIdentity($row, self::USER_ROLE);
@@ -61,7 +62,7 @@ class User extends Table implements IAuthenticator
 
 	public function findAnonymousById($id)
 	{
-		return $this->getTable()->where(self::COLUMN_ID, $id)->where(self::COLUMN_ANONYMOUS, TRUE)->fetch();
+		return $this->getTable()->where(self::COLUMN_ID, $id)->where(self::COLUMN_ANONYMOUS, 'true')->fetch();
 	}
 
 	public function findByFacebookId($facebookId)

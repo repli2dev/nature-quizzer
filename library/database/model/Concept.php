@@ -31,7 +31,7 @@ class Concept extends Table
 			foreach ($infos as $langId => $tempData) {
 				$oldInfo = $this->getInfoTable()->where('id_concept = ? AND id_language IN (?)', $key, $langId)->fetch();
 				$tempData = iterator_to_array($tempData);
-				if ($oldInfo === FALSE) {
+				if ($oldInfo === NULL) {
 					$this->getInfoTable()->insert(array_merge($tempData, ['id_concept' => $key, 'id_language' => $langId]));
 				} elseif ($oldInfo->name != $tempData['name'] || $oldInfo->description != $tempData['description']) {
 					$this->getInfoTable()->where('id_concept = ? AND id_language IN (?)', $key, $langId)->update(array_merge($tempData, ['updated' => new DateTime()]));

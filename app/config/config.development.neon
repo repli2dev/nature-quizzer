@@ -9,5 +9,5 @@ services:
 		class: Nette\Mail\IMailer
 		factory: Nextras\MailPanel\FileMailer(%tempDir%/mail-panel-mails)
 
-extensions:
-	debugger.session: Kdyby\SessionPanel\DI\SessionPanelExtension
+session:
+	debugger: true

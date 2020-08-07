@@ -20,7 +20,7 @@ class LanguageLookup
 	{
 		if (!isset($this->storage[$code])) {
 			$row = $this->language->findByCode($code);
-			if ($row === FALSE) {
+			if ($row === NULL) {
 				throw new \Exception('No such language with code [' . $code . ']');
 			}
 			$this->storage[$code] = $row;

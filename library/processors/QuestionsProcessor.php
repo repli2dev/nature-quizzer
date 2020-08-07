@@ -42,7 +42,7 @@ class QuestionsProcessor
 	{
 		if (Validators::isNumericInt($conceptId)) {
 			$concept = $this->concept->getWithInfo($conceptId, $this->currentLanguage->get());
-			if ($concept === FALSE) {
+			if ($concept === NULL) {
 				throw new RequestProcessorException('No such concept.', 3000);
 			}
 			return $concept;

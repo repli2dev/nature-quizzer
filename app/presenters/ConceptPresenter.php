@@ -44,7 +44,7 @@ class ConceptPresenter extends BasePresenter
 	public function actionEdit($id)
 	{
 		$data = $this->conceptModel->get($id);
-		if ($data === FALSE) {
+		if ($data === NULL) {
 			throw new BadRequestException();
 		}
 		$values = $data->toArray();
@@ -56,7 +56,7 @@ class ConceptPresenter extends BasePresenter
 	public function actionManage($id)
 	{
 		$data = $this->conceptModel->get($id);
-		if ($data === FALSE) {
+		if ($data === NULL) {
 			throw new BadRequestException();
 		}
 		$this->template->data = $data;
@@ -71,7 +71,7 @@ class ConceptPresenter extends BasePresenter
 	public function actionDelete($id)
 	{
 		$data = $this->conceptModel->get($id);
-		if ($data === FALSE) {
+		if ($data === NULL) {
 			throw new BadRequestException();
 		}
 		$this->template->data = $data;
@@ -89,6 +89,8 @@ class ConceptPresenter extends BasePresenter
 	{
 		$infos = $values['infos'];
 		unset($values['infos']);
+		$values['quick'] = $values['quick'] ? 'true' : 'false';
+		$values['warning'] = $values['warning'] ? 'true' : 'false';
 		try {
 			$this->conceptModel->insert($values, $infos);
 		} catch (PDOException $ex) {
@@ -115,6 +117,8 @@ class ConceptPresenter extends BasePresenter
 	{
 		$infos = $values['infos'];
 		unset($values['infos']);
+		$values['quick'] = $values['quick'] ? 'true' : 'false';
+		$values['warning'] = $values['warning'] ? 'true' : 'false';
 		try {
 			$this->conceptModel->update($this->getParameter('id'), $values, $infos);
 		} catch (PDOException $ex) {

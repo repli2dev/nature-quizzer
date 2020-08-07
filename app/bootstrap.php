@@ -67,6 +67,7 @@ $container = $configurator->createContainer();
 
 // Set search_path in database
 $container->getByType('Nette\Database\Connection')->onConnect[] = function($conn) {
+	$conn->getPdo()->setAttribute(PDO::ATTR_EMULATE_PREPARES, true); // Due to some bug in Nette Database causing ? in some queries to break down spectacularly
 	$conn->query('SET search_path TO "web_nature_quizzer"');
 };
 

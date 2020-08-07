@@ -2,11 +2,10 @@
 
 namespace NatureQuizzer\Database\Model;
 
-use Nette,
-	Nette\Security\Passwords;
 use Nette\Security\AuthenticationException;
 use Nette\Security\IAuthenticator;
 use Nette\Security\Identity;
+use Nette\Security\IIdentity;
 
 class Admin extends Table implements IAuthenticator
 {
@@ -25,7 +24,7 @@ class Admin extends Table implements IAuthenticator
 		];
 	}
 
-	public function authenticate(array $credentials)
+	public function authenticate(array $credentials): IIdentity
 	{
 		list($username, $password) = $credentials;
 
@@ -34,12 +33,12 @@ class Admin extends Table implements IAuthenticator
 		if (!$row) {
 			throw new AuthenticationException('The username is incorrect.', self::IDENTITY_NOT_FOUND);
 
-		} elseif (!Passwords::verify($password, $row[self::COLUMN_PASSWORD_HASH])) {
+		} elseif (!$this->passwords->verify($password, $row[self::COLUMN_PASSWORD_HASH])) {
 			throw new AuthenticationException('The password is incorrect.', self::INVALID_CREDENTIAL);
 
-		} elseif (Passwords::needsRehash($row[self::COLUMN_PASSWORD_HASH])) {
+		} elseif ($this->passwords->needsRehash($row[self::COLUMN_PASSWORD_HASH])) {
 			$row->update(array(
-				self::COLUMN_PASSWORD_HASH => Passwords::hash($password),
+				self::COLUMN_PASSWORD_HASH => $this->passwords->hash($password),
 			));
 		}
 

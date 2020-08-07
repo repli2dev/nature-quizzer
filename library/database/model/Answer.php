@@ -9,6 +9,7 @@ class Answer extends Table
 		return $this->performInTransaction(function () use ($rows) {
 			$result = NULL;
 			foreach ($rows as $row) {
+				bdump($row);
 				$result = $this->getTable()->insert($row);
 			}
 			return $result;

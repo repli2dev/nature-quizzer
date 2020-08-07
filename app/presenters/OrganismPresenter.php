@@ -43,7 +43,7 @@ class OrganismPresenter extends BasePresenter
 	public function actionEdit($id)
 	{
 		$data = $this->organismModel->get($id);
-		if ($data === FALSE) {
+		if ($data === NULL) {
 			throw new BadRequestException();
 		}
 		$values = $data->toArray();
@@ -58,7 +58,7 @@ class OrganismPresenter extends BasePresenter
 	public function actionDelete($id)
 	{
 		$data = $this->organismModel->get($id);
-		if ($data === FALSE) {
+		if ($data === NULL) {
 			throw new BadRequestException();
 		}
 		$this->template->data = $data;

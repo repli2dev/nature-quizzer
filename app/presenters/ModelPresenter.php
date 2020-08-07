@@ -31,7 +31,7 @@ class ModelPresenter extends BasePresenter
 	public function actionEdit($id)
 	{
 		$data = $this->model->get($id);
-		if ($data === FALSE) {
+		if ($data === NULL) {
 			throw new BadRequestException();
 		}
 		$values = $data->toArray();

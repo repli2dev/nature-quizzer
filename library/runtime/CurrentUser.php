@@ -34,7 +34,7 @@ class CurrentUser
 			return $this->user->getId();
 		}
 		$user = $this->userModel->insert([
-			'anonymous' => true,
+			'anonymous' => 'true',
 			'id_model' => $this->modelModel->getRandomModel()
 		]);
 		$this->user->login(NULL, NULL, $user->getPrimary());

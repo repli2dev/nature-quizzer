@@ -183,7 +183,7 @@ if ($command == 'import') {
 		/* First import languages */
 		foreach ($data->language as $code => $info) {
 			$row = $languageModel->findByCode($code);
-			if ($row === FALSE) {
+			if ($row === NULL) {
 				$languageModel->insert(array_merge($info, ['code' => $code]));
 			} else {
 				$temp = iterator_to_array($row);
@@ -204,7 +204,7 @@ if ($command == 'import') {
 				$groupInfo[$langLookup[$langCode]] = ['name' => $groupName, 'inserted' => new DateTime(), 'updated' => new DateTime()];
 			}
 			$groupInfo = ArrayHash::from($groupInfo);
-			if ($row === FALSE) {
+			if ($row === NULL) {
 				$temp = $groupModel->insert(['code_name' => $code], $groupInfo);
 				$imported['groups'][] = $temp->id_group;
 			} else {
@@ -224,7 +224,7 @@ if ($command == 'import') {
 				$conceptLangInfo[$langLookup[$langCode]] = array_merge((array) $temp, ['inserted' => new DateTime(), 'updated' => new DateTime()]);
 			}
 			$conceptLangInfo = ArrayHash::from($conceptLangInfo);
-			if ($row === FALSE) {
+			if ($row === NULL) {
 				$temp = $conceptModel->insert($conceptInfo, $conceptLangInfo);
 				$imported['concepts'][] = $temp->id_concept;
 			} else {
@@ -245,7 +245,7 @@ if ($command == 'import') {
 			}
 			$organismNames = ArrayHash::from($organismNames);
 
-			if ($row === FALSE) {
+			if ($row === NULL) {
 				$row = $organismModel->insert(['latin_name' => $latinName, 'inserted' => new DateTime(), 'updated' => new DateTime()], $organismNames);
 			} else {
 				$organismModel->update($row->id_organism, [], $organismNames);
@@ -264,7 +264,7 @@ if ($command == 'import') {
 			/* Add representations */
 			foreach ($organismData->representations as $representation) {
 				$representationRow = $organismModel->findRepresentationByHash($representation->hash);
-				if ($representationRow === FALSE) {
+				if ($representationRow === NULL) {
 					$representationRow = $organismModel->addRepresentation($organismId, ArrayHash::from($representation));
 					$batchFilesCopy->add($wholePath . '/files/' . $representation->hash, __DIR__ . '/../www/images/organisms/' . $representationRow->id_representation);
 				}

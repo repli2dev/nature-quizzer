@@ -29,7 +29,7 @@ class Group extends Table
 			foreach ($infos as $langId => $tempData) {
 				$oldInfo = $this->getInfoTable()->where('id_group = ? AND id_language IN (?)', $key, $langId)->fetch();
 				$tempData = iterator_to_array($tempData);
-				if ($oldInfo === FALSE) {
+				if ($oldInfo === NULL) {
 					$this->getInfoTable()->insert(array_merge($tempData, ['id_group' => $key, 'id_language' => $langId]));
 				} elseif ($oldInfo->name != $tempData['name']) {
 					$this->getInfoTable()->where('id_group = ? AND id_language IN (?)', $key, $langId)->update(array_merge($tempData, ['updated' => new DateTime()]));

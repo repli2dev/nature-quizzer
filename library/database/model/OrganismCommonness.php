@@ -15,7 +15,7 @@ class OrganismCommonness extends Table
 		$output = $this->getConnection()->query('
 			SELECT MAX(value) FROM organism_commonness
 		')->fetchField();
-		if ($output === FALSE || $output == NULL) {
+		if ($output == NULL) {
 			return 1; // fallback for the case where there are no data
 		} else {
 			return $output;
@@ -25,7 +25,7 @@ class OrganismCommonness extends Table
 	public function setValue($organismId, $value)
 	{
 		$row = $this->getTable()->where('id_organism = ?', $organismId)->fetch();
-		if ($row === FALSE) {
+		if ($row === NULL) {
 			$this->getTable()->insert(['id_organism' => $organismId, 'value' => (int) $value]);
 		} else {
 			$this->getTable()->where('id_organism = ?', $organismId)->update(['value' => $value]);

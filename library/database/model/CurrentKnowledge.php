@@ -9,7 +9,7 @@ class CurrentKnowledge extends Table
 	public function fetch($model, $organism, $user)
 	{
 		$data = $this->getTable()->where('id_model = ? AND id_organism = ? AND id_user = ?', $model, $organism, $user)->fetch();
-		if ($data === FALSE) {
+		if ($data === NULL) {
 			return new CurrentKnowledgeEntry($organism, $user, null);
 		}
 		return new CurrentKnowledgeEntry($data->id_organism, $data->id_user, $data->value);
@@ -23,7 +23,7 @@ class CurrentKnowledge extends Table
 			'id_organism' => $entry->getOrganism()
 		];
 
-		if ($this->getTable()->where('id_model = ? AND id_organism = ? AND id_user = ?', $model, $entry->getOrganism(), $entry->getUser())->fetch() !== FALSE) {
+		if ($this->getTable()->where('id_model = ? AND id_organism = ? AND id_user = ?', $model, $entry->getOrganism(), $entry->getUser())->fetch() !== NULL) {
 			$this->getTable()->where('id_model = ? AND id_organism = ? AND id_user = ?', $model, $entry->getOrganism(), $entry->getUser())->update($data);
 		}else {
 			$this->getTable()->insert(array_merge($data, ['id_model' => $model]));
@@ -35,7 +35,7 @@ class CurrentKnowledge extends Table
 		$items = $this->context->query('SELECT * FROM current_knowledge WHERE id_user = ?', $oldUserId)->fetchAll();
 		foreach ($items as $item) {
 			$temp = $this->context->query('SELECT TRUE FROM current_knowledge WHERE id_user = ? AND id_organism = ? AND id_model = ?', $newUserId, $item->id_organism, $item->id_model)->fetch();
-			if ($temp === FALSE) {
+			if ($temp === NULL) {
 				$this->context->query('UPDATE current_knowledge SET id_user = ? WHERE id_user = ? AND id_organism = ? AND id_model = ?', $newUserId, $oldUserId, $item->id_organism, $item->id_model);
 			}
 		}
