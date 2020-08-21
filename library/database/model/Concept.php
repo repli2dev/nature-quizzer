@@ -88,7 +88,7 @@ class Concept extends Table
 		return $this->getTable()
 			->select('concept.*, :concept_info.*')
 			->where('id_language', $idLanguage)
-			->where('quick', TRUE)
+			->where('quick', 'true')
 			->fetchAll();
 	}
 
