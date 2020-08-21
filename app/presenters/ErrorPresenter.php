@@ -4,8 +4,8 @@ namespace NatureQuizzer\Presenters;
 
 use NatureQuizzer\Presenters\BasePresenter;
 use Nette,
-	NatureQuizzer\Database\Model,
-	Nette\Diagnostics\Debugger;
+	NatureQuizzer\Database\Model;
+use Tracy\Debugger;
 
 
 /**
@@ -15,7 +15,7 @@ class ErrorPresenter extends BasePresenter
 {
 
 	/**
-	 * @param  Exception
+	 * @param  \Exception
 	 * @return void
 	 */
 	public function renderDefault($exception)
