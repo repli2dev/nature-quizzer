@@ -63,7 +63,7 @@ class XmlResponse implements IResponse
 	 * Sends response to output.
 	 * @return void
 	 */
-	public function send(IRequest $httpRequest, IHttpResponse $httpResponse)
+	public function send(IRequest $httpRequest, IHttpResponse $httpResponse): void
 	{
 		$httpResponse->setContentType($this->contentType);
 		$httpResponse->setExpiration(FALSE);
