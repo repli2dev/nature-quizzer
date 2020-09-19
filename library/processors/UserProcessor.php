@@ -169,9 +169,9 @@ class UserProcessor
 		// Register if no user is found
 		if (!$user) {
 			// Check if there is an account with the same e-mail
-			$userId = $this->userModel->findByEmail(Strings::lower($userInfo['email']));
+			$userId = $this->userModel->findByEmail(Strings::lower($userInfo['email'] ?? ''));
 			// Register new user if not found
-			if (!$userId || !Validators::isEmail($userInfo['email'])) {
+			if (!$userId || !Validators::isEmail($userInfo['email'] ?? '')) {
 				$userId = $this->userModel->insert([
 					'name' => $userInfo['name'],
 					'email' => Validators::isEmail($userInfo['email']) ? Strings::lower($userInfo['email']) : null,
