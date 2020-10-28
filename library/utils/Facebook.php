@@ -90,7 +90,7 @@ class Facebook
 			// Logged in
 			try {
 				$userProfile = $this->facebookSession->get(
-					'/me',
+					'/me?fields=email,name',
 					$accessToken
 				)->getGraphUser();
 
@@ -111,4 +111,4 @@ class Facebook
 			throw new AbortException();
 		}
 	}
-} 
+}
