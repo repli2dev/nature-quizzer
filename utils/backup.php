@@ -199,8 +199,8 @@ $cli = new CLI($argv);
 $backup = new Backup($container, $cli);
 
 $cli->setName('Nature Quizzer Backup tool');
-$cli->addCommand('database', 'DESTINATION', 'Backup database only.', $backup->database);
-$cli->addCommand('complete', 'DESTINATION', 'Backup database and relevant files.', $backup->complete);
-$cli->addCommand('restore', 'SOURCE', 'Restore from given backup.', $backup->restore);
+$cli->addCommand('database', 'DESTINATION', 'Backup database only.', fn (...$args) => $backup->database(...$args));
+$cli->addCommand('complete', 'DESTINATION', 'Backup database and relevant files.', fn (...$args) => $backup->complete(...$args));
+$cli->addCommand('restore', 'SOURCE', 'Restore from given backup.', fn (...$args) => $backup->restore(...$args));
 $cli->addOption(Backup::PSQL_PATH, 'Path where psql binary can be found (i.e. /opt/local/lib/postgresql96/bin/)', true);
 $cli->execute();

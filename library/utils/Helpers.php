@@ -62,7 +62,7 @@ class Helpers
 	{
 		$neon = new NeonAdapter();
 		$params = $neon->load($configPath);
-		$database = $params['nette']['database'];
+		$database = $params['database'];
 		preg_match('/^pgsql:host=(.*?);dbname=(.*?)$/', $database['dsn'], $matches);
 		if (count($matches) != 3) {
 			throw new InvalidStateException('Invalid configuration cannot parse database and host');
