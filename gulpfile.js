@@ -49,46 +49,46 @@ var destination = 'www/src/';
 
 
 // ====== General tasks =======
-gulp.task('clean', function () {
+gulp.task('clean', gulp.series(function () {
 	return gulp.src(destination, {read: false})
 		.pipe(clean());
-});
+}));
 
 
 // ====== Stylesheet preparation =======
-gulp.task('styles-backend', function() {
+gulp.task('styles-backend', gulp.series(function() {
 	return gulp.src(paths.stylesBackend, { "base" : "./frontend/css/" })
 		.pipe(gulp.dest(destination));
-});
-gulp.task('styles-frontend', function() {
+}));
+gulp.task('styles-frontend', gulp.series(function() {
 	return gulp.src(paths.stylesFrontend)
 		.pipe(concat('screen.css'))
 		.pipe(gulp.dest(destination));
-});
-gulp.task('styles', ['styles-backend', 'styles-frontend']);
+}));
+gulp.task('styles', gulp.series('styles-backend', 'styles-frontend', (done) => {done()}));
 
 // ====== Javascript =======
-gulp.task('scripts-backend', function() {
+gulp.task('scripts-backend', gulp.series(function() {
 	return gulp.src(paths.scriptsBackend, { "base" : "./frontend/js/" })
 		.pipe(flatten({dirname: ''}))
 		.pipe(gulp.dest(destination));
-});
-gulp.task('scripts-frontend', function() {
+}));
+gulp.task('scripts-frontend', gulp.series(function() {
 	return gulp.src(paths.scriptsFrontend.concat(paths.locales))
 		.pipe(concat('scripts.js'))
 		.pipe(gulp.dest(destination));
-});
-gulp.task('scripts-frontend-mini', function() {
+}));
+gulp.task('scripts-frontend-mini', gulp.series(function() {
 	return gulp.src(paths.scriptsFrontend.concat(paths.locales))
 		.pipe(concat('scripts.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest(destination));
-});
-gulp.task('scripts-full', ['scripts-backend', 'scripts-frontend']);
-gulp.task('scripts-mini', ['scripts-backend', 'scripts-frontend-mini']); // For now backend scripts are not minified
+}));
+gulp.task('scripts-full', gulp.series('scripts-backend', 'scripts-frontend', (done) => {done()}));
+gulp.task('scripts-mini', gulp.series('scripts-backend', 'scripts-frontend-mini', () => {})); // For now backend scripts are not minified
 
 // ====== Handlebars templates =======
-gulp.task('templates', function() {
+gulp.task('templates', gulp.series(function() {
 	return gulp.src(paths.templates)
 		.pipe(htmlbars({
 				compiler: compiler // Required
@@ -96,22 +96,22 @@ gulp.task('templates', function() {
 		}))
 		.pipe(concat('templates.js'))
 		.pipe(gulp.dest(destination));
-});
+}));
 // ====== Other actions =======
 gulp.task('watch', function() {
-	gulp.watch(paths.stylesFrontend, ['styles-frontend']);
-	gulp.watch(paths.stylesBackend, ['styles-backend']);
+	gulp.watch(paths.stylesFrontend, gulp.series('styles-frontend', () => {}));
+	gulp.watch(paths.stylesBackend, gulp.series('styles-backend', () => {}));
 
-	gulp.watch(paths.scriptsFrontend, ['scripts-frontend']);
-	gulp.watch(paths.scriptsBackend, ['scripts-backend']);
+	gulp.watch(paths.scriptsFrontend, gulp.series('scripts-frontend', () => {}));
+	gulp.watch(paths.scriptsBackend, gulp.series('scripts-backend', () => {}));
 
-	gulp.watch(paths.locales, ['scripts-frontend']);
+	gulp.watch(paths.locales, gulp.series('scripts-frontend', () => {}));
 
-	gulp.watch(paths.templates, ['templates']);
+	gulp.watch(paths.templates, gulp.series('templates', () => {}));
 });
 
-gulp.task('default', ['styles', 'scripts-full', 'templates']);
-gulp.task('default-mini', ['styles', 'scripts-mini', 'templates']);
+gulp.task('default', gulp.series('styles', 'scripts-full', 'templates', (done) => { done(); }));
+gulp.task('default-mini', gulp.series('styles', 'scripts-mini', 'templates', () => {}));
 
-gulp.task('development', ['default', 'watch']);
-gulp.task('production', ['default-mini']);
+gulp.task('development', gulp.series('default', 'watch', () => {}));
+gulp.task('production', gulp.series('default-mini', () => {}));
