@@ -12,7 +12,7 @@ parameters:
 		clientId:
 		clientSecret:
 	mails:
-		feedback: me@jandrabek.cz
+		feedback: jan@drabek.cz
 
 http:
 	headers:
@@ -22,7 +22,7 @@ http:
 		Strict-Transport-Security: "max-age=31536000"
 
 tracy:
-	email: me@jandrabek.cz
+	email: jan@drabek.cz
 
 php:
 	date.timezone: Europe/Prague
