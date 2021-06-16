@@ -72,7 +72,8 @@ class ExternalPresenter extends BasePresenter
 	{
 		$result = NULL;
 		try {
-			$result = $this->google->authenticate($this->link('//this'));
+			$redirectUri = str_replace(['http://', ':443'], ['https://', ''], $this->link('//this'));
+			$result = $this->google->authenticate($redirectUri);
 		} catch (Exception $ex) {
 			if ($ex instanceof AbortException) {
 				throw $ex;
