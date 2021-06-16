@@ -85,7 +85,7 @@ gulp.task('scripts-frontend-mini', gulp.series(function() {
 		.pipe(gulp.dest(destination));
 }));
 gulp.task('scripts-full', gulp.series('scripts-backend', 'scripts-frontend', (done) => {done()}));
-gulp.task('scripts-mini', gulp.series('scripts-backend', 'scripts-frontend-mini', () => {})); // For now backend scripts are not minified
+gulp.task('scripts-mini', gulp.series('scripts-backend', 'scripts-frontend-mini', (done) => { done() })); // For now backend scripts are not minified
 
 // ====== Handlebars templates =======
 gulp.task('templates', gulp.series(function() {
@@ -99,19 +99,19 @@ gulp.task('templates', gulp.series(function() {
 }));
 // ====== Other actions =======
 gulp.task('watch', function() {
-	gulp.watch(paths.stylesFrontend, gulp.series('styles-frontend', () => {}));
-	gulp.watch(paths.stylesBackend, gulp.series('styles-backend', () => {}));
+	gulp.watch(paths.stylesFrontend, gulp.series('styles-frontend', (done) => { done() }));
+	gulp.watch(paths.stylesBackend, gulp.series('styles-backend', (done) => { done() }));
 
-	gulp.watch(paths.scriptsFrontend, gulp.series('scripts-frontend', () => {}));
-	gulp.watch(paths.scriptsBackend, gulp.series('scripts-backend', () => {}));
+	gulp.watch(paths.scriptsFrontend, gulp.series('scripts-frontend', (done) => { done() }));
+	gulp.watch(paths.scriptsBackend, gulp.series('scripts-backend', (done) => { done() }));
 
-	gulp.watch(paths.locales, gulp.series('scripts-frontend', () => {}));
+	gulp.watch(paths.locales, gulp.series('scripts-frontend', (done) => { done() }));
 
-	gulp.watch(paths.templates, gulp.series('templates', () => {}));
+	gulp.watch(paths.templates, gulp.series('templates', (done) => { done() }));
 });
 
 gulp.task('default', gulp.series('styles', 'scripts-full', 'templates', (done) => { done(); }));
-gulp.task('default-mini', gulp.series('styles', 'scripts-mini', 'templates', () => {}));
+gulp.task('default-mini', gulp.series('styles', 'scripts-mini', 'templates', (done) => { done() }));
 
-gulp.task('development', gulp.series('default', 'watch', () => {}));
-gulp.task('production', gulp.series('default-mini', () => {}));
+gulp.task('development', gulp.series('default', 'watch', (done) => { done() }));
+gulp.task('production', gulp.series('default-mini', (done) => { done() }));
