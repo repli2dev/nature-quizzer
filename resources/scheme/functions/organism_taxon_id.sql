@@ -8,8 +8,9 @@ CREATE OR REPLACE FUNCTION organism_taxon_id(latin_name TEXT) RETURNS INT AS
     SELECT * INTO taxon FROM col.taxon_exported WHERE "completeName" = capitalize_first_only(latin_name) ORDER BY "taxonomicStatus" = 'accepted name' DESC LIMIT 1;
     IF taxon."taxonomicStatus" != 'accepted name' THEN
       output := taxon."acceptedNameUsageID";
+    ELSE
+      output := taxon."taxonID";
     END IF;
-    output := taxon."taxonID";
 
     -- Fallback when not found
     IF output IS NULL THEN
