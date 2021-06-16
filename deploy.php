@@ -19,14 +19,14 @@ if ($state !== 0) {
 }
 // Update PHP dependencies
 $state = 0;
-system('php composer.phar update', $state);
+system('php composer.phar install', $state);
 if ($state !== 0) {
 	die("Error: Update of PHP dependencies via Composer failed.\n");
 }
 
 // Update Node.js dependencies
 $state = 0;
-system('npm update', $state);
+system('npm install', $state);
 if ($state !== 0) {
 	die("Error: Update of Node.js dependencies via node failed.\n");
 }
@@ -51,8 +51,6 @@ system('php utils/updatedb.php', $state);
 if ($state !== 0) {
 	die("Error: Database migrations failed.\n");
 }
-// Fix the permissions
-system('chown -R apache:apache temp/*');
 
 if (file_exists('.deployment-in-progress')) {
 	unlink('.deployment-in-progress');
