@@ -53,9 +53,10 @@ class FeedbackProcessor
 			$message = new Message();
 			$message->setSubject(sprintf('Nature Quizzer (%s): Feedback', $server));
 			if (isset($data['email']) && $data['email']) {
-				$message->setFrom($data['email']);
+				$message->setFrom($this->mails['sender']);
+				$message->addReplyTo($data['email']);
 			} else {
-				$message->setFrom($this->mails['feedback']);
+				$message->setFrom($this->mails['sender']);
 			}
 			$message->addTo($this->mails['feedback']);
 			$message->setBody($data['text']);

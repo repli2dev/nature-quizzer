@@ -12,6 +12,7 @@ parameters:
 		clientId:
 		clientSecret:
 	mails:
+		sender: no-reply@poznavackaprirody.cz
 		feedback: jan@drabek.cz
 
 http:
