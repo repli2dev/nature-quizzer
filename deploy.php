@@ -40,7 +40,7 @@ if ($state !== 0) {
 
 // Regenerate files via Gulp
 $state = 0;
-system('gulp production', $state);
+system('./node_modules/gulp/bin/gulp.js production', $state);
 if ($state !== 0) {
 	die("Error: Update of production files could not been finished.\n");
 }
