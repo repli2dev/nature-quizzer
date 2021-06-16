@@ -38,7 +38,7 @@ class ExternalPresenter extends BasePresenter
 		Debugger::enable(Debugger::PRODUCTION);
 		$result = NULL;
 		try {
-			$redirectUri = str_replace('http://', 'https://', $this->link('//this'));
+			$redirectUri = str_replace(['http://', ':443'], ['https://', ''], $this->link('//this'));
 			$result = $this->facebook->authenticate($redirectUri);
 		} catch (Exception $ex) {
 			if ($ex instanceof AbortException) {
