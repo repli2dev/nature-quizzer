@@ -37,7 +37,7 @@ class ExternalPresenter extends BasePresenter
 		Debugger::enable(Debugger::PRODUCTION);
 		$result = NULL;
 		try {
-			$result = $this->facebook->authenticate($this->link('//this'));
+			$result = $this->facebook->authenticate($this->link('https://this'));
 		} catch (Exception $ex) {
 			if ($ex instanceof AbortException) {
 				throw $ex;
