@@ -6,7 +6,7 @@ Simple web-based adaptive learning system for teaching users biological concepts
 
 General:
 
- - PHP >= 5.6
+ - PHP >= 7.4
  - PostgreSQL >= 9.3
  - Node.js and its dependencies captured in `package.json`
  - Composer and its dependencies captured in `composer.json`
@@ -27,14 +27,14 @@ $ chmod -R 777 log temp
 
 ```
 $ cd <project path>
-$ npm update
+$ npm install
 ```
 
 3. Install runtime (PHP) dependencies via `composer`:
  
 ```
 $ cd <project path>
-$ composer update
+$ composer install
 ```
 
 4. Run `gulp` to build css, templates and javascript files:
