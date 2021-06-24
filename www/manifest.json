@@ -1,0 +1,15 @@
+{
+  "short_name": "Poznávačka přírody",
+  "name": "Poznávačka přírody",
+  "icons": [
+    {
+      "src": "images/logo_large.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/concepts",
+  "display": "standalone",
+  "theme_color": "#000",
+  "background_color": "#000"
+}
