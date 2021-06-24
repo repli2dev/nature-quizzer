@@ -1,11 +1,16 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin,latin-ext);
 /** Color scheme: http://colorschemedesigner.com/csd-3.5/#1o42PjPu-w0w0 */
+html {
+	background: #59CA4D;
+}
 body {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 15px;
 	background: #F7DB5E;
 	padding: 0px;
 	margin: 0px;
+	display: flex;
+	flex-direction: column;
 }
 body.loading {
 	background-image: url('../images/spinner.gif');

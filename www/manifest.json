@@ -3,7 +3,7 @@
   "name": "Poznávačka přírody",
   "icons": [
     {
-      "src": "images/logo_large.png",
+      "src": "images/app_icon_web.png",
       "sizes": "512x512",
       "type": "image/png"
     }
