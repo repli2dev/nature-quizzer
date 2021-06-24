@@ -17,7 +17,7 @@
 		"ua-parser/uap-php": "~3.4.3",
 		"nextras/mail-panel": "2.5.2",
 		"nextras/datagrid": "~3.0",
-		"facebook/graph-sdk": "5.6.x",
+		"facebook/graph-sdk": "^5.7",
 		"google/apiclient": "^2.0",
       	"ext-pdo": "*"
     }
