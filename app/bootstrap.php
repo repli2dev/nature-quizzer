@@ -8,8 +8,8 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $configurator = new Configurator;
 
-// Always enable debug mode when running from command line
-if (PHP_SAPI === 'cli') {
+// Always enable debug mode when running from command line or explicitly requested (local environment)
+if (PHP_SAPI === 'cli' || getenv('NETTE_DEBUG') === '1') {
 	$configurator->setDebugMode(true);
 }
 
@@ -31,7 +31,7 @@ $configurator->createRobotLoader()
 	->register();
 
 $configurator->addConfig(__DIR__ . '/config/config.neon');
-if ($configurator->isDebugMode()) {
+if ($configurator->isDebugMode() || getenv('NETTE_DEBUG') === '1') {
 	$configurator->addConfig(__DIR__ . '/config/config.development.neon');
 	// Create extra dumping function to dump it into file
 	function fdump()

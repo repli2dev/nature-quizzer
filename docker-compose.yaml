@@ -1,0 +1,41 @@
+version: "3.2"
+services:
+  db:
+    image: postgres:12.9
+    restart: always
+    # Use postgres/example user/password credentials
+    volumes:
+      - ./.db-data:/var/lib/postgresql/data
+      - ./.docker/postgres-init:/docker-entrypoint-initdb.d
+    ports:
+      - ${IP}:5432:5432
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: postgres
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - ${IP}:88:8080
+  nginx:
+    image: nginx:1.21
+    volumes:
+      - .:/code
+      - ./.docker/nginx/site.conf:/etc/nginx/conf.d/site.conf
+      - ./.docker/nginx-root:/usr/share/nginx/html
+      - ./.docker/nginx-certs:/etc/nginx/certs
+    ports:
+      - ${IP}:80:80
+      - ${IP}:443:443
+  php:
+    build: .docker/php
+    environment:
+      NETTE_DEBUG: 1
+    volumes:
+      - .:/code
+  node:
+    build: .docker/node
+    volumes:
+      - .:/code
+    tty: true
+

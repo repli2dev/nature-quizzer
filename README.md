@@ -7,37 +7,45 @@ Simple web-based adaptive learning system for teaching users biological concepts
 General:
 
  - PHP >= 7.4
- - PostgreSQL >= 9.3
+ - PostgreSQL >= 12
  - Node.js and its dependencies captured in `package.json`
  - Composer and its dependencies captured in `composer.json`
 
-##  Installing
+##  Installation
 
 0. Update to proper selected GIT branch/tag.
    master branch = development
    production branch = production
 
-1. Set proper permissions to `temp` and `log` directory:
+1. Consult the `.env` configuration to ensure that path to `nature-quizzer-packages` is correct and especially that `IP` variable is correctly set.  
+   On local environment also edit `/etc/hosts` file to contain `<IP> poznavackaprirody.test www.poznavackaprirody.test` entry.
+
+2. When in local environment: Run Docker composition with `make up` (first time) or `make start` (afterwards) all containers (nginx, db, php, adminer) will come up:
+   - `<IP>:88` with Adminer, you can use `nature-quizzer` as username and password as well as `postgres`.
+   - `poznavackaprirody.test` and `www.poznavackaprirody.test` on which this application is made work.
+   - all subsequent commands should be executed either from `php` container (`make ssh php`) or `node container` (`make ssh node`).
+
+3. Set proper permissions to `temp` and `log` directory:
 
 ```
 $ chmod -R 777 log temp
 ```
 
-2. Install development dependencies via `node`:
+4. Install development dependencies via `node`:
 
 ```
 $ cd <project path>
 $ npm install
 ```
 
-3. Install runtime (PHP) dependencies via `composer`:
+5. Install runtime (PHP) dependencies via `composer`:
  
 ```
 $ cd <project path>
 $ composer install
 ```
 
-4. Run `gulp` to build css, templates and javascript files:
+6. Run `gulp` to build css, templates and javascript files:
 
 ```
 $ cd <project path>
@@ -46,41 +54,44 @@ $ gulp
 
 There are two gulp targets: `gulp development` will watch for changes, whereas `gulp production` will minify the JS output. 
 
-5. Create local configuration (database credentials, FB and Google+ API keys etc)
+7. Create local configuration (database credentials, FB and Google+ API keys etc)
 
 ```
 $ cd <project path>
 $ vim app/config/config.local.neon
 ```
 
-6. Create database and import ``sources/col.sql.gz`` from ``nature-quizzer-packages`` repository into `col` schema.
+8. Create database and import ``sources/col.sql.gz`` from ``nature-quizzer-packages`` repository into `col` schema.
  
 ```
 $ psql -U <user> -d nature-quizzer < col.sql
-$ psql -U <user> -d nature-quizzer < col.customizations.sql
+$ psql -U <user> -d nature-quizzer < col.customization.sql
 ```
 
-7. To install basic database schema run prepared migrations:
+For local environment there are `make import-database` and `make import-col` targets prepared.
+
+9. To install basic database schema run prepared migrations:
 
 ```
 $ cd <project path>
 $ php utils/updatedb.php
 ```
 
-8. Import desired data (DB entries as well as the underlying images) into the system.
+10. Import desired data (DB entries as well as the underlying images) into the system.
    There is `utils/package.php` for this task.
     
-9. After changing organisms (adding or removing) the organism distance script should be executed:
+11. After changing organisms (adding or removing) the organism distance script should be executed:
 
 ```
 $ php utils/update-organism-distances.php 
 ```
 
-Also check than all available organisms has any entry in `organism_distance` table, otherwise the system will be behave
+Also check tat all available organisms has any entry in `organism_distance` table, otherwise the system will be behave
 unexpectedly.
 
 For convenience there is a `deploy.php` script which does some of this steps in order to make things easy
-(except importing data), especially for update.
+(except importing data), especially for update. Mostly relevant for production environment when deploying as local environment needs only some steps during 
+development.
 
 ## Data packages
 
@@ -89,13 +100,9 @@ https://github.com/repli2dev/nature-quizzer-packages
 
 For creating new topic see /staging/HOWTO.md.
 
-## Running
+## Running locally
 
-Use Apache or PHP embedded server to serve `www` directory with `index.php` as index file:
-
-```
-php -S localhost:8000 -t <project path>/www
-```
+Use prepared docker composition, see instructions above in Installation section.
 
 ## Structure
 
@@ -107,6 +114,8 @@ The structure copies typical structure of Nette framework applications.
 
 ```
 ├── app
+│   ├── .db-data									Local environment PostgreSQL datadir
+│   ├── .docker									Local environment (Docker) configuration
 │   ├── config									Configuration(s) of the application, should be publicly available!
 │   ├── grids
 │   ├── presenters
@@ -192,7 +201,7 @@ now two descentants, one with random distractors and one with taxonomy distracto
 Each model has its ID, which is introduced also into database table model. Moreover, each user has associated model on
 its creation which is used in subsequent user uses of the application.
 
-Warning: when changing student model, beware of interconnection with /utils/basic-elo.php script, which should behave consistently.
+Warning: when changing student model, beware of interconnection with `/utils/basic-elo.php` script, which should behave consistently.
 
 ### Database migration
 
@@ -231,7 +240,7 @@ There is tool in /utils/basic-elo.php.
 
 ### Backuping database
 
-For convenience simple backup tool was introduced. The backup tool located in /utils/backup.php can create backup of
+For convenience simple backup tool was introduced. The backup tool located in `/utils/backup.php` can create backup of
 database only or even with representations, restore option is also available.
 The stored backup is stored into one compressed file in folder according to production instance.
 

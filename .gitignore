@@ -15,3 +15,8 @@ www/images/concepts
 node_modules/
 exports/*
 !.keep
+
+# Docker stuff
+.db-data/pgdata
+.docker/nginx-certs/*
+!.docker/nginx-certs/.keep
