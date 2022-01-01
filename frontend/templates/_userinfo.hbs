@@ -1,15 +1,19 @@
 <div id="user">
 	{{#unless isAnonymous}}
-		<span class="username">{{currentUser.name}}</span>
-		<span class="links">
-			{{#link-to 'user.logout'}}{{translate 'user.logout'}}{{/link-to}}
-		</span>
+		<div class="logged-user-block">
+			<span class="username">{{currentUser.name}}</span>
+			<span class="links">
+				{{#link-to 'user.logout'}}{{translate 'user.logout'}}{{/link-to}}
+			</span>
+		</div>
 	{{/unless}}
 	{{#if isAnonymous}}
-		<span class="username">{{translate 'user.anonymous_user'}}</span>
-		<span class="links">
-			{{#link-to 'user.login'}}{{translate 'user.login'}}{{/link-to}}
-			{{#link-to 'user.register'}}{{translate 'user.register'}}{{/link-to}}
-		</span>
+		<div class="anonymous-user-block">
+			<span class="username">{{translate 'user.anonymous_user'}}</span>
+			<span class="links">
+				{{#link-to 'user.login'}}{{translate 'user.login'}}{{/link-to}}
+				{{#link-to 'user.register'}}{{translate 'user.register'}}{{/link-to}}
+			</span>
+		</div>
 	{{/if}}
 </div>

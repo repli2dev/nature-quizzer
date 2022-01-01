@@ -835,3 +835,20 @@ div.concept-detail span.organism-label {
 	padding: 5px;
 	font-size: 150%;
 }
+
+.anonymous-user-block {
+	padding: 3px;
+	margin-top: 3px;
+	-webkit-animation: pulsing 5000ms linear;
+	-webkit-animation-iteration-count: infinite;
+	-moz-animation: pulsing 5000ms linear;
+	-moz-animation-iteration-count: infinite;
+	-o-animation: pulsing 5000ms linear;
+	-o-animation-iteration-count: infinite;
+	animation: pulsing 5000ms linear;
+	animation-iteration-count: infinite;
+}
+.logged-user-block, .no-user-block {
+	padding: 3px;
+	margin-top: 3px;
+}
