@@ -79,9 +79,9 @@ div.cleaner {
 #top-bar h1 {
 	margin: 0px;
 	color: white;
-	text-shadow: 1px 1px 1px #088724;
 	width: 150px;
 	font-size: 1.5em;
+	filter: drop-shadow(1px 1px 1px #088724);
 }
 .logo-wrapper {
 	float: left;
@@ -93,7 +93,7 @@ div.cleaner {
 	padding-left: 60px;
 	height: 60px;
 	line-height: 25px;
-	background: url(../images/logo.png) no-repeat;
+	background: url(../images/logo-white.png) no-repeat;
 }
 #menu-toogle {
 	display: none;
@@ -102,6 +102,9 @@ div.cleaner {
 	font-size: 2em;
 	float: left;
 	margin-left: 20px;
+	margin-top: 5px;
+	transform: scale(1.5);
+	filter: drop-shadow(1px 1px 1px #088724);
 }
 #menu-toogle:hover {
 	cursor: pointer;
@@ -117,6 +120,7 @@ div.cleaner {
 }
 #menu ul li a {
 	color: #f4f2ef;
+	text-shadow: 1px 1px 1px #088724;
 	padding: 7px 20px;
 	border: 1px solid transparent;
 	font-weight: bold;
@@ -128,6 +132,7 @@ div.cleaner {
 	color: black;
 	transition: background-color .35s;
 	-webkit-transition: background-color .35s;
+	text-shadow: none;
 }
 
 #user {
@@ -139,6 +144,7 @@ div.cleaner {
 }
 #user span.username {
 	margin-top: 10px;
+	text-shadow: 1px 1px 1px #088724;
 }
 #user span.links {
 	clear: both;
