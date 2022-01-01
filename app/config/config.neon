@@ -36,7 +36,7 @@ application:
 		*: NatureQuizzer\*Module\Presenters\*Presenter
 
 session:
-	expiration: '14 days'
+	expiration: '6 months'
 
 services:
 	- NatureQuizzer\Database\Model\Admin
