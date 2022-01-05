@@ -56,7 +56,7 @@ App.ApplicationRoute = Ember.Route.extend({
 			if (typeof value !== 'undefined') {
 				this.controller.set('contactContent', value);
 			}
-			$("body").animate({
+			$("html").animate({
 				scrollTop: 0
 			}, 400);
 		},
