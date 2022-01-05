@@ -1,16 +1,16 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin,latin-ext);
 /** Color scheme: http://colorschemedesigner.com/csd-3.5/#1o42PjPu-w0w0 */
-html {
-	background: #59CA4D;
-}
 body {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 15px;
-	background: #F7DB5E;
+	background: #59CA4D;
 	padding: 0px;
 	margin: 0px;
 	display: flex;
 	flex-direction: column;
+}
+body.scrolled-bottom {
+	background: #F7DB5E;
 }
 body.loading {
 	background-image: url('../images/spinner.gif');
@@ -191,6 +191,7 @@ div.cleaner {
 }
 
 #footer {
+	background: #F7DB5E;
 	border-top: 3px solid #A1891F;
 	text-align: center;
 }

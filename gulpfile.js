@@ -20,7 +20,8 @@ var paths = {
 		'frontend/js/views.js',
 		'frontend/js/controllers.js',
 		'frontend/js/components.js',
-		'frontend/js/netteForms.js'
+		'frontend/js/netteForms.js',
+		'frontend/js/overscroll.js'
 	],
 	scriptsBackend: [
 		'frontend/js/externals/jquery-2.1.4.js',
