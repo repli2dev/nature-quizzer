@@ -41,6 +41,11 @@ App.Translations.cs = {
 		'quick_options': 'Rychlý výběr',
 		'topics': 'Témata',
 		'random_mix': 'Náhodný mix',
+		'news': 'Novinky',
+		'install': 'Nainstalovat',
+		'install_icon': '📲',
+		'install_instruction_ios': 'V prohlížeči klikněte na Sdílet a vyberte Přidat na plochu.',
+		'install_instruction_android': 'V prohlížeči klikněte na Menu (tři tečky) a vyberte Přidat stránku na domovskou obrazovku.',
 	},
 	'user': {
 		'heading_login': 'Přihlášení uživatele',
@@ -186,5 +191,16 @@ App.Translations.cs = {
 	'terms_confirm': 'Souhlasím s podmínkami použití a jsem si vědom omezení plynoucí z učení skrze automatizovaný systém.',
 	'view': {
 		'items_count': 'Počet položek',
+	},
+	'news_heading': 'Novinky',
+	'news': {
+		'2022-01': '2022 Leden: Drobné úpravy designu, propagace přihlašování, dotažení instalovatelnosti na mobilní zařízení, úprava Google Analytics.',
+		'2021-06': '2021 Červen: Přesun na nový hosting, vyřešení problémů s chybějícími matoucími odpověďmi, drobné opravy.',
+		'2018-07': '2018 Červenec: Zdokonalení doporučování matoucích odpovědí, technologické změny, úpravy přihlašování skrze FB a Google.',
+		'2017-06': '2017 Červen: Přidání tématu Houby ČR.',
+		'2017-02': '2017 Únor: Oprava řady chyb v rozhraní, oprava výkonu, změna poměru typu otázek, oprava matoucích odpovědí.',
+		'2016-05': '2016 Květen: Oprava řady chyb v rozhraní, oprava matoucích odpovědí, úprava responzivního zobrazení.',
+		'2015-11': '2015 Listopad: Přidání tematu Stromy a keře ČR.',
+		'2015-10': '2015 Říjen: Spuštění pro veřejnost v rozsahu tématu Zvířata ČR.'
 	}
 };

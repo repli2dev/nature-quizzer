@@ -41,6 +41,7 @@ class HomepagePresenter extends BasePresenter
 		$sitemap->addEntry($baseLink . 'concepts');	// Topics
 		$sitemap->addEntry($baseLink . 'about'); 	// About
 		$sitemap->addEntry($baseLink . 'terms'); 	// Terms
+		$sitemap->addEntry($baseLink . 'news'); 	// News
 		$sitemap->addEntry($baseLink . 'play/mix/all', Sitemap::ALWAYS, 0.8);	// Random mix
 		// List all topics
 		$topics = $this->concept->getAllWithInfo($this->currentLanguage->get());
@@ -57,6 +58,7 @@ class HomepagePresenter extends BasePresenter
 	public function actionOffline() { $this->setView('default'); }
 	public function actionAbout() { $this->setView('default'); }
 	public function actionTerms() { $this->setView('default'); }
+	public function actionNews() { $this->setView('default'); }
 	public function actionFacebookLoginProblem($type = null) { $this->setView('default'); }
 	public function actionGoogleLoginProblem($type = null) { $this->setView('default'); }
 	public function actionPlay($conceptId, $codeName) { $this->setView('default'); }
