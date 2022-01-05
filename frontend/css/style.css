@@ -858,3 +858,6 @@ div.concept-detail span.organism-label {
 	padding: 3px;
 	margin-top: 3px;
 }
+textarea {
+	max-width: 100%;
+}
