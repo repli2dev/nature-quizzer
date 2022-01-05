@@ -34,7 +34,13 @@
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-      ga('create', 'UA-69167350-1', 'auto');
+      ga('create', 'UA-69167350-1', {
+		  // disable cookies
+		  storage: 'none',
+		  storeGac: false,
+		  clientId: new Fingerprint().get()
+	  });
+
       // commented out as the Ember sends this automatically on route transition
       // ga('send', 'pageview');
 

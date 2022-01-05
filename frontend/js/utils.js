@@ -83,6 +83,12 @@ var AuthManager = Ember.Object.extend({
 			var data = UserData.create();
 			data.setProperties(response);
 			self.set('data', data);
+			if (data && !data.anonymous && data.id) {
+				self.setGaUser(data.id);
+			} else {
+				self.setGaUser(null);
+			}
+
 		});
 
 	},
@@ -104,7 +110,7 @@ var AuthManager = Ember.Object.extend({
 		});
 	},
 
-	register: function(data, callback) {
+	register: function (data, callback) {
 		var self = this;
 		var request = $.ajax({
 			type: "POST",
@@ -120,7 +126,7 @@ var AuthManager = Ember.Object.extend({
 		});
 	},
 
-	logout: function() {
+	logout: function () {
 		var self = this;
 		// Logout on backend
 		var request = $.ajax({
@@ -144,5 +150,10 @@ var AuthManager = Ember.Object.extend({
 			return true;
 		}
 		return false;
-	}
+	},
+	setGaUser: function (userId) {
+		if (typeof ga !== 'undefined') {
+			ga('set', 'userId', userId);
+		}
+	},
 });
