@@ -2,6 +2,8 @@
 namespace NatureQuizzer\Tools;
 
 use Exception;
+use function curl_getinfo;
+use const CURLINFO_HTTP_CODE;
 
 /**
  * Encapsulation of downloading something using CURL library

@@ -14,7 +14,7 @@ class EOLPage extends EOLAPI
 	const VETTED_ONLY = 1;
 	const VETTED_UNREVIEWED = 2;
 
-	const API_URL = 'http://eol.org/api/pages/1.0/__ID__.json?images=__IMAGES__&videos=0&sounds=0&maps=0&text=&iucn=false&subjects=overview&licenses=cc-by%2Ccc-by-nc%2Ccc-by-sa+cc-by-nc-sa%2Cpd&details=__DETAILS__&common_names=true&synonyms=false&references=false&vetted=__VETTED__&cache_ttl=';
+	const API_URL = 'https://eol.org/api/pages/1.0/__ID__.json?images_per_page=__IMAGES__&videos_per_page=0&sounds_per_page=0&maps_per_page=0&texts_per_page=&iucn=false&subjects=overview&licenses=cc-by|cc-by-nc|cc-by-sa|cc-by-nc-sa|pd&details=__DETAILS__&common_names=true&synonyms=false&references=false&vetted=__VETTED__&cache_ttl=';
 
 	private $images;
 	private $details;
@@ -42,6 +42,6 @@ class EOLPage extends EOLAPI
 		$result = $this->fetch($this->prepareUrl($id));
 
 		$parsed = Json::decode($result);
-		return $parsed;
+		return $parsed->taxonConcept ?? null;
 	}
 }

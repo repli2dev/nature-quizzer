@@ -6,7 +6,7 @@ class BioLibNames
 {
 	use CurlDownloader;
 
-	const API_URL = "http://www.biolib.cz/cz/formsearch/?action=execute&searcharea=1&string=__QUERY__";
+	const API_URL = "https://www.biolib.cz/cz/formsearch/?action=execute&searcharea=1&string=__QUERY__";
 
 	private function prepareUrl($query)
 	{
