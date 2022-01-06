@@ -19,6 +19,7 @@ App.Router.map(function () {
 	this.route('view', { path: '/view/:id_concept/:code_name' });
 	this.route('result', { path: '/result/:id_concept' });
 	this.route('concepts');
+	this.route('news');
 	this.route('user', function () {
 		this.route('login');
 		this.route('logout');
@@ -237,6 +238,12 @@ App.AboutRoute = Ember.Route.extend(App.ResetScroll, {
 });
 
 App.TermsRoute = Ember.Route.extend(App.ResetScroll, {
+	activate: function() {
+		this._super.apply(this, arguments);
+	}
+});
+
+App.NewsRoute = Ember.Route.extend(App.ResetScroll, {
 	activate: function() {
 		this._super.apply(this, arguments);
 	}

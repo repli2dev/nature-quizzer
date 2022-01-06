@@ -113,10 +113,11 @@ div.cleaner {
 #menu ul {
 	float: left;
 	list-style: none;
+	padding-left: 0;
 }
 #menu ul li {
 	float: left;
-	margin-right: 30px;
+	margin-right: 10px;
 }
 #menu ul li a {
 	color: #f4f2ef;
@@ -133,6 +134,16 @@ div.cleaner {
 	transition: background-color .35s;
 	-webkit-transition: background-color .35s;
 	text-shadow: none;
+}
+
+span.install {
+	display: none;
+	font-size: 250%;
+	top: -15px;
+	position: relative;
+}
+span.install:hover {
+	cursor: pointer;
 }
 
 #user {
@@ -724,6 +735,7 @@ div.error {
 	font-size: 150%;
 }
 .quick-choice h2 {
+	clear: both;
 	margin-top: 0em;
 	margin-bottom: 0em;
 }
