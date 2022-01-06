@@ -6,10 +6,8 @@ use NatureQuizzer\Database\Model\Concept;
 use NatureQuizzer\Database\Model\Group;
 use NatureQuizzer\Database\Model\Language;
 use NatureQuizzer\Database\Model\Organism;
-use NatureQuizzer\Presenters\BasePresenter;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
-use Nette\DateTime;
 use Nextras\Datagrid\Datagrid;
 use PDOException;
 

@@ -2,11 +2,9 @@
 
 namespace NatureQuizzer\Presenters;
 
-use NatureQuizzer\Presenters\BasePresenter;
 use NatureQuizzer\Database\Model\Admin;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
-use Nette\DateTime;
 use Nette\Security\AuthenticationException;
 use Nette\Security\Passwords;
 use Nextras\Datagrid\Datagrid;
