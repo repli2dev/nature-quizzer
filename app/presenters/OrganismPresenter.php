@@ -47,7 +47,9 @@ class OrganismPresenter extends BasePresenter
 		}
 		$values = $data->toArray();
 		$values['infos'] = $this->organismModel->getInfos($id);
-		$this->getComponent('editForm')->setDefaults($values);
+		/** @var Form $form */
+		$form = $this->getComponent('editForm');
+		$form->setDefaults($values);
 		$this->template->data = $data;
 
 		$representations = $this->organismModel->getRepresentations($id);
@@ -220,7 +222,9 @@ class OrganismPresenter extends BasePresenter
 		}
 		$this->organismCommonness->setValue($organism, $value);
 		$this->setView('default');
-		$this->getComponent('organismList')->redrawRow($organism);
+		/** @var Datagrid $row */
+		$row = $this->getComponent('organismList');
+		$row->redrawRow($organism);
 	}
 
 }

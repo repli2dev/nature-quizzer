@@ -9,7 +9,7 @@ use Nette\Application\Routers\RouteList;
 class RouterFactory
 {
 
-	/** @return IRouter */
+	/** @return RouteList */
 	public function createRouter()
 	{
 		$router = new RouteList();

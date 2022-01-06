@@ -13,7 +13,7 @@ use NatureQuizzer\Model\Utils\BasicElo;
 use NatureQuizzer\Utils\LookupTable;
 use Nette\Database\Connection;
 
-include_once __DIR__ . "/../app/bootstrap.php";
+$container = include __DIR__ . "/../app/bootstrap.php";
 
 
 function printHelp()
@@ -96,7 +96,7 @@ if ($command == 'list') {
 
 	$modelRow = $model->getModelByName($destination);
 	if ($modelRow === NULL) {
-		printf("No such model: %sy\n", $name);
+		printf("No such model: %sy\n", $destination);
 		exit(1);
 	}
 	$destinationModelId = $modelRow->id_model;
@@ -104,7 +104,7 @@ if ($command == 'list') {
 	foreach ($sources as $sourceName) {
 		$modelRow = $model->getModelByName($sourceName);
 		if ($modelRow === NULL) {
-			printf("No such model: %sy\n", $name);
+			printf("No such model: %sy\n", $destination);
 			exit(1);
 		}
 		$sourceIds[] = $modelRow->id_model;

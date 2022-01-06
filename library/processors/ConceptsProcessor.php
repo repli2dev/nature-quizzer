@@ -15,8 +15,6 @@ class ConceptsProcessor
 {
 	use SmartObject;
 
-	/** @var CurrentUser */
-	private $currentUser;
 	/** @var CurrentLanguage */
 	private $currentLanguage;
 	/** @var Concept */
@@ -26,9 +24,9 @@ class ConceptsProcessor
 	/** @var Organism */
 	private $organism;
 
-	public function __construct(CurrentUser $currentUser, CurrentLanguage $currentLanguage, Concept $concept, Group $group, Organism $organism)
+	public function __construct(CurrentLanguage $currentLanguage, Concept $concept, Group $group, Organism $organism)
 	{
-		list ($this->currentUser, $this->currentLanguage, $this->concept, $this->group, $this->organism) = func_get_args();
+		list ($this->currentLanguage, $this->concept, $this->group, $this->organism) = func_get_args();
 	}
 
 	public function get($conceptId)

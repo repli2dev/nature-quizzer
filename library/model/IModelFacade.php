@@ -74,9 +74,9 @@ interface IModelFacade
 	 *   ]
 	 * ]
 	 *
-	 * @param $userId int ID of user
-	 * @param $concept int ID of concept from which the questions should be drawn
-	 * @param $count int Wanted number of questions
+	 * @param int $userId ID of user
+	 * @param mixed $concept ID of concept from which the questions should be drawn
+	 * @param int $count Wanted number of questions
 	 * @return array Array with prepared sequence of questions
 	 */
 	public function get($userId, $concept, $count);
@@ -85,7 +85,7 @@ interface IModelFacade
 	/**
 	 * Updates model data of given user reflecting user answer.
 	 *
-	 * @param $userId int User ID
+	 * @param int $userId User ID
 	 * @param UserAnswer $answer User answer
 	 */
 	public function answer($userId, UserAnswer $answer);

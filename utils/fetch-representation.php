@@ -7,7 +7,7 @@ use Nette\Utils\Image;
 use Nette\Utils\Json;
 use Nette\Utils\Random;
 
-include_once __DIR__ . "/../app/bootstrap.php";
+$container = include __DIR__ . "/../app/bootstrap.php";
 
 function printHelp()
 {

@@ -37,7 +37,7 @@ class CurrentUser
 			'anonymous' => 'true',
 			'id_model' => $this->modelModel->getRandomModel()
 		]);
-		$this->user->login(NULL, NULL, $user->getPrimary());
+		$this->user->login(NULL, NULL, $user->getPrimary()); // @phpstan-ignore-line
 		return $this->user->getId();
 	}
 

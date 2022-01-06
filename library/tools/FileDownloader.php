@@ -20,8 +20,8 @@ class FileDownloader
 
 	/**
 	 * Saves given URL into file with given name
-	 * @param $url string URL to fetch
-	 * @param $name string Desired name of file
+	 * @param string $url URL to fetch
+	 * @param string $name string Desired name of file
 	 * @return bool
 	 */
 	public function fetch($url, $name)

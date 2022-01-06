@@ -30,8 +30,8 @@ class XmlResponse implements IResponse
 
 
 	/**
-	 * @param  string  payload
-	 * @param  string    MIME content type
+	 * @param  string  $payload
+	 * @param  string  $contentType  MIME content type
 	 */
 	public function __construct($payload, $contentType = NULL)
 	{
@@ -41,7 +41,7 @@ class XmlResponse implements IResponse
 
 
 	/**
-	 * @return array|\stdClass
+	 * @return string
 	 */
 	public function getPayload()
 	{
@@ -66,7 +66,7 @@ class XmlResponse implements IResponse
 	public function send(IRequest $httpRequest, IHttpResponse $httpResponse): void
 	{
 		$httpResponse->setContentType($this->contentType);
-		$httpResponse->setExpiration(FALSE);
+		$httpResponse->setExpiration(null);
 		echo $this->payload;
 	}
 

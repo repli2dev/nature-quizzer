@@ -81,7 +81,7 @@ abstract class Table
 
 	/**
 	 * Returns table_name from TableName
-	 * @param $str string Input string in camel case
+	 * @param string $str Input string in camel case
 	 * @return mixed Output string in underscore syntax
 	 */
 	private function fromCamelCase($str)
@@ -107,7 +107,7 @@ abstract class Table
 			if (!$inTransaction) $pdo->commit();
 			return $returnValue;
 		} catch (PDOException $ex) {
-			if (!$inTransaction) $pdo->rollBack();
+			if ($pdo->inTransaction()) $pdo->rollBack();
 			throw $ex;
 		}
 	}

@@ -111,7 +111,7 @@ use Nette\Utils\Strings;
 use Nette\Utils\UnknownImageFileException;
 use NatureQuizzer\Database\Utils\ImportTransaction;
 
-include_once __DIR__ . "/../app/bootstrap.php";
+$container = include __DIR__ . "/../app/bootstrap.php";
 
 function printHelp()
 {
@@ -168,7 +168,7 @@ if ($command == 'import') {
 		$conceptModel = $container->getByType('NatureQuizzer\\Database\\Model\\Concept');
 		/** @var Organism $organismModel */
 		$organismModel = $container->getByType('NatureQuizzer\\Database\\Model\\Organism');
-		/** @var Package $package */
+		/** @var Package $packageModel */
 		$packageModel = $container->getByType('NatureQuizzer\\Database\\Model\\Package');
 
 		/* Remove package relationships (will be set to new ones after import) */
@@ -296,10 +296,10 @@ if ($command == 'import') {
 		print "No such package.\n\n";
 		exit(1);
 	}
-} elseif ($command == 'gc') {
+} elseif ($command === 'gc') {
 	$import = new ImportTransaction($container);
 	$import->perform(function($container){
-		/** @var Package $package */
+		/** @var Package $packageModel */
 		$packageModel = $container->getByType('NatureQuizzer\\Database\\Model\\Package');
 
 		print "To be deleted\n";

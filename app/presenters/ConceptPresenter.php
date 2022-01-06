@@ -47,7 +47,9 @@ class ConceptPresenter extends BasePresenter
 		}
 		$values = $data->toArray();
 		$values['infos'] = $this->conceptModel->getInfos($id);
-		$this->getComponent('editForm')->setDefaults($values);
+		/** @var Form $form */
+		$form = $this->getComponent('editForm');
+		$form->setDefaults($values);
 		$this->template->data = $data;
 	}
 
@@ -63,7 +65,9 @@ class ConceptPresenter extends BasePresenter
 		foreach ($conceptOrganisms as $row) {
 			$checked[$row->id_organism] = true;
 		}
-		$this->getComponent('organisms')->setDefaults(['organisms' => $checked]);
+		/** @var Form $form */
+		$form = $this->getComponent('organisms');
+		$form->setDefaults(['organisms' => $checked]);
 	}
 
 	public function actionDelete($id)

@@ -58,3 +58,6 @@ import-database:
 
 import-col:
 	bzcat "$(PACKAGES_PATH)/sources/col.sql.bz2" | docker-compose exec -T db psql -U nature-quizzer nature-quizzer && cat "$(PACKAGES_PATH)/sources/col.customization.sql" | docker-compose exec -T db psql "dbname=nature-quizzer options=--search_path=col" -U nature-quizzer;
+
+stan:
+	docker compose exec php bash -c 'cd /code; php composer.phar stan'

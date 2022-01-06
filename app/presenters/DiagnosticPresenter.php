@@ -9,6 +9,7 @@ use NatureQuizzer\Database\Model\Round;
 use NatureQuizzer\Database\Utils\LanguageLookup;
 use NatureQuizzer\Utils\Helpers;
 use Nette\Application\UI\Form;
+use Nette\Forms\Form as BasicForm;
 use Nette\Utils\DateTime;
 use Nette\Utils\Validators;
 
@@ -63,7 +64,7 @@ class DiagnosticPresenter extends BasePresenter
 		$form = new Form();
 		$form->addSelect('model', 'Model', $this->model->getPairs())->setPrompt('Select model')->setDefaultValue($this->selectedModel);
 		$form->addSubmit('submitted', 'Select');
-		$form->onSubmit[] = function(Form $form) {
+		$form->onSubmit[] = function(BasicForm $form) {
 			$values = $form->getValues();
 			$this->selectedModel = $values['model'];
 			$this->redirect('this');
@@ -76,7 +77,7 @@ class DiagnosticPresenter extends BasePresenter
 		$form = new Form();
 		$form->addText('query', 'To search');
 		$form->addSubmit('submitted', 'Search');
-		$form->onSubmit[] = function(Form $form) {
+		$form->onSubmit[] = function(BasicForm $form) {
 			$values = $form->getValues();
 			$temp = trim(str_replace('[', '', str_replace(']', '', $values['query'])));
 			$temp = explode(' ', $temp);
@@ -93,7 +94,7 @@ class DiagnosticPresenter extends BasePresenter
 		$form = new Form();
 		$form->addText('query', 'To search');
 		$form->addSubmit('submitted', 'Search');
-		$form->onSubmit[] = function(Form $form) {
+		$form->onSubmit[] = function(BasicForm $form) {
 			$values = $form->getValues();
 			$temp = trim(str_replace('[', '', str_replace(']', '', $values['query'])));
 			$temp = explode(' ', $temp);

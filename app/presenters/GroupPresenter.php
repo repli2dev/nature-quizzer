@@ -39,7 +39,9 @@ class GroupPresenter extends BasePresenter
 		}
 		$values = $data->toArray();
 		$values['infos'] = $this->groupModel->getInfos($id);
-		$this->getComponent('editForm')->setDefaults($values);
+		/** @var Form $form */
+		$form = $this->getComponent('editForm');
+		$form->setDefaults($values);
 		$this->template->data = $data;
 	}
 

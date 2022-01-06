@@ -25,6 +25,7 @@ class EOLPage extends EOLAPI
 		parent::__construct($key);
 		$this->images = $images;
 		$this->details = $details;
+		$this->vetted = $vetted;
 	}
 
 

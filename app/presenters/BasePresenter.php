@@ -6,6 +6,7 @@ use Nette\Application\UI\Presenter;
 
 abstract class BasePresenter extends Presenter
 {
+	protected $resource;
 
 	public function beforeRender()
 	{

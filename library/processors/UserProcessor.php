@@ -8,6 +8,7 @@ use NatureQuizzer\Database\Model\Round;
 use NatureQuizzer\Database\Model\Model as SettingModel;
 use NatureQuizzer\Database\Model\User as UserModel;
 use NatureQuizzer\Runtime\CurrentUser;
+use Nette\Forms\Controls\TextInput;
 use Nette\Forms\Form;
 use Nette\Security\AuthenticationException;
 use Nette\Security\IAuthenticator;
@@ -19,6 +20,7 @@ use Nette\Utils\DateTime;
 use Nette\Utils\Strings;
 use Nette\Utils\Validators;
 use Tracy\Debugger;
+use function array_key_exists;
 
 class UserProcessor
 {
@@ -63,15 +65,16 @@ class UserProcessor
 		// Get current user (will try to initialize if not any)
 		$this->currentUser->get();
 		// If there is still no user, then something went wrong
-		if (!$this->user->isLoggedIn()) {
+		$identity = $this->user->getIdentity() !== null ? $this->user->getIdentity()->getData() : [];
+		if (!$this->user->isLoggedIn() || !array_key_exists('name', $identity) || !array_key_exists('email', $identity)) {
 			$output['status'] = 'fail';
 		} else {
 			$output['status'] = 'success';
 			$output['anonymous'] = $this->user->isInRole(UserModel::GUEST_ROLE);
 			$output['id'] = $this->user->getId();
-			$output['name'] = $this->user->getIdentity()->name;
+			$output['name'] = $identity['name'];
 			$output['model'] = $this->settingModel->getModelNameByUser($this->user->getId());
-			$output['email'] = $this->user->getIdentity()->email;
+			$output['email'] = $identity['email'];
 		}
 		return $output;
 	}
@@ -159,7 +162,7 @@ class UserProcessor
 
 	/**
 	 * Warning: This method is not supposed to be publicly available!
-	 * @param $userInfo array Necessary information about the user
+	 * @param array $userInfo Necessary information about the user
 	 * @throws Exception if anything goes wrong
 	 */
 	public function loginViaFacebook($userInfo)
@@ -207,7 +210,7 @@ class UserProcessor
 
 	/**
 	 * Warning: This method is not supposed to be publicly available!
-	 * @param $userInfo array Necessary information about the user
+	 * @param array $userInfo Necessary information about the user
 	 * @throws Exception if anything goes wrong
 	 */
 	public function loginViaGoogle($userInfo)
@@ -289,7 +292,9 @@ class UserProcessor
 		$form->addText('password2')
 			->addRule(Form::FILLED, 'user.empty_password2');
 
-		$form['password']
+		/** @var TextInput $password */
+		$password = $form['password'];
+		$password
 			->addCondition(Form::FILLED)
 			->addRule(Form::EQUAL, 'user.password_mismatch', $form['password2']);
 		return $form;

@@ -3,6 +3,7 @@
 namespace NatureQuizzer\Database\Model;
 
 
+use Nette\Database\Table\ActiveRow;
 use Nette\Utils\Arrays;
 use Nette\Utils\DateTime;
 
@@ -14,6 +15,9 @@ class Concept extends Table
 	{
 		return $this->performInTransaction(function () use ($data, $infos) {
 			$result =  $this->getTable()->insert($data);
+			if (!$result instanceof ActiveRow) {
+				throw new \RuntimeException('Insertion into database has failed.');
+			}
 			foreach ($infos as $langId => $tempData) {
 				$tempData = iterator_to_array($tempData);
 				$this->getInfoTable()->insert(array_merge($tempData, ['id_concept' => $result->id_concept, 'id_language' => $langId]));

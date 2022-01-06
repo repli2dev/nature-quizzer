@@ -19,6 +19,15 @@
 		"nextras/datagrid": "~3.0",
 		"facebook/graph-sdk": "^5.7",
 		"google/apiclient": "^2.0",
-      	"ext-pdo": "*"
-    }
+      	"ext-pdo": "*",
+      	"ext-curl": "*"
+    },
+	"require-dev": {
+		"phpstan/phpstan": "^1.3",
+		"phpstan/phpstan-nette": "^1.0",
+		"phpstan/extension-installer": "^1.1"
+	},
+	"scripts": {
+		"stan": "php -d memory_limit=512M vendor/bin/phpstan analyse"
+	}
 }

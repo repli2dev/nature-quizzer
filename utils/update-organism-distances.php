@@ -8,7 +8,7 @@
 use NatureQuizzer\Database\Utils\ImportTransaction;
 use Nette\Database\Connection;
 
-include_once __DIR__ . "/../app/bootstrap.php";
+$container = include __DIR__ . "/../app/bootstrap.php";
 
 
 $import = new ImportTransaction($container);

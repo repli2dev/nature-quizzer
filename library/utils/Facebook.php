@@ -67,7 +67,7 @@ class Facebook
 	/**
 	 * Tries to authenticate user via FB, returns array with name and id on success and throws exception otherwise
 	 *
-	 * @param $redirectUrl string Absolute URL for FB to redirect user after authentication
+	 * @param string $redirectUrl Absolute URL for FB to redirect user after authentication
 	 * @return array Array with data about the user (id, name, email)
 	 * @throws Exception if anything goes wrong.
 	 */

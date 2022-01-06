@@ -3,6 +3,7 @@
 namespace NatureQuizzer\Presenters;
 
 use NatureQuizzer\Database\Model\Admin;
+use NatureQuizzer\Utils\User;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Security\AuthenticationException;
@@ -32,7 +33,9 @@ class AdminPresenter extends BasePresenter
 	public function startup()
 	{
 		parent::startup();
-		$this->getUser()->useAdminAuthenticator();
+		/** @var User $user */
+		$user = $this->getUser();
+		$user->useAdminAuthenticator();
 	}
 
 
@@ -58,7 +61,9 @@ class AdminPresenter extends BasePresenter
 		if($data === NULL) {
 			throw new BadRequestException();
 		}
-		$this->getComponent('editForm')->setDefaults($data);
+		/** @var Form $form */
+		$form = $this->getComponent('editForm');
+		$form->setDefaults($data);
 		$this->template->data = $data;
 	}
 

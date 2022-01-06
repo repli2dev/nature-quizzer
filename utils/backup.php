@@ -8,11 +8,10 @@ use NatureQuizzer\Utils\CLI;
 use NatureQuizzer\Utils\CLI\ExecutionProblem;
 use NatureQuizzer\Utils\Helpers;
 use Nette\Database\Connection;
-use Nette\DI\Config\Adapters\NeonAdapter;
 use Nette\DI\Container;
 use Nette\SmartObject;
 
-include_once __DIR__ . "/../app/bootstrap.php";
+$container = include __DIR__ . "/../app/bootstrap.php";
 
 class Backup
 {
@@ -144,7 +143,7 @@ class Backup
 		printf("Restoring backup\n");
 		printf("----------------\n");
 		printf(" Dir: %s\n", $source);
-		printf(" Database: %s\n", ($restoreDatabase) ? 'YES' : 'NO');
+		printf(" Database: %s\n", 'YES');
 		printf(" Representations: %s\n", ($restoreRepresentations) ? 'YES' : 'NO');
 		printf("----------------\n");
 		printf(" Destination DB: %s (empty %s)\n", $credentials['database'], ($emptyDB ? 'YES' : 'NO'));

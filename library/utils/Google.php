@@ -3,8 +3,8 @@
 namespace NatureQuizzer\Utils;
 
 use Exception;
-use Google_Client;
-use Google_Service_Plus;
+use Google\Client;
+use Google\Service\Oauth2;
 use Nette\Application\AbortException;
 use Nette\DI\Container;
 use Nette\Http\Request;
@@ -50,7 +50,7 @@ class Google
 			$this->clientSecret = $params['google']['clientSecret'];
 		}
 
-		$this->client = new Google_Client();
+		$this->client = new Client();
 		if ($this->clientId && $this->clientSecret) {
 			$this->client->setClientId($params['google']['clientId']);
 			$this->client->setClientSecret($params['google']['clientSecret']);
@@ -68,7 +68,7 @@ class Google
 	/**
 	 * Tries to authenticate user via Google, returns array with name and id on success and throws exception otherwise
 	 *
-	 * @param $redirectUrl string Absolute URL for FB to redirect user after authentication
+	 * @param string $redirectUrl Absolute URL for FB to redirect user after authentication
 	 * @return array Array with data about the user (id, name, email)
 	 * @throws Exception if anything goes wrong.
 	 */
@@ -100,21 +100,20 @@ class Google
 
 			try {
 				// Finish authentication
-				$client->authenticate($code);
+				$client->fetchAccessTokenWithAuthCode($code);
 				// Get your access and refresh tokens, which are both contained in the
 				// following response, which is in a JSON structure:
 				$data = $client->verifyIdToken($client->getAccessToken()['id_token']);
-
-				$plus = new Google_Service_Plus($client);
-				$person = $plus->people->get('me');
+				$oauth = new Oauth2($client);
+				$person = $oauth->userinfo->get();
 
 				// Issue new security token
 				$this->resetSecurityToken();
 
 				// Get other data and continue with login
 				$output = [
-					'name' => $person->getDisplayName(),
-					'email' => $data['email'],
+					'name' => $person->name,
+					'email' => $person->email,
 					'id' => $data['sub'],
 				];
 				return $output;
@@ -142,4 +141,4 @@ class Google
 		$section = $this->session->getSection('google');
 		$section->offsetSet('token', sha1(time() . rand()));
 	}
-} 
+}

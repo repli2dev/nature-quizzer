@@ -11,21 +11,15 @@ use Nette\DI\Container;
 use Nette\SmartObject;
 use Nette\Utils\FileSystem;
 
-include_once __DIR__ . "/../app/bootstrap.php";
+include __DIR__ . "/../app/bootstrap.php";
 
 class Export
 {
 	use SmartObject;
 
-	/** @var Container */
-	private $container;
-
 	private $exportFileName;
 
-	public function __construct(Container $container)
-	{
-		$this->container = $container;
-	}
+	public function __construct() {}
 
 	private function prepareDestination($destination) {
 		$destination = realpath($destination);
@@ -96,9 +90,9 @@ class Export
 	}
 }
 
-$export = new Export($container);
+$export = new Export();
 
 $cli = new CLI($argv);
 $cli->setName('Nature Quizzer Export analysis data tool');
-$cli->addCommand('export', 'DESTINATION', 'Create new export dump.', $export->export);
+$cli->addCommand('export', 'DESTINATION', 'Create new export dump.', fn ($destination) => $export->export($destination));
 $cli->execute();

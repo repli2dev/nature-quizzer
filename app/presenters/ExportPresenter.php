@@ -7,7 +7,7 @@ use Nette\Application\Responses\FileResponse;
 use Nette\Utils\Finder;
 use Nette\Utils\Strings;
 use Nextras\Datagrid\Datagrid;
-use Symfony\Component\Finder\SplFileInfo;
+use SplFileInfo;
 
 
 class ExportPresenter extends BasePresenter

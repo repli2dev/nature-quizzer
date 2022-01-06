@@ -14,6 +14,7 @@ use NatureQuizzer\Database\Model\QuestionType;
 use NatureQuizzer\Model\AModelFacade;
 use NatureQuizzer\Runtime\CurrentLanguage;
 use NatureQuizzer\Utils\Helpers;
+use Nette\Database\Table\ActiveRow;
 use Nette\Utils\ArrayHash;
 use Tracy\Debugger;
 use Tracy\ILogger;
@@ -180,8 +181,8 @@ abstract class BasicElo extends AModelFacade
 
 	/**
 	 * Returns array where for each organism there is number of distractor organisms.
-	 * @param $userId int ID of user
-	 * @param $organismIds array Sequential array of organism IDs (@see selectMainQuestions)
+	 * @param int $userId ID of user
+	 * @param array $organismIds Sequential array of organism IDs (@see selectMainQuestions)
 	 * @return array
 	 */
 	protected abstract function selectDistractors($userId, $organismIds, $distractorCount);
@@ -189,16 +190,16 @@ abstract class BasicElo extends AModelFacade
 	/**
 	 * Returns sequential array with ID organisms to ask.
 	 *
-	 * @param $userId int ID of user
-	 * @param $concept int|string ID of concept or constant Concept::ALL
-	 * @param $count int Desired count of questions
+	 * @param int $userId ID of user
+	 * @param ActiveRow|string $concept ID of concept or constant Concept::ALL
+	 * @param int $count Desired count of questions
 	 * @return array
 	 */
 	protected function selectMainQuestions($userId, $concept, $count)
 	{
 		$modelId = $this->getPersistenceId();
 		$conceptId = NULL;
-		if ($concept !== Concept::ALL) {
+		if ($concept !== Concept::ALL && $concept instanceof ActiveRow) {
 			$conceptId = $concept->id_concept;
 		}
 		$optionsCount = $this->distractorCount + 1; // The number of options is fixed, so we can take this into account of probability

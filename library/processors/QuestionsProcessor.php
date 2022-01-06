@@ -10,6 +10,7 @@ use NatureQuizzer\Model\ModelFacadeFactory;
 use NatureQuizzer\RequestProcessorException;
 use NatureQuizzer\Runtime\CurrentLanguage;
 use NatureQuizzer\Runtime\CurrentUser;
+use Nette\Database\Table\ActiveRow;
 use Nette\SmartObject;
 use Nette\Utils\Html;
 use Nette\Utils\Validators;
@@ -24,20 +25,21 @@ class QuestionsProcessor
 	private $currentLanguage;
 	/** @var Concept */
 	private $concept;
-	/** @var Organism */
-	private $organism;
 	/** @var IModelFacade */
 	private $quizGenerator;
 
-	public function __construct(CurrentUser $currentUser, CurrentLanguage $currentLanguage, Concept $concept, Organism $organism, ModelFacadeFactory $quizGeneratorFactory)
+	public function __construct(CurrentUser $currentUser, CurrentLanguage $currentLanguage, Concept $concept, ModelFacadeFactory $quizGeneratorFactory)
 	{
 		$this->currentUser = $currentUser;
 		$this->currentLanguage = $currentLanguage;
 		$this->concept = $concept;
-		$this->organism = $organism;
 		$this->quizGenerator = $quizGeneratorFactory->get($this->currentUser->get());
 	}
 
+	/**
+	 * @param string|int $conceptId
+	 * @return ActiveRow|string
+	 */
 	private function fetchConceptInfo($conceptId)
 	{
 		if (Validators::isNumericInt($conceptId)) {

@@ -34,9 +34,9 @@ $configurator->addConfig(__DIR__ . '/config/config.neon');
 if ($configurator->isDebugMode() || getenv('NETTE_DEBUG') === '1') {
 	$configurator->addConfig(__DIR__ . '/config/config.development.neon');
 	// Create extra dumping function to dump it into file
-	function fdump()
+	function fdump(...$args)
 	{
-		foreach (func_get_args() as $arg) {
+		foreach ($args as $arg) {
 			if (!is_string($arg)) {
 				ob_start();
 				if (is_array($arg)) {
@@ -56,7 +56,7 @@ if ($configurator->isDebugMode() || getenv('NETTE_DEBUG') === '1') {
 	fdump(sprintf("\n\n\n=== %s === %s =========================\n", ((!isset($_SERVER['REQUEST_URI'])) ? 'CLI' : $_SERVER['REQUEST_URI']), date('Y-m-d H:i:s')));
 } else {
 	// Create extra dummy dumping function to prevent fatal errors when forgotten
-	function fdump()
+	function fdump(...$args)
 	{
 		// Intentionally blank
 	}

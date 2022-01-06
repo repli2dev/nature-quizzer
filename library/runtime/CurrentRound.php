@@ -48,7 +48,7 @@ class CurrentRound
 	}
 	private function setLastIdentification($value)
 	{
-		return $this->sessionSection->offsetSet('identification', $value);
+		$this->sessionSection->offsetSet('identification', $value);
 	}
 	private function getRoundId()
 	{
@@ -58,7 +58,7 @@ class CurrentRound
 		return $this->sessionSection->offsetGet('round');
 	}
 	private function setRoundId($value) {
-		return $this->sessionSection->offsetSet('round', $value);
+		$this->sessionSection->offsetSet('round', $value);
 	}
 
 }
