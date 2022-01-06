@@ -17,7 +17,7 @@ abstract class BasePresenter extends Presenter
 	 * Check if user can see this item (used in menu)
 	 * @return bool
 	 */
-	public function can($resource, $operation = \Nette\Security\IAuthorizator::ALL)
+	public function can($resource, $operation = \Nette\Security\Authorizator::ALL)
 	{
 		$user = $this->getUser();
 		if (!$user->isAllowed($resource, $operation)) {
@@ -31,7 +31,7 @@ abstract class BasePresenter extends Presenter
 	 * Check for permission (all administration needs role master)
 	 * Needs to be specified more precisely
 	 */
-	protected function perm($operation = \Nette\Security\IAuthorizator::ALL)
+	protected function perm($operation = \Nette\Security\Authorizator::ALL)
 	{
 		$user = $this->getUser();
 		if ($this->resource === NULL || !$user->isAllowed($this->resource, $operation)) {

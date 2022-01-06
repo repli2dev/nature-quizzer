@@ -1,10 +1,11 @@
 <?php
 namespace NatureQuizzer\Database\Model;
-use Nette\Security\IAuthorizator;
+use Nette\Security\Authorizator as NetteAuthorizator;
 use Nette\Security\Permission;
 use Nette\SmartObject;
 
-class Authorizator implements IAuthorizator {
+class Authorizator implements NetteAuthorizator
+{
 
 	use SmartObject;
 

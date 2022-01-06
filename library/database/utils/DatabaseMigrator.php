@@ -2,7 +2,7 @@
 namespace NatureQuizzer\Database\Utils;
 
 use Exception;
-use Nette\Database\Context;
+use Nette\Database\Explorer;
 use Nette\Database\SqlLiteral;
 use Nette\SmartObject;
 use Nette\Utils\Finder;
@@ -19,17 +19,17 @@ final class DatabaseMigrator
 
 	const MIGRATION_TABLE_NAME = "meta_migrations";
 
-	/** @var Context */
-	private $context;
+	/** @var Explorer */
+	private $explorer;
 	private $path;
 
 	/**
-	 * @param Context $context Database connection
+	 * @param Explorer $context Database connection
 	 * @param string $path Real absolute path where SQL scripts are stored
 	 */
-	public function __construct(Context $context, $path)
+	public function __construct(Explorer $context, $path)
 	{
-		$this->context = $context;
+		$this->explorer = $context;
 		$this->path = $path;
 	}
 
@@ -47,9 +47,9 @@ final class DatabaseMigrator
 
 	private function ensureMigrationTable()
 	{
-		$rows = $this->context->query('SELECT relname AS a FROM pg_class WHERE relname = ?', self::MIGRATION_TABLE_NAME);
+		$rows = $this->explorer->query('SELECT relname AS a FROM pg_class WHERE relname = ?', self::MIGRATION_TABLE_NAME);
 		if ($rows->getRowCount() == 0) {
-			$this->context->query('
+			$this->explorer->query('
 				CREATE TABLE ? (file VARCHAR(255) NOT NULL, UNIQUE(file))
 			', new SqlLiteral(self::MIGRATION_TABLE_NAME));
 		}
@@ -57,7 +57,7 @@ final class DatabaseMigrator
 
 	private function wasProcessed($file)
 	{
-		return $this->context->query(
+		return $this->explorer->query(
 			'SELECT TRUE FROM ? WHERE file = ?',
 			new SqlLiteral(self::MIGRATION_TABLE_NAME),
 			$file
@@ -95,20 +95,20 @@ final class DatabaseMigrator
 		echo implode("\n", $this->getBaseNames($files)) . "\n";
 
 		try {
-			$this->context->getConnection()->getPdo()->beginTransaction();
+			$this->explorer->getConnection()->getPdo()->beginTransaction();
 			foreach ($files as $file) {
 				$content = file_get_contents($file);
 				$content .= " INSERT INTO " . self::MIGRATION_TABLE_NAME . " (file) VALUES ('" . basename($file) . "');";
-				$this->context->getConnection()->getPdo()->exec($content);
+				$this->explorer->getConnection()->getPdo()->exec($content);
 			}
-			$this->context->commit();
+			$this->explorer->commit();
 		} catch (PDOException $ex) {
 			echo "MIGRATION FAILS\n";
 			echo "Error message: " . $ex->getMessage() . "\n";
-			$this->context->rollBack();
+			$this->explorer->rollBack();
 		} catch (Exception $ex) {
 			echo "MIGRATION FAILS\n";
-			$this->context->rollBack();
+			$this->explorer->rollBack();
 		}
 	}
 }
