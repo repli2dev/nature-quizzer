@@ -18,6 +18,12 @@ body.loading {
 	background-repeat: no-repeat;
 }
 
+body > div.ember-view {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
 a {
 	text-decoration: none;
 	color: #614DAA;
@@ -166,6 +172,7 @@ span.install:hover {
 #content {
 	background: #FFF5CA;
 	min-height: 500px;
+	flex-grow: 2;
 }
 #content-center {
 	max-width: 1000px;
