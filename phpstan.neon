@@ -1,0 +1,10 @@
+parameters:
+	level: 5
+	paths:
+		- app
+		- library
+		- utils
+	ignoreErrors:
+		- '#Unreachable statement - code above always terminates\.#'
+		- '#Dead catch - Exception is never thrown in the try block\.#'
+		- '#Exception Nette\\Application\\AbortException needs to be rethrown\.#'
