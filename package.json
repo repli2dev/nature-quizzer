@@ -9,7 +9,7 @@
     "gulp-concat": "^2.5.2",
     "gulp-flatten": "^0.2.0",
     "gulp-htmlbars-compiler": "^0.0.2",
-    "gulp-uglify": "^1.4.1"
+    "gulp-uglify-es": "^3.0.0"
   },
   "repository": {
     "type": "git",

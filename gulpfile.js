@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var htmlbars = require('gulp-htmlbars-compiler');
 var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
+var uglify = require('gulp-uglify-es').default;
 var clean = require('gulp-clean');
 var flatten = require('gulp-flatten');
 // Hardcoded way to the ember-template-compilator as the versions needs to match and there is no node module in the repository
@@ -82,9 +82,9 @@ gulp.task('scripts-frontend', gulp.series(function() {
 		.pipe(gulp.dest(destination));
 }));
 gulp.task('scripts-frontend-mini', gulp.series(function() {
-	return gulp.src(paths.scriptsFrontend.concat(paths.locales))
-		.pipe(concat('scripts.js'))
-		.pipe(uglify())
+	return gulp.src(paths.locales)
+		.pipe(concat('scripts-lo.js'))
+		//.pipe(uglify())
 		.pipe(gulp.dest(destination));
 }));
 gulp.task('scripts-full', gulp.series('scripts-backend', 'scripts-frontend', (done) => {done()}));
