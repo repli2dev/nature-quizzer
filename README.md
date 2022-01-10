@@ -86,8 +86,15 @@ $ php utils/updatedb.php
 $ php utils/update-organism-distances.php 
 ```
 
-Also check tat all available organisms has any entry in `organism_distance` table, otherwise the system will be behave
-unexpectedly.
+Also check that all available organisms has any entry in `organism_distance` table, otherwise the system will be behave
+unexpectedly:
+
+``
+SELECT * FROM organism 
+LEFT JOIN organism_distance AS od1 ON organism.id_organism = od1.id_organism_to
+LEFT JOIN organism_distance AS od2 ON organism.id_organism = od2.id_organism_from
+WHERE od1.id_organism_to IS NULL OR od2.id_organism_from IS NULL
+``
 
 For convenience there is a `deploy.php` script which does some of this steps in order to make things easy
 (except importing data), especially for update. Mostly relevant for production environment when deploying as local environment needs only some steps during 
