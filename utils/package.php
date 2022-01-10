@@ -100,7 +100,7 @@ use NatureQuizzer\Database\Model\Language;
 use NatureQuizzer\Database\Model\Organism;
 use NatureQuizzer\Database\Model\Package;
 use NatureQuizzer\Tools\BatchFilesCopy;
-use Nette\Database\Context;
+use Nette\Database\SqlLiteral;
 use Nette\DI\Container;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\DateTime;
@@ -189,6 +189,7 @@ if ($command == 'import') {
 				$temp = iterator_to_array($row);
 				unset($temp['id_language'], $temp['code']);
 				$temp = array_merge($temp, (array) $info);
+				$temp['is_default'] = new SqlLiteral($temp['is_default'] ? 'TRUE' : 'FALSE');
 				$languageModel->update($row->id_language, $temp);
 			}
 		}
@@ -265,7 +266,7 @@ if ($command == 'import') {
 			foreach ($organismData->representations as $representation) {
 				$representationRow = $organismModel->findRepresentationByHash($representation->hash);
 				if ($representationRow === NULL) {
-					$representationRow = $organismModel->addRepresentation($organismId, ArrayHash::from($representation));
+					$representationRow = $organismModel->addRepresentation($organismId, ArrayHash::from((array) $representation));
 					$batchFilesCopy->add($wholePath . '/files/' . $representation->hash, __DIR__ . '/../www/images/organisms/' . $representationRow->id_representation);
 				}
 				$imported['representations'][] = $representationRow->id_representation;
