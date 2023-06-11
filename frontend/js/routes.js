@@ -1,9 +1,9 @@
 App.Router.reopen({
 	location: 'auto',
 	notifyGoogleAnalytics: function() {
-		return ga('send', 'pageview', {
-			'page': this.get('url'),
-			'title': this.get('url')
+		return gtag('event', 'page_view', {
+			'page_title': this.get('url'),
+			'page_location': this.get('url')
 		});
 	}.on('didTransition')
 });
