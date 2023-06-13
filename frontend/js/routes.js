@@ -1,10 +1,10 @@
 App.Router.reopen({
 	location: 'auto',
 	notifyGoogleAnalytics: function() {
-		return gtag('event', 'page_view', {
+	/*	return plausible('pageview', {props: {
 			'page_title': this.get('url'),
 			'page_location': this.get('url')
-		});
+		}});*/
 	}.on('didTransition')
 });
 
